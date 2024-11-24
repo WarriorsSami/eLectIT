@@ -4,4 +4,4 @@ services:
     environment:
       - 'NEO4J_AUTH=neo4j/notverysecret'
     ports:
-      - '7687'
+      - '7687:7687'
