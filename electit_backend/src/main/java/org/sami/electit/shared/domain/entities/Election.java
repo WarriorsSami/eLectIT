@@ -4,6 +4,7 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +16,8 @@ public record Election(
      String description,
      LocalDateTime startDateTime,
      Long duration,
-     @Relationship(type = "HAS_CANDIDATE") List<Candidate> candidates,
-     @Relationship(type = "RECORDED_VOTE") List<Vote> recordedVotes
+     @Relationship(type = "HAS_CANDIDATE", direction = Direction.OUTGOING)
+     List<Candidate> candidates,
+     @Relationship(type = "RECORDED_VOTE", direction = Direction.OUTGOING)
+     List<Vote> recordedVotes
 ) {}
