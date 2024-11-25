@@ -1,0 +1,42 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    login(email: String!, password: String!): AuthResponse
+}
+
+type Mutation {
+    register(user: UserInput!): AuthResponse
+}
+
+##### DTOs #####
+
+type AuthResponse {
+    token: String!
+    user: User!
+}
+
+input UserInput {
+    name: String!
+    email: String!
+    password: String!
+    nationalId: String
+    role: Role!
+}
+
+##### Entities #####
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    nationalId: String
+    role: Role!
+}
+
+enum Role {
+    VOTER
+    ORGANIZER
+}
