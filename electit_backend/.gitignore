@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Misc ###
+*.class
+*.log
+*.env

@@ -5,4 +5,10 @@ services:
     environment:
       - 'NEO4J_AUTH=neo4j/P@ssw0rd'
     ports:
-      - '17000:7687'
+      - '7687:7687'
+    volumes:
+      - neo4j-data:/data
+
+volumes:
+  neo4j-data:
+    driver: local

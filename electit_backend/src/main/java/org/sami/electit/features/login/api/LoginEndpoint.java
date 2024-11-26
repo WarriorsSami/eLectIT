@@ -2,6 +2,7 @@ package org.sami.electit.features.login.api;
 
 import org.sami.electit.features.login.application.LoginUseCase;
 import org.sami.electit.shared.api.dtos.AuthResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 public class LoginEndpoint {
     private final LoginUseCase loginUseCase;
 
+    @Autowired
     public LoginEndpoint(LoginUseCase loginUseCase) {
         this.loginUseCase = loginUseCase;
     }

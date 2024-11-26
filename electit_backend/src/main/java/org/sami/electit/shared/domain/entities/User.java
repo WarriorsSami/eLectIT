@@ -1,5 +1,6 @@
 package org.sami.electit.shared.domain.entities;
 
+import org.sami.electit.shared.api.dtos.UserDTO;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -24,4 +25,8 @@ public record User(
         List<Election> createdElections,
         @Relationship(type = "CAST", direction = Direction.OUTGOING)
         List<Vote> castVotes
-) {}
+) {
+        public UserDTO toDTO() {
+                return new UserDTO(id, name, email, nationalId, role);
+        }
+}
