@@ -18,6 +18,6 @@ public class PasswordManager {
     }
 
     public boolean verify(String password, String hashedPassword) {
-        return hash(password).equals(hashedPassword);
+        return passwordEncoder.matches(password, hashedPassword);
     }
 }
