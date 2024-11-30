@@ -1,5 +1,6 @@
 package org.sami.electit.shared.middlewares;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
@@ -20,6 +21,7 @@ public class GraphQLErrorHandlerMiddleware extends DataFetcherExceptionResolverA
             case DuplicateEntryException ignored -> ErrorType.BAD_REQUEST;
             case NoEntryFoundException ignored -> ErrorType.NOT_FOUND;
             case AccessDeniedException ignored -> ErrorType.UNAUTHORIZED;
+            case JWTVerificationException ignored -> ErrorType.UNAUTHORIZED;
             case InvalidEntryDataException ignored -> ErrorType.BAD_REQUEST;
             default -> ErrorType.INTERNAL_ERROR;
         };

@@ -28,17 +28,23 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        var header = req.getHeader(tokenUtils.getHeaderString());
+        try {
+            var header = req.getHeader(tokenUtils.getHeaderString());
 
-        if (header == null || !header.startsWith(tokenUtils.getTokenPrefix())) {
+            if (header == null || !header.startsWith(tokenUtils.getTokenPrefix())) {
+                chain.doFilter(req, res);
+                return;
+            }
+
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
             chain.doFilter(req, res);
-            return;
+        } catch (Exception e) {
+            logger.error("Error while processing JWT token", e);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.getWriter().write("Invalid or expired access token");
         }
-
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(req, res);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
@@ -47,7 +53,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         if (token != null) {
             var tokenPayload = tokenUtils.decodeToken(token);
 
-            if (tokenPayload.username() != null) {
+            if (tokenPayload.username() != null && tokenPayload.role() != null) {
+                logger.info("User {} authenticated with role {}", tokenPayload.username(), tokenPayload.role());
                 return new UsernamePasswordAuthenticationToken(tokenPayload.username(), null, Collections.singletonList(tokenPayload.role()));
             }
 
