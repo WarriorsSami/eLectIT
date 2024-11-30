@@ -1,6 +1,13 @@
 package org.sami.electit.shared.domain.entities;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
     VOTER,
-    ORGANIZER
+    ORGANIZER;
+
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + this.name();
+    }
 }

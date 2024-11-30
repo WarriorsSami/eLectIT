@@ -1,4 +1,4 @@
-package org.sami.electit;
+package org.sami.electit.shared.config;
 
 import org.neo4j.cypherdsl.core.renderer.Dialect;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,16 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.core.DatabaseSelection;
 import org.springframework.data.neo4j.core.DatabaseSelectionProvider;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class Config {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+public class ApplicationConfig {
     @Bean
     DatabaseSelectionProvider databaseSelectionProvider(@Value("${spring.data.neo4j.database}") String database) {
         return () -> {

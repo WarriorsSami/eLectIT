@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class LoginEndpoint {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private LoginUseCase loginUseCase;
 

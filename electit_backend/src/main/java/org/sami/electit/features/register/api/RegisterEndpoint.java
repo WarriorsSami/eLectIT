@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class RegisterEndpoint {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private RegisterUseCase registerUseCase;
 

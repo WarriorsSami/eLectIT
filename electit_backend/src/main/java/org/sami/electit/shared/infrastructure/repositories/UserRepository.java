@@ -5,5 +5,6 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
     User findOneByEmail(String email);
+    User findOneByName(String name);
     User findOneByNationalId(String nationalId);
 }

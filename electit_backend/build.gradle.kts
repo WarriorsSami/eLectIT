@@ -18,9 +18,8 @@ repositories {
 }
 
 dependencies {
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
+    implementation("com.auth0:java-jwt:4.4.0")
+    implementation("com.graphql-java-kickstart:graphql-spring-boot-starter:15.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")

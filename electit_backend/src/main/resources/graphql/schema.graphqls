@@ -5,6 +5,7 @@ schema {
 
 type Query {
     login(email: String!, password: String!): AuthResponse
+    me: User
 }
 
 type Mutation {
