@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 @Controller
-@Secured("IS_AUTHENTICATED_FULLY")
+@Secured("ROLE_ORGANIZER")
 public class MeEndpoint {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -24,7 +24,7 @@ public class MeEndpoint {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var name = authentication.getName();
 
-        var currentUser = userRepository.findOneByName(name);
+        var currentUser = userRepository.findOneByName(name).block();
         if (currentUser == null) {
             throw new NoEntryFoundException("User not found");
         }

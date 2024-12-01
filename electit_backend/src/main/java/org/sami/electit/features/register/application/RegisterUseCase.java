@@ -11,10 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 @Service
 public class RegisterUseCase {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -22,23 +25,40 @@ public class RegisterUseCase {
     @Autowired
     private JWTTokenGenerator jwtGenerator;
 
-    public AuthResponse execute(UserInput credentials) {
+    @Transactional
+    public Mono<AuthResponse> execute(UserInput credentials) {
         logger.info("Registering new user with email: {}", credentials.email());
-        var user = userRepository.findOneByEmail(credentials.email());
-        if (user != null) {
-            logger.warn("User with email: {} already exists", credentials.email());
-            throw new DuplicateEntryException("User already exists");
-        }
 
-        logger.info("Saving new user with email: {}", credentials.email());
-        var hashedPassword = passwordManager.hash(credentials.password());
-        var newUser = User.fromCredentials(credentials, hashedPassword);
-        userRepository.save(newUser);
+        return userRepository.findOneByEmail(credentials.email())
+            .flatMap(existingUser -> {
+                logger.warn("User with email: {} already exists", credentials.email());
+                return Mono.<AuthResponse>error(new DuplicateEntryException("User with email: " + credentials.email() + " already exists"));
+            })
+            .switchIfEmpty(userRepository.findOneByName(credentials.name())
+                .flatMap(existingUser -> {
+                    logger.warn("User with name: {} already exists", credentials.name());
+                    return Mono.<AuthResponse>error(new DuplicateEntryException("User with name: " + credentials.name() + " already exists"));
+                })
+                .switchIfEmpty(userRepository.findOneByNationalId(credentials.nationalId())
+                    .flatMap(existingUser -> {
+                        logger.warn("User with national id: {} already exists", credentials.nationalId());
+                        return Mono.<AuthResponse>error(new DuplicateEntryException("User with national id: " + credentials.nationalId() + " already exists"));
+                    })
+                    .switchIfEmpty(Mono.defer(() -> {
+                        logger.info("Saving new user with email: {}", credentials.email());
 
-        var token = jwtGenerator.generate(newUser.getName(), newUser.getRole());
-        var userDto = newUser.toDTO();
+                        var hashedPassword = passwordManager.hash(credentials.password());
+                        var newUser = User.fromCredentials(credentials, hashedPassword);
 
-        logger.info("User with email: {} registered successfully", credentials.email());
-        return new AuthResponse(token, userDto);
+                        return userRepository.save(newUser)
+                            .flatMap(savedUser -> {
+                                var token = jwtGenerator.generate(savedUser.getName(), savedUser.getRole());
+                                var userDto = savedUser.toDTO();
+                                logger.info("User with email: {} registered successfully", credentials.email());
+                                return Mono.just(new AuthResponse(token, userDto));
+                            });
+                    })
+                )
+            ));
     }
 }

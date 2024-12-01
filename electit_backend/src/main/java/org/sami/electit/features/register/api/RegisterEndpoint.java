@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Mono;
 
 @Controller
 public class RegisterEndpoint {
@@ -18,7 +19,7 @@ public class RegisterEndpoint {
     private RegisterUseCase registerUseCase;
 
     @MutationMapping
-    public AuthResponse register(@Argument UserInput credentials) {
+    public Mono<AuthResponse> register(@Argument UserInput credentials) {
         return registerUseCase.execute(credentials);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 
-import java.util.List;
+import java.util.Set;
 
 @Node
 public class User {
@@ -21,13 +21,13 @@ public class User {
     private Role role;
 
     @Relationship(type = "VOTED_IN", direction = Direction.OUTGOING)
-    private List<Election> votedInElections;
+    private Set<Election> votedInElections;
     @Relationship(type = "VOTED_FOR", direction = Direction.OUTGOING)
-    private List<Candidate> votedForCandidates;
+    private Set<Candidate> votedForCandidates;
     @Relationship(type = "CREATED", direction = Direction.OUTGOING)
-    private List<Election> createdElections;
+    private Set<Election> createdElections;
     @Relationship(type = "CAST", direction = Direction.OUTGOING)
-    private List<Vote> castVotes;
+    private Set<Vote> castVotes;
 
     // Constructor
     public User(String name, String email, String password, String nationalId, Role role) {

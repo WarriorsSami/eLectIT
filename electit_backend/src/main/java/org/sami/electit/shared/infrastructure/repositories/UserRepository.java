@@ -1,10 +1,11 @@
 package org.sami.electit.shared.infrastructure.repositories;
 
 import org.sami.electit.shared.domain.entities.User;
-import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
+import reactor.core.publisher.Mono;
 
-public interface UserRepository extends Neo4jRepository<User, Long> {
-    User findOneByEmail(String email);
-    User findOneByName(String name);
-    User findOneByNationalId(String nationalId);
+public interface UserRepository extends ReactiveNeo4jRepository<User, Long> {
+    Mono<User> findOneByEmail(String email);
+    Mono<User> findOneByName(String name);
+    Mono<User> findOneByNationalId(String nationalId);
 }

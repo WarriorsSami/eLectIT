@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Mono;
 
 @Controller
 public class LoginEndpoint {
@@ -17,7 +18,7 @@ public class LoginEndpoint {
     private LoginUseCase loginUseCase;
 
     @QueryMapping
-    public AuthResponse login(@Argument String email, @Argument String password) {
+    public Mono<AuthResponse> login(@Argument String email, @Argument String password) {
         return loginUseCase.execute(email, password);
     }
 }

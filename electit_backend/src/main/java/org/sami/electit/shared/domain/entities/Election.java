@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Node
 public record Election(
@@ -17,7 +17,7 @@ public record Election(
      LocalDateTime startDateTime,
      Long duration,
      @Relationship(type = "HAS_CANDIDATE", direction = Direction.OUTGOING)
-     List<Candidate> candidates,
+     Set<Candidate> candidates,
      @Relationship(type = "RECORDED_VOTE", direction = Direction.OUTGOING)
-     List<Vote> recordedVotes
+     Set<Vote> recordedVotes
 ) {}

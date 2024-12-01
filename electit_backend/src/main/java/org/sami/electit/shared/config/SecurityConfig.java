@@ -36,7 +36,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/graphql").permitAll()
-                        .anyRequest().denyAll()
+                        .anyRequest().fullyAuthenticated()
                 )
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), tokenUtils))
                 .sessionManagement(sessionManagement -> sessionManagement

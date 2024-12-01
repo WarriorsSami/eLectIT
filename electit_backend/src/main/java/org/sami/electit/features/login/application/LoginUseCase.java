@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 @Service
 public class LoginUseCase {
@@ -22,24 +24,24 @@ public class LoginUseCase {
     @Autowired
     private JWTTokenGenerator jwtGenerator;
 
-    public AuthResponse execute(String email, String password) throws RuntimeException {
+    @Transactional
+    public Mono<AuthResponse> execute(String email, String password) throws NoEntryFoundException, InvalidEntryDataException {
         logger.info("Login attempt for user with email: {}", email);
 
-        var user = userRepository.findOneByEmail(email);
-        if (user == null) {
-            logger.warn("User with email: {} not found", email);
-            throw new NoEntryFoundException("User not found");
-        }
+        return userRepository.findOneByEmail(email)
+            .switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
+            .flatMap(user -> {
+                logger.info("Checking credentials for user with email: {}", email);
 
-        logger.info("Checking credentials for user with email: {}", email);
-        if (passwordManager.verify(password, user.getPassword())) {
-            var token = jwtGenerator.generate(user.getName(), user.getRole());
-            var userDto = user.toDTO();
-            logger.info("User with email: {} logged in successfully", email);
-            return new AuthResponse(token, userDto);
-        } else {
-            logger.warn("Invalid password for user with email: {}", email);
-            throw new InvalidEntryDataException("Invalid password");
-        }
+                if (passwordManager.verify(password, user.getPassword())) {
+                    var token = jwtGenerator.generate(user.getName(), user.getRole());
+                    var userDto = user.toDTO();
+                    logger.info("User with email: {} logged in successfully", email);
+                    return Mono.just(new AuthResponse(token, userDto));
+                } else {
+                    logger.warn("Invalid password for user with email: {}", email);
+                    return Mono.error(new InvalidEntryDataException("Invalid password"));
+                }
+            });
     }
 }
