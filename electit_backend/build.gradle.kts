@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     implementation("org.aspectj:aspectjweaver:1.9.22.1")
+    implementation("com.graphql-java:graphql-java-extended-scalars:22.0")
     implementation("com.auth0:java-jwt:4.4.0")
     implementation("com.graphql-java-kickstart:graphql-spring-boot-starter:15.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-neo4j")

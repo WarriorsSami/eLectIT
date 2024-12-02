@@ -1,6 +1,6 @@
 package org.sami.electit.shared.domain.contracts;
 
-import org.sami.electit.shared.api.security.TokenPayload;
+import org.sami.electit.shared.security.TokenPayload;
 import org.springframework.beans.factory.annotation.Value;
 
 public abstract class TokenUtils {

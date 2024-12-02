@@ -1,7 +1,7 @@
 package org.sami.electit.shared.domain.entities;
 
-import org.sami.electit.shared.api.dtos.UserDTO;
-import org.sami.electit.shared.api.dtos.UserInput;
+import org.sami.electit.features.users.shared.api.dtos.UserDTO;
+import org.sami.electit.features.users.shared.api.dtos.UserInput;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -85,6 +85,10 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void AddCreatedElection(Election election) {
+        createdElections.add(election);
     }
 
     public UserDTO toDTO() {

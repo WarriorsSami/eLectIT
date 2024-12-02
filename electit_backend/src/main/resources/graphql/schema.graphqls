@@ -4,15 +4,24 @@ schema {
 }
 
 type Query {
-    login(email: String!, password: String!): AuthResponse
+    login(email: String!, password: String!): AuthResponse!
     me: User
+
+    electionById(id: ID!): Election
+    elections: [Election!]
 }
 
 type Mutation {
-    register(credentials: UserInput!): AuthResponse
+    register(credentials: UserInput!): AuthResponse!
+
+    createElection(election: ElectionInput!): Election!
+    updateElection(election: UpdateElectionInput!): Election!
+    deleteElection(id: ID!): Boolean!
 }
 
 ##### DTOs #####
+
+scalar DateTime
 
 type AuthResponse {
     token: String!
@@ -27,6 +36,21 @@ input UserInput {
     role: Role!
 }
 
+input ElectionInput {
+    title: String!
+    description: String!
+    startDateTime: DateTime!
+    duration: Int!
+}
+
+input UpdateElectionInput {
+    id: ID!
+    title: String
+    description: String
+    startDateTime: DateTime
+    duration: Int
+}
+
 ##### Entities #####
 
 type User {
@@ -35,9 +59,31 @@ type User {
     email: String!
     nationalId: String
     role: Role!
+    elections: [Election!]
 }
 
 enum Role {
     VOTER
     ORGANIZER
+}
+
+type Election {
+    id: ID!
+    title: String!
+    description: String!
+    startDateTime: DateTime!
+    duration: Int!
+}
+
+type Candidate {
+    id: ID!
+    name: String!
+    motto: String!
+    portfolioDescription: String!
+    pictureUrl: String
+}
+
+type Vote {
+    id: ID!
+    createdAt: DateTime!
 }

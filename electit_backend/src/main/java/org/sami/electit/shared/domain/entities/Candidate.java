@@ -14,7 +14,7 @@ public record Candidate(
         String name,
         String motto,
         String portfolioDescription,
-        Byte[] picture,
+        String pictureUrl,
         @Relationship(type = "RECEIVED_VOTE", direction = Direction.OUTGOING)
         Set<Vote> receivedVotes
 ) {}
