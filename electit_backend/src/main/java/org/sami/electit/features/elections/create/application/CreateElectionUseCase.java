@@ -8,6 +8,7 @@ import org.sami.electit.shared.domain.entities.Election;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +24,10 @@ public class CreateElectionUseCase {
     private UserRepository userRepository;
 
     @Transactional
-    public Mono<ElectionDTO> execute(ElectionInput electionInput) {
+    public Mono<ElectionDTO> execute(Authentication claims, ElectionInput electionInput) {
         logger.info("Creating election with title: {}", electionInput.title());
 
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var username = authentication.getName();
+        var username = claims.getName();
         var organizer = userRepository.findOneByName(username)
             .blockOptional()
             .orElseThrow();

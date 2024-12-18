@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
@@ -23,6 +24,7 @@ public class CreateElectionEndpoint {
 
     @MutationMapping
     public Mono<ElectionDTO> createElection(@Argument ElectionInput election) {
-        return createElectionUseCase.execute(election);
+        var claims = SecurityContextHolder.getContext().getAuthentication();
+        return createElectionUseCase.execute(claims, election);
     }
 }

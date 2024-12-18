@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
@@ -21,6 +22,7 @@ public class GetCurrentUserEndpoint {
 
     @QueryMapping
     public Mono<UserDTO> me() {
-        return getCurrentUserUseCase.execute();
+        var claims = SecurityContextHolder.getContext().getAuthentication();
+        return getCurrentUserUseCase.execute(claims);
     }
 }

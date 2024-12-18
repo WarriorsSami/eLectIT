@@ -6,6 +6,7 @@ import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,8 @@ public class GetCurrentUserUseCase {
     private UserRepository userRepository;
 
     @Transactional
-    public Mono<UserDTO> execute() throws NoEntryFoundException {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var name = authentication.getName();
+    public Mono<UserDTO> execute(Authentication claims) throws NoEntryFoundException {
+        var name = claims.getName();
 
         logger.info("Getting current user with name: {}", name);
 
