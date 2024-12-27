@@ -1,89 +1,125 @@
 schema {
-    query: Query
-    mutation: Mutation
+  query: Query
+  mutation: Mutation
 }
 
 type Query {
-    login(email: String!, password: String!): AuthResponse!
-    me: User
+  login(email: String!, password: String!): AuthResponse!
+  me: User
 
-    electionById(id: ID!): Election
-    elections: [Election!]
+  electionById(id: ID!): Election
+  elections(first: Int, after: String): ElectionConnection!
+  ongoingElections(first: Int, after: String): ElectionConnection!
+  pastElections(first: Int, after: String): ElectionConnection!
+
+  candidatesByElection(electionId: ID!): [Candidate!]
+
+  myVoteByElectionId(electionId: ID!): Vote
+  myVotes: [Vote!]
 }
 
 type Mutation {
-    register(credentials: UserInput!): AuthResponse!
+  register(credentials: UserInput!): AuthResponse!
 
-    createElection(election: ElectionInput!): Election!
-    updateElection(election: UpdateElectionInput!): Election!
-    deleteElection(id: ID!): Boolean!
+  createElection(election: ElectionInput!): Election!
+  updateElection(election: UpdateElectionInput!): Election!
+
+  assignCandidate(electionId: ID!, candidate: CandidateInput!): Candidate!
+  removeCandidate(electionId: ID!, candidateId: ID!): Candidate!
+
+  vote(electionId: ID!, candidateId: ID!): Vote!
 }
 
 ##### DTOs #####
 
-scalar DateTime
-
 type AuthResponse {
-    token: String!
-    user: User!
+  token: String!
+  user: User!
 }
 
 input UserInput {
-    name: String!
-    email: String!
-    password: String!
-    nationalId: String
-    role: Role!
+  name: String!
+  email: String!
+  password: String!
+  nationalId: String
+  role: Role!
 }
 
 input ElectionInput {
-    title: String!
-    description: String!
-    startDateTime: DateTime!
-    duration: Int!
+  title: String!
+  description: String!
+  startTimestamp: Int!
+  duration: Int!
+  candidates: [CandidateInput!]
 }
 
 input UpdateElectionInput {
-    id: ID!
-    title: String
-    description: String
-    startDateTime: DateTime
-    duration: Int
+  id: ID!
+  title: String
+  description: String
+  startTimestamp: Int
+  duration: Int
+}
+
+input CandidateInput {
+  name: String!
+  party: String!
+  manifesto: String!
+  pictureUrl: String
 }
 
 ##### Entities #####
 
 type User {
-    id: ID!
-    name: String!
-    email: String!
-    nationalId: String
-    role: Role!
-    elections: [Election!]
+  id: ID!
+  name: String!
+  email: String!
+  nationalId: String
+  role: Role!
+  elections: [Election!]
+  createdElections: [Election!]
 }
 
 enum Role {
-    VOTER
-    ORGANIZER
+  VOTER
+  ORGANIZER
 }
 
 type Election {
-    id: ID!
-    title: String!
-    description: String!
-    startDateTime: DateTime!
-    duration: Int!
+  id: ID!
+  title: String!
+  description: String!
+  startTimestamp: Int!
+  duration: Int!
+#  candidates: [Candidate!]
 }
 
 type Candidate {
-    id: ID!
-    name: String!
-    motto: String!
-    portfolioDescription: String!
-    pictureUrl: String
+  id: ID!
+  name: String!
+  party: String!
+  manifesto: String!
+  pictureUrl: String
 }
 
 type Vote {
-    id: ID!
-    createdAt: DateTime!
+  id: ID!
+  createdAt: Int!
+  election: Election!
+  candidate: Candidate!
+}
+
+type ElectionConnection {
+  edges: [ElectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type ElectionEdge {
+  cursor: String!
+  node: Election!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
 }

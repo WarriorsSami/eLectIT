@@ -1,10 +1,11 @@
 package org.sami.electit.features.elections.shared.api.dtos;
 
-import java.time.OffsetDateTime;
+import java.util.List;
 
 public record ElectionInput(
         String title,
         String description,
-        OffsetDateTime startDateTime,
-        Long duration
+        Long startTimestamp,
+        Long duration,
+        List<CandidateInput> candidates
 ) {}

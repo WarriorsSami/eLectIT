@@ -1,14 +1,14 @@
 package org.sami.electit.shared.domain.entities;
 
+import java.util.List;
+import java.util.Set;
+
 import org.sami.electit.features.users.shared.api.dtos.UserDTO;
 import org.sami.electit.features.users.shared.api.dtos.UserInput;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
-import org.springframework.data.neo4j.core.schema.Relationship.Direction;
-
-import java.util.Set;
 
 @Node
 public class User {
@@ -20,14 +20,10 @@ public class User {
     private String nationalId;
     private Role role;
 
-    @Relationship(type = "VOTED_IN", direction = Direction.OUTGOING)
-    private Set<Election> votedInElections;
-    @Relationship(type = "VOTED_FOR", direction = Direction.OUTGOING)
-    private Set<Candidate> votedForCandidates;
-    @Relationship(type = "CREATED", direction = Direction.OUTGOING)
-    private Set<Election> createdElections;
-    @Relationship(type = "CAST", direction = Direction.OUTGOING)
-    private Set<Vote> castVotes;
+    @Relationship(type = "CREATES")
+    private Set<Election> elections;
+    @Relationship(type = "VOTES")
+    private Set<Candidate> candidates;
 
     // Constructor
     public User(String name, String email, String password, String nationalId, Role role) {
@@ -87,12 +83,16 @@ public class User {
         this.role = role;
     }
 
-    public void AddCreatedElection(Election election) {
-        createdElections.add(election);
+    public void addCreatedElection(Election election) {
+        elections.add(election);
+    }
+
+    public List<Election> getCreatedElections() {
+        return elections.stream().toList();
     }
 
     public UserDTO toDTO() {
-        return new UserDTO(id, name, email, nationalId, role);
+        return new UserDTO(id, name, email, nationalId, role, elections.stream().toList());
     }
 
     public static User fromCredentials(UserInput credentials, String hashedPassword) {
