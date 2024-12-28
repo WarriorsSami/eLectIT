@@ -8,11 +8,9 @@ type Query {
   me: User
 
   electionById(id: ID!): Election
-  elections(first: Int, after: String): ElectionConnection!
-  ongoingElections(first: Int, after: String): ElectionConnection!
-  pastElections(first: Int, after: String): ElectionConnection!
-
-  candidatesByElection(electionId: ID!): [Candidate!]
+  elections: [Election!]
+  ongoingElections: [Election!]
+  pastElections: [Election!]
 
   myVoteByElectionId(electionId: ID!): Vote
   myVotes: [Vote!]
@@ -22,7 +20,7 @@ type Mutation {
   register(credentials: UserInput!): AuthResponse!
 
   createElection(election: ElectionInput!): Election!
-  updateElection(election: UpdateElectionInput!): Election!
+  updateElection(electionId: ID!, election: UpdateElectionInput!): Election!
 
   addCandidate(electionId: ID!, candidate: CandidateInput!): Election!
   removeCandidate(electionId: ID!, candidateId: ID!): Election!
@@ -54,7 +52,6 @@ input ElectionInput {
 }
 
 input UpdateElectionInput {
-  id: ID!
   title: String
   description: String
   startTimestamp: Int
@@ -107,19 +104,4 @@ type Vote {
   createdAt: Int!
   election: Election!
   candidate: Candidate!
-}
-
-type ElectionConnection {
-  edges: [ElectionEdge!]!
-  pageInfo: PageInfo!
-}
-
-type ElectionEdge {
-  cursor: String!
-  node: Election!
-}
-
-type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
 }
