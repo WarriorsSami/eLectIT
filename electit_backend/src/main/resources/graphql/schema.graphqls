@@ -24,8 +24,8 @@ type Mutation {
   createElection(election: ElectionInput!): Election!
   updateElection(election: UpdateElectionInput!): Election!
 
-  assignCandidate(electionId: ID!, candidate: CandidateInput!): Candidate!
-  removeCandidate(electionId: ID!, candidateId: ID!): Candidate!
+  addCandidate(electionId: ID!, candidate: CandidateInput!): Election!
+  removeCandidate(electionId: ID!, candidateId: ID!): Election!
 
   vote(electionId: ID!, candidateId: ID!): Vote!
 }
@@ -76,7 +76,7 @@ type User {
   email: String!
   nationalId: String
   role: Role!
-  elections: [Election!]
+  participatedInElections: [Election!]
   createdElections: [Election!]
 }
 
@@ -91,7 +91,7 @@ type Election {
   description: String!
   startTimestamp: Int!
   duration: Int!
-#  candidates: [Candidate!]
+  candidates: [Candidate!]
 }
 
 type Candidate {

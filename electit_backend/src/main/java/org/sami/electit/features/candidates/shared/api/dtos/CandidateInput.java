@@ -1,4 +1,4 @@
-package org.sami.electit.features.elections.shared.api.dtos;
+package org.sami.electit.features.candidates.shared.api.dtos;
 
 public record CandidateInput(
         String name,

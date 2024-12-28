@@ -52,7 +52,7 @@ public class RegisterUseCase {
 
                         return userRepository.save(newUser)
                             .flatMap(savedUser -> {
-                                var token = jwtGenerator.generate(savedUser.getName(), savedUser.getRole());
+                                var token = jwtGenerator.generate(savedUser.name(), savedUser.role());
                                 var userDto = savedUser.toDTO();
                                 logger.info("User with email: {} registered successfully", credentials.email());
                                 return Mono.just(new AuthResponse(token, userDto));

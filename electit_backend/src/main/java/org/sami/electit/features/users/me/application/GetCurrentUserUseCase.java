@@ -2,6 +2,7 @@ package org.sami.electit.features.users.me.application;
 
 import org.sami.electit.features.users.shared.api.dtos.UserDTO;
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
+import org.sami.electit.shared.domain.entities.Role;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,11 @@ public class GetCurrentUserUseCase {
         return userRepository.findOneByName(name)
             .map(user -> {
                 logger.info("Current user with name: {} found", name);
-                return user.toDTO();
+                UserDTO userDTO = user.toDTO();
+                if (user.role() == Role.ORGANIZER) {
+                    userDTO.createdElections().addAll(user.getCreatedElections());
+                }
+                return userDTO;
             })
             .switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")));
     }

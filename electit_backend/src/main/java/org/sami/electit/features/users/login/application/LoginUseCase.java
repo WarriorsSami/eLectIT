@@ -33,8 +33,8 @@ public class LoginUseCase {
             .flatMap(user -> {
                 logger.info("Checking credentials for user with email: {}", email);
 
-                if (passwordManager.verify(password, user.getPassword())) {
-                    var token = jwtGenerator.generate(user.getName(), user.getRole());
+                if (passwordManager.verify(password, user.password())) {
+                    var token = jwtGenerator.generate(user.name(), user.role());
                     var userDto = user.toDTO();
                     logger.info("User with email: {} logged in successfully", email);
                     return Mono.just(new AuthResponse(token, userDto));

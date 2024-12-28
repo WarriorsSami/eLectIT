@@ -20,41 +20,41 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class CreateElectionUseCase {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private ElectionRepository electionRepository;
-    @Autowired
-    private CandidateRepository candidateRepository;
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private ElectionRepository electionRepository;
+	@Autowired
+	private CandidateRepository candidateRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Transactional
-    public Mono<ElectionDTO> execute(Authentication claims, ElectionInput electionInput) {
-        logger.info("Creating election with title: {}", electionInput.title());
+	@Transactional
+	public Mono<ElectionDTO> execute(Authentication claims, ElectionInput electionInput) {
+		logger.info("Creating election with title: {}", electionInput.title());
 
-        var username = claims.getName();
-        var organizer = userRepository.findOneByName(username)
-            .blockOptional()
-            .orElseThrow();
+		var username = claims.getName();
+		var organizer = userRepository.findOneByName(username)
+				.blockOptional()
+				.orElseThrow();
 
-        return electionRepository.save(Election.fromDTO(electionInput))
-            .flatMap(election -> {
-                var candidateMonos = electionInput.candidates().stream()
-                    .map(candidateInput -> {
-                        var candidate = Candidate.fromDTO(candidateInput);
-                        candidate.elections().add(election);
-                        return candidateRepository.save(candidate);
-                    })
-                    .collect(Collectors.toList());
+		return electionRepository.save(Election.fromDTO(electionInput))
+				.flatMap(election -> {
+					var candidateMonos = electionInput.candidates().stream()
+							.map(candidateInput -> {
+								var candidate = Candidate.fromDTO(candidateInput);
+								election.candidates().add(candidate);
+								return candidateRepository.save(candidate);
+							})
+							.collect(Collectors.toList());
 
-                return Mono.when(candidateMonos)
-                    .then(Mono.just(election));
-            })
-            .flatMap(election -> {
-                organizer.addCreatedElection(election);
-                return userRepository.save(organizer).thenReturn(election);
-            })
-            .map(Election::toDTO);
-    }
+					return Mono.when(candidateMonos)
+							.thenReturn(election);
+				})
+				.flatMap(election -> {
+					organizer.addCreatedElection(election);
+					return userRepository.save(organizer).thenReturn(election);
+				})
+				.map(Election::toDTO);
+	}
 }

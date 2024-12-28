@@ -1,7 +1,7 @@
 package org.sami.electit.features.elections.get.api;
 
 import org.sami.electit.features.elections.get.application.GetElectionByIdUseCase;
-import org.sami.electit.shared.domain.entities.Election;
+import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.shared.domain.entities.Role;
 import org.sami.electit.shared.security.RoleSecured;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class GetElectionByIdEndpoint {
     private GetElectionByIdUseCase getElectionByIdUseCase;
 
     @QueryMapping
-    public Mono<Election> electionById(@Argument Long id) {
+    public Mono<ElectionDTO> electionById(@Argument Long id) {
         return getElectionByIdUseCase.execute(id);
     }
 }

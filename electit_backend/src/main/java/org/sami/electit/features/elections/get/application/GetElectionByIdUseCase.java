@@ -1,5 +1,6 @@
 package org.sami.electit.features.elections.get.application;
 
+import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.shared.domain.entities.Election;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
@@ -17,10 +18,11 @@ public class GetElectionByIdUseCase {
     @Autowired
     private ElectionRepository electionRepository;
 
-    public Mono<Election> execute(Long id) throws NoEntryFoundException {
+    public Mono<ElectionDTO> execute(Long id) throws NoEntryFoundException {
         logger.info("Getting election with id: {}", id);
 
-        return electionRepository.findById(id)
+        return electionRepository.findByIdWithCandidates(id)
+                .map(Election::toDTO)
                 .switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")));
     }
 }
