@@ -1,3 +1,5 @@
+directive @oneOf on INPUT_OBJECT | OBJECT
+
 schema {
   query: Query
   mutation: Mutation
@@ -11,9 +13,6 @@ type Query {
   elections: [Election!]
   ongoingElections: [Election!]
   pastElections: [Election!]
-
-  myVoteByElectionId(electionId: ID!): Vote
-  myVotes: [Vote!]
 }
 
 type Mutation {
@@ -35,12 +34,22 @@ type AuthResponse {
   user: User!
 }
 
-input UserInput {
+input UserInput @oneOf {
+  voter: VoterInput
+  organizer: OrganizerInput
+}
+
+input VoterInput {
   name: String!
   email: String!
   password: String!
-  nationalId: String
-  role: Role!
+  nationalId: String!
+}
+
+input OrganizerInput {
+  name: String!
+  email: String!
+  password: String!
 }
 
 input ElectionInput {
@@ -67,14 +76,26 @@ input CandidateInput {
 
 ##### Entities #####
 
-type User {
+type User @oneOf {
+  voter: Voter
+  organizer: Organizer
+}
+
+type Voter {
   id: ID!
   name: String!
   email: String!
-  nationalId: String
+  nationalId: String!
   role: Role!
-  participatedInElections: [Election!]
-  createdElections: [Election!]
+  votes: [Vote!]
+}
+
+type Organizer {
+  id: ID!
+  name: String!
+  email: String!
+  role: Role!
+  managedElections: [Election!]
 }
 
 enum Role {
@@ -89,6 +110,8 @@ type Election {
   startTimestamp: Int!
   duration: Int!
   candidates: [Candidate!]
+  winner: Candidate
+  totalVotes: Int!
 }
 
 type Candidate {
@@ -97,6 +120,7 @@ type Candidate {
   party: String!
   manifesto: String!
   pictureUrl: String
+  votes: Int!
 }
 
 type Vote {

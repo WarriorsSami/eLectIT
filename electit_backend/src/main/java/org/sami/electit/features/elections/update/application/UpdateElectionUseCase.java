@@ -5,6 +5,7 @@ import org.sami.electit.features.elections.shared.api.dtos.UpdateElectionInput;
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
 import org.sami.electit.shared.domain.entities.Election;
+import org.sami.electit.shared.domain.entities.Organizer;
 import org.sami.electit.shared.domain.exceptions.ForbiddenActionException;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class UpdateElectionUseCase {
 	@Transactional
 	public Mono<ElectionDTO> execute(Authentication claims, Long electionId, UpdateElectionInput election) {
 		var username = claims.getName();
-		var user = userRepository.findOneByName(username)
+		var user = (Organizer) userRepository.findOneByName(username)
 				.blockOptional()
 				.orElseThrow();
 
@@ -37,7 +38,7 @@ public class UpdateElectionUseCase {
 		// if user is not the organizer of the election, throw exception
 		return electionRepository.findById(electionId)
 			.flatMap(e -> {
-				if (!user.elections().contains(e)) {
+				if (!user.getElections().contains(e)) {
 					return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
 				}
 

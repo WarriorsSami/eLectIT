@@ -13,13 +13,13 @@ import reactor.core.publisher.Mono;
 
 @Controller
 public class RegisterEndpoint {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private RegisterUseCase registerUseCase;
+	@Autowired
+	private RegisterUseCase registerUseCase;
 
-    @MutationMapping
-    public Mono<AuthResponse> register(@Argument UserInput credentials) {
-        return registerUseCase.execute(credentials);
-    }
+	@MutationMapping
+	public Mono<AuthResponse> register(@Argument UserInput credentials) {
+		return registerUseCase.execute(credentials);
+	}
 }

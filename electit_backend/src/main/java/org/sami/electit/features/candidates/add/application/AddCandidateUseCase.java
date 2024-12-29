@@ -7,6 +7,7 @@ import org.sami.electit.features.elections.shared.infrastructure.repositories.El
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
 import org.sami.electit.shared.domain.entities.Candidate;
 import org.sami.electit.shared.domain.entities.Election;
+import org.sami.electit.shared.domain.entities.Organizer;
 import org.sami.electit.shared.domain.exceptions.DuplicateEntryException;
 import org.sami.electit.shared.domain.exceptions.ForbiddenActionException;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
@@ -34,7 +35,7 @@ public class AddCandidateUseCase {
 		logger.info("Adding candidate to election with id: {}", electionId);
 
 		var username = claims.getName();
-		var user = userRepository.findOneByName(username)
+		var user = (Organizer) userRepository.findOneByName(username)
 				.blockOptional()
 				.orElseThrow();
 
@@ -44,7 +45,7 @@ public class AddCandidateUseCase {
 		return electionRepository.findById(electionId)
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")))
 				.flatMap(election -> {
-					if (!user.elections().contains(election)) {
+					if (!user.getElections().contains(election)) {
 						return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
 					}
 

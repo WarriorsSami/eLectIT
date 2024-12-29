@@ -2,7 +2,8 @@ package org.sami.electit.features.users.me.application;
 
 import org.sami.electit.features.users.shared.api.dtos.UserDTO;
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
-import org.sami.electit.shared.domain.entities.Role;
+import org.sami.electit.shared.domain.entities.Organizer;
+import org.sami.electit.shared.domain.entities.Voter;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @Service
 public class GetCurrentUserUseCase {
@@ -29,12 +32,16 @@ public class GetCurrentUserUseCase {
         return userRepository.findOneByName(name)
             .map(user -> {
                 logger.info("Current user with name: {} found", name);
-                UserDTO userDTO = user.toDTO();
-                if (user.role() == Role.ORGANIZER) {
-                    userDTO.createdElections().addAll(user.getCreatedElections());
+
+                if (user instanceof Voter voter) {
+                    return Optional.of(voter.toDTO());
+                } else if (user instanceof Organizer organizer) {
+                    return Optional.of(organizer.toDTO());
+                } else {
+                    return Optional.<UserDTO>empty();
                 }
-                return userDTO;
-            })
-            .switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")));
+			})
+            .switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
+            .map(Optional::get);
     }
 }

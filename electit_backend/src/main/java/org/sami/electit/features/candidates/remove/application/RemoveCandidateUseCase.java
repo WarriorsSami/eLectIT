@@ -5,6 +5,7 @@ import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
 import org.sami.electit.shared.domain.entities.Election;
+import org.sami.electit.shared.domain.entities.Organizer;
 import org.sami.electit.shared.domain.exceptions.ForbiddenActionException;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class RemoveCandidateUseCase {
 		logger.info("Removing candidate with id: {} from election with id: {}", candidateId, electionId);
 
 		var username = claims.getName();
-		var user = userRepository.findOneByName(username)
+		var user = (Organizer) userRepository.findOneByName(username)
 				.blockOptional()
 				.orElseThrow();
 
@@ -41,7 +42,7 @@ public class RemoveCandidateUseCase {
 		return electionRepository.findById(electionId)
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")))
 				.flatMap(election -> {
-					if (!user.elections().contains(election)) {
+					if (!user.getElections().contains(election)) {
 						return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
 					}
 
