@@ -6,6 +6,8 @@ import org.sami.electit.features.users.shared.api.dtos.VoterInput;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Set;
 
 @Node("Voter")
@@ -34,6 +36,12 @@ public class Voter extends User {
 
 	public void setVotes(Set<Vote> votes) {
 		this.votes = votes;
+	}
+
+	public Vote addVote(Candidate candidate) {
+		var vote = new Vote(null, Instant.now().getEpochSecond(), candidate);
+		votes.add(vote);
+		return vote;
 	}
 
 	public static Voter fromCredentials(VoterInput credentials, String hashedPassword) {

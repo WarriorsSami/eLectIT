@@ -11,8 +11,8 @@ type Query {
 
   electionById(id: ID!): Election
   elections: [Election!]
-  ongoingElections: [Election!]
-  pastElections: [Election!]
+#  ongoingElections: [Election!]
+#  pastElections: [Election!]
 }
 
 type Mutation {
@@ -26,6 +26,10 @@ type Mutation {
 
   vote(electionId: ID!, candidateId: ID!): Vote!
 }
+
+##### Scalars #####
+
+scalar Long
 
 ##### DTOs #####
 
@@ -124,8 +128,7 @@ type Candidate {
 }
 
 type Vote {
-  id: ID!
-  createdAt: Int!
+  createdAt: Long!
   election: Election!
   candidate: Candidate!
 }
