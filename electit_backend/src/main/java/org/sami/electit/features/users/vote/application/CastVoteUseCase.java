@@ -43,7 +43,7 @@ public class CastVoteUseCase {
 							.findFirst()
 							.orElseThrow(() -> new NoEntryFoundException("Candidate not found"));
 
-					return voterRepository.checkIfUserHasVoted(user.getId(), electionId, candidateId)
+					return voterRepository.checkIfUserHasVoted(user.getId(), electionId)
 							.flatMap(hasVoted -> {
 								if (hasVoted) {
 									return Mono.error(new InvalidEntryDataException("User has already voted in the election"));

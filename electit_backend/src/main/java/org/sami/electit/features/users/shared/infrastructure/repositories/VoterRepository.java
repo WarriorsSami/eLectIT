@@ -14,10 +14,7 @@ public interface VoterRepository extends ReactiveNeo4jRepository<Voter, Long> {
 	Mono<Voter> findOneByNationalId(String nationalId);
 
 	@Query("MATCH (v:User:Voter)-[r:CASTED_VOTE]->(c:Candidate)-[:PARTICIPATES_IN]->(e:Election) " +
-			"WHERE id(v)=$userId AND id(e)=$electionId AND id(c)=$candidateId " +
+			"WHERE id(v)=$userId AND id(e)=$electionId " +
 			"RETURN count(r) > 0")
-	Mono<Boolean> checkIfUserHasVoted(
-			@Param("userId") Long userId,
-			@Param("electionId") Long electionId,
-			@Param("candidateId") Long candidateId);
+	Mono<Boolean> checkIfUserHasVoted(@Param("userId") Long userId, @Param("electionId") Long electionId);
 }
