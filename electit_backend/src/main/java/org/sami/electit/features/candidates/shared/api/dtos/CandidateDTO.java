@@ -5,5 +5,6 @@ public record CandidateDTO(
 		String name,
 		String party,
 		String manifesto,
-		String pictureUrl
+		String pictureUrl,
+		Integer votesCount
 ) {}

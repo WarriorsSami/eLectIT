@@ -10,5 +10,7 @@ public record ElectionDTO(
         String description,
         Long startTimestamp,
         Long duration,
-        List<CandidateDTO> candidates
+        List<CandidateDTO> candidates,
+		CandidateDTO winner,
+		Integer votesCount
 ) {}

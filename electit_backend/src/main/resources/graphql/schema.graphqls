@@ -6,7 +6,7 @@ schema {
 }
 
 type Query {
-  login(email: String!, password: String!): AuthResponse!
+  login(credentials: LoginInput!): AuthResponse!
   me: User
 
   electionById(id: ID!): Election
@@ -36,6 +36,11 @@ scalar Long
 type AuthResponse {
   token: String!
   user: User!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 input UserInput @oneOf {
@@ -115,7 +120,7 @@ type Election {
   duration: Int!
   candidates: [Candidate!]
   winner: Candidate
-  totalVotes: Int!
+  votesCount: Int!
 }
 
 type Candidate {
@@ -124,7 +129,7 @@ type Candidate {
   party: String!
   manifesto: String!
   pictureUrl: String
-  votes: Int!
+  votesCount: Int!
 }
 
 type Vote {

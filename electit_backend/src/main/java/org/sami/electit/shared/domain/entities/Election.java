@@ -1,8 +1,10 @@
 package org.sami.electit.shared.domain.entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.sami.electit.features.candidates.shared.api.dtos.CandidateDTO;
 import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.api.dtos.ElectionInput;
 import org.sami.electit.features.elections.shared.api.dtos.UpdateElectionInput;
@@ -25,8 +27,8 @@ public record Election(
         return new Election(null, electionInput.title(), electionInput.description(), electionInput.startTimestamp(), electionInput.duration(), new HashSet<>());
     }
 
-    public ElectionDTO toDTO() {
-        return new ElectionDTO(id(), title(), description(), startTimestamp(), duration(), candidates.stream().map(Candidate::toDTO).toList());
+    public ElectionDTO toDTO(CandidateDTO winner, Integer votesCount, List<CandidateDTO> candidates) {
+        return new ElectionDTO(id(), title(), description(), startTimestamp(), duration(), candidates, winner, votesCount);
     }
 
     public Election update(UpdateElectionInput election) {
@@ -38,5 +40,9 @@ public record Election(
                 election.duration() != null ? election.duration() : duration(),
                 candidates
         );
+    }
+
+    public Boolean isOnGoing() {
+        return startTimestamp() + duration() > System.currentTimeMillis() / 1000;
     }
 }

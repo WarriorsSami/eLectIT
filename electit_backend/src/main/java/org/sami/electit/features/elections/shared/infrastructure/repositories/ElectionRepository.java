@@ -8,10 +8,24 @@ import org.springframework.data.repository.query.Param;
 import reactor.core.publisher.Mono;
 
 public interface ElectionRepository extends ReactiveNeo4jRepository<Election, Long> {
-    Mono<Election> findOneByTitle(String title);
-
-    @Query("MATCH (e:Election) WHERE id(e)=$id " +
-           "OPTIONAL MATCH (e)<-[r:PARTICIPATES_IN]-(c:Candidate) " +
-           "RETURN e, collect(r), collect(c)")
+    @Query("""
+           MATCH (e:Election) WHERE id(e)=$id
+           OPTIONAL MATCH (e)<-[r:PARTICIPATES_IN]-(c:Candidate)
+           RETURN e, collect(r), collect(c)
+    """)
     Mono<Election> findByIdWithCandidates(@Param("id") Long id);
+
+    @Query("""
+           MATCH (:User:Voter)-[r:CASTED_VOTE]->(:Candidate)-[:PARTICIPATES_IN]->(e:Election)
+           WHERE id(e)=$electionId
+           RETURN count(r)
+    """)
+    Mono<Integer> countVotesForElection(@Param("electionId") Long electionId);
+
+    @Query("""
+           MATCH (c:Candidate)-[:PARTICIPATES_IN]->(e:Election)
+           WHERE id(c)=$candidateId
+           RETURN e
+    """)
+    Mono<Election> findElectionForCandidate(@Param("candidateId") Long candidateId);
 }

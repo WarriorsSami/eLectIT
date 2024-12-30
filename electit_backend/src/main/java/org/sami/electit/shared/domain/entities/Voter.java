@@ -1,6 +1,8 @@
 package org.sami.electit.shared.domain.entities;
 
+import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.api.dtos.UserDTO;
+import org.sami.electit.features.users.shared.api.dtos.VoteDTO;
 import org.sami.electit.features.users.shared.api.dtos.VoterDTO;
 import org.sami.electit.features.users.shared.api.dtos.VoterInput;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -8,6 +10,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Node("Voter")
@@ -48,9 +51,9 @@ public class Voter extends User {
 		return new Voter(null, credentials.name(), credentials.email(), hashedPassword, credentials.nationalId(), Set.of());
 	}
 
-	public UserDTO toDTO() {
+	public UserDTO toDTO(List<VoteDTO> votes) {
 		return new UserDTO(
-				new VoterDTO(getId(), getName(), getEmail(), nationalId, Role.VOTER, votes.stream().toList()),
+				new VoterDTO(getId(), getName(), getEmail(), nationalId, Role.VOTER, votes),
 				null);
 	}
 
