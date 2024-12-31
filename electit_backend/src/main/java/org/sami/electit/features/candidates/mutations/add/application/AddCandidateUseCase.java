@@ -7,7 +7,6 @@ import org.sami.electit.features.elections.shared.application.GetStatisticsForEl
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
 import org.sami.electit.shared.domain.entities.Candidate;
-import org.sami.electit.shared.domain.entities.Election;
 import org.sami.electit.shared.domain.entities.Organizer;
 import org.sami.electit.shared.domain.exceptions.DuplicateEntryException;
 import org.sami.electit.shared.domain.exceptions.ForbiddenActionException;
@@ -44,12 +43,17 @@ public class AddCandidateUseCase {
 
 		// if election does not exist, throw exception
 		// if user is not the organizer of the election, throw exception
+		// if election is not upcoming, throw exception
 		// if candidate already exists in the election, throw exception
 		return electionRepository.findById(electionId)
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")))
 				.flatMap(election -> {
 					if (!user.getElections().contains(election)) {
 						return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
+					}
+
+					if (!election.isUpcoming()) {
+						return Mono.error(new ForbiddenActionException("Cannot add candidate to an ongoing or past election"));
 					}
 
 					if (election.candidates().stream().anyMatch(c -> c.name().equals(candidate.name()))) {

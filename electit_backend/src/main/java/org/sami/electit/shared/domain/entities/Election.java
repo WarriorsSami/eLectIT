@@ -42,7 +42,22 @@ public record Election(
         );
     }
 
-    public Boolean isOnGoing() {
-        return startTimestamp() + duration() > System.currentTimeMillis() / 1000;
+    public Long endTimestamp() {
+        return startTimestamp() + duration();
+    }
+
+    public Boolean isOngoing() {
+        var currentTimestamp = System.currentTimeMillis() / 1000;
+        return startTimestamp() <= currentTimestamp && currentTimestamp <= endTimestamp();
+    }
+
+    public Boolean isFromThePast() {
+        var currentTimestamp = System.currentTimeMillis() / 1000;
+        return endTimestamp() < currentTimestamp;
+    }
+
+    public Boolean isUpcoming() {
+        var currentTimestamp = System.currentTimeMillis() / 1000;
+        return startTimestamp() > currentTimestamp;
     }
 }

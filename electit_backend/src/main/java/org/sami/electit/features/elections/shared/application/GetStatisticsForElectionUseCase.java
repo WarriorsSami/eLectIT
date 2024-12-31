@@ -53,7 +53,7 @@ public class GetStatisticsForElectionUseCase {
 	}
 
 	private Boolean isAllowedToViewStatistics(User user, Election election) {
-		if (!election.isOnGoing()) {
+		if (!election.isOngoing()) {
 			return true;
 		}
 

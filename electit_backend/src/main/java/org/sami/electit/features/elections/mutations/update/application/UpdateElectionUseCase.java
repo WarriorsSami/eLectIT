@@ -38,10 +38,15 @@ public class UpdateElectionUseCase {
 		
 		// if election does not exist, throw exception
 		// if user is not the organizer of the election, throw exception
+		// if the election is not upcoming, throw exception
 		return electionRepository.findById(electionId)
 			.flatMap(e -> {
 				if (!user.getElections().contains(e)) {
 					return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
+				}
+
+				if (!e.isUpcoming()) {
+					return Mono.error(new ForbiddenActionException("Cannot update an ongoing or past election"));
 				}
 
 				var updatedElection = e.update(election);

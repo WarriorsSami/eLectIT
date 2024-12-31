@@ -41,12 +41,17 @@ public class RemoveCandidateUseCase {
 
 		// if election does not exist, throw exception
 		// if user is not the organizer of the election, throw exception
+		// if the election is not upcoming, throw exception
 		// if candidate does not exist in the election, throw exception
 		return electionRepository.findById(electionId)
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")))
 				.flatMap(election -> {
 					if (!user.getElections().contains(election)) {
 						return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
+					}
+
+					if (!election.isUpcoming()) {
+						return Mono.error(new ForbiddenActionException("Cannot remove candidate from an ongoing or past election"));
 					}
 
 					var candidate = election.candidates().stream()

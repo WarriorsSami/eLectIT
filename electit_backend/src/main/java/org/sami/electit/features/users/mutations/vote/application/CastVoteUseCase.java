@@ -25,6 +25,7 @@ public class CastVoteUseCase {
 	@Transactional
 	public Mono<VoteDTO> execute(Authentication claims, Long electionId, Long candidateId) {
 		// if election does not exist, throw exception
+		// if election is not ongoing, throw exception
 		// if candidate does not exist, throw exception
 		// if user has already voted in the election, throw exception
 		var username = claims.getName();
@@ -37,6 +38,11 @@ public class CastVoteUseCase {
 				.flatMap(tuple -> {
 					var user = tuple.getT1();
 					var election = tuple.getT2();
+
+					if (!election.isOngoing()) {
+						return Mono.error(new InvalidEntryDataException("Cannot vote in a past or upcoming election"));
+					}
+
 					var candidate = election.candidates().stream()
 							.filter(c -> c.id().equals(candidateId))
 							.findFirst()
