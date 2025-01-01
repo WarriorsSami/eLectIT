@@ -7,7 +7,7 @@ schema {
 
 type Query {
   login(credentials: LoginInput!): AuthResponse!
-  me: User
+  me: User!
 
   electionById(id: ID!): Election
   elections: [Election!]
