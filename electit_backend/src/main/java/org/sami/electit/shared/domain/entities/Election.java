@@ -8,6 +8,7 @@ import org.sami.electit.features.candidates.shared.api.dtos.CandidateDTO;
 import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.api.dtos.ElectionInput;
 import org.sami.electit.features.elections.shared.api.dtos.UpdateElectionInput;
+import org.sami.electit.features.users.shared.api.dtos.VoteDTO;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -27,8 +28,8 @@ public record Election(
         return new Election(null, electionInput.title(), electionInput.description(), electionInput.startTimestamp(), electionInput.duration(), new HashSet<>());
     }
 
-    public ElectionDTO toDTO(CandidateDTO winner, Integer votesCount, List<CandidateDTO> candidates) {
-        return new ElectionDTO(id(), title(), description(), startTimestamp(), duration(), candidates, winner, votesCount);
+    public ElectionDTO toDTO(CandidateDTO winner, Integer votesCount, List<CandidateDTO> candidates, VoteDTO myVote) {
+        return new ElectionDTO(id(), title(), description(), startTimestamp(), duration(), candidates, winner, votesCount, myVote);
     }
 
     public Election update(UpdateElectionInput election) {

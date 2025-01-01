@@ -3,9 +3,8 @@ package org.sami.electit.features.elections.shared.application;
 import org.sami.electit.features.candidates.shared.infrastructure.repositories.CandidateRepository;
 import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
-import org.sami.electit.shared.domain.entities.Election;
-import org.sami.electit.shared.domain.entities.Organizer;
-import org.sami.electit.shared.domain.entities.User;
+import org.sami.electit.features.users.shared.api.dtos.VoteDTO;
+import org.sami.electit.shared.domain.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,17 @@ public class GetStatisticsForElectionUseCase {
 	public Mono<ElectionDTO> execute(User user, Election election) {
 		logger.info("Getting statistics for election with id: {}", election.id());
 
+		VoteDTO myVote;
+		if (user instanceof Voter voter) {
+			myVote = voter.getVotes().stream()
+					.filter(vote -> election.candidates().contains(vote.candidate()))
+					.findFirst()
+					.map(vote -> vote.toDTO(election))
+					.orElse(null);
+		} else {
+			myVote = null;
+		}
+
 		if (isAllowedToViewStatistics(user, election)) {
 			return electionRepository.countVotesForElection(election.id())
 					.flatMap(votesCount -> Flux.fromStream(election.candidates().stream())
@@ -41,7 +51,7 @@ public class GetStatisticsForElectionUseCase {
 								var winner = candidatesTuple.getT1();
 								var candidates = candidatesTuple.getT2();
 
-								return election.toDTO(winner, votesCount, candidates);
+								return election.toDTO(winner, votesCount, candidates, myVote);
 							})
 					);
 		}
@@ -49,7 +59,7 @@ public class GetStatisticsForElectionUseCase {
 		var candidates = election.candidates().stream()
 				.map(candidate -> candidate.toDTO(0))
 				.toList();
-		return Mono.just(election.toDTO(null, 0, candidates));
+		return Mono.just(election.toDTO(null, 0, candidates, myVote));
 	}
 
 	private Boolean isAllowedToViewStatistics(User user, Election election) {

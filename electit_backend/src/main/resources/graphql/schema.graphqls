@@ -11,8 +11,6 @@ type Query {
 
   electionById(id: ID!): Election
   elections: [Election!]
-#  ongoingElections: [Election!]
-#  pastElections: [Election!]
 }
 
 type Mutation {
@@ -121,6 +119,7 @@ type Election {
   candidates: [Candidate!]
   winner: Candidate
   votesCount: Int!
+  myVote: Vote
 }
 
 type Candidate {
