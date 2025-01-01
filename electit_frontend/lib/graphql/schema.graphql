@@ -1,0 +1,138 @@
+directive @oneOf on INPUT_OBJECT | OBJECT
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    login(credentials: LoginInput!): AuthResponse!
+    me: User!
+
+    electionById(id: ID!): Election
+    elections: [Election!]
+}
+
+type Mutation {
+    register(credentials: UserInput!): AuthResponse!
+
+    createElection(election: ElectionInput!): Election!
+    updateElection(electionId: ID!, election: UpdateElectionInput!): Election!
+
+    addCandidate(electionId: ID!, candidate: CandidateInput!): Election!
+    removeCandidate(electionId: ID!, candidateId: ID!): Election!
+
+    vote(electionId: ID!, candidateId: ID!): Vote!
+}
+
+##### Scalars #####
+
+scalar Long
+
+##### DTOs #####
+
+type AuthResponse {
+    token: String!
+    user: User!
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input UserInput @oneOf {
+    voter: VoterInput
+    organizer: OrganizerInput
+}
+
+input VoterInput {
+    name: String!
+    email: String!
+    password: String!
+    nationalId: String!
+}
+
+input OrganizerInput {
+    name: String!
+    email: String!
+    password: String!
+}
+
+input ElectionInput {
+    title: String!
+    description: String!
+    startTimestamp: Int!
+    duration: Int!
+    candidates: [CandidateInput!]
+}
+
+input UpdateElectionInput {
+    title: String
+    description: String
+    startTimestamp: Int
+    duration: Int
+}
+
+input CandidateInput {
+    name: String!
+    party: String!
+    manifesto: String!
+    pictureUrl: String
+}
+
+##### Entities #####
+
+type User @oneOf {
+    voter: Voter
+    organizer: Organizer
+}
+
+type Voter {
+    id: ID!
+    name: String!
+    email: String!
+    nationalId: String!
+    role: Role!
+    votes: [Vote!]
+}
+
+type Organizer {
+    id: ID!
+    name: String!
+    email: String!
+    role: Role!
+    managedElections: [Election!]
+}
+
+enum Role {
+    VOTER
+    ORGANIZER
+}
+
+type Election {
+    id: ID!
+    title: String!
+    description: String!
+    startTimestamp: Int!
+    duration: Int!
+    candidates: [Candidate!]
+    winner: Candidate
+    votesCount: Int!
+    myVote: Vote
+}
+
+type Candidate {
+    id: ID!
+    name: String!
+    party: String!
+    manifesto: String!
+    pictureUrl: String
+    votesCount: Int!
+}
+
+type Vote {
+    createdAt: Long!
+    election: Election!
+    candidate: Candidate!
+}

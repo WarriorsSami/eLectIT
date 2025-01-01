@@ -1,0 +1,5 @@
+mutation RegisterVoter($voter: VoterInput!) {
+    register(credentials: { voter: $voter }) {
+        token
+    }
+}

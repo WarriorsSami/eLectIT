@@ -1,0 +1,5 @@
+mutation RegisterVoter($organizer: OrganizerInput!) {
+    register(credentials: { organizer: $organizer }) {
+        token
+    }
+}

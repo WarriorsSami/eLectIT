@@ -1,0 +1,22 @@
+query MeOrganizer {
+    me {
+        organizer {
+            id
+            name
+            email
+            role
+            managedElections {
+                id
+                title
+                startTimestamp
+                duration
+                votesCount
+                winner {
+                    id
+                    name
+                    votesCount
+                }
+            }
+        }
+    }
+}

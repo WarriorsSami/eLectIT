@@ -1,0 +1,22 @@
+query MeVoter {
+    me {
+        voter {
+            id
+            name
+            email
+            nationalId
+            role
+            votes {
+                createdAt
+                election {
+                    id
+                    title
+                }
+                candidate {
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
