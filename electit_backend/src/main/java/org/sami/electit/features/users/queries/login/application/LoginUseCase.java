@@ -37,13 +37,13 @@ public class LoginUseCase {
 		logger.info("Login attempt for user with email: {}", credentials.email());
 
 		return userRepository.findOneByEmail(credentials.email())
-				.switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
+				.switchIfEmpty(Mono.error(new NoEntryFoundException("Invalid credentials")))
 				.flatMap(user -> {
 					logger.info("Checking credentials for user with email: {}", credentials.email());
 
 					if (!passwordManager.verify(credentials.password(), user.getPassword())) {
-						logger.warn("Invalid password for user with email: {}", credentials.email());
-						return Mono.error(new InvalidEntryDataException("Invalid password"));
+						logger.warn("Invalid credentials for user with email: {}", credentials.email());
+						return Mono.error(new InvalidEntryDataException("Invalid credentials"));
 					}
 
 					Optional<AuthResponse> response = Optional.empty();

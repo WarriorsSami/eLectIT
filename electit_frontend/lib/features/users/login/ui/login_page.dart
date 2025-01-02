@@ -1,11 +1,10 @@
 import 'package:auto_route/annotations.dart';
+import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
-import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 import 'package:electit_frontend/features/shared/ui/components/app_dialog.dart';
 import 'package:electit_frontend/features/users/login/bloc/login_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
-import 'package:graphql/client.dart';
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
@@ -14,10 +13,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginFormBloc(
-        jwtService: locator<JWTService>(),
-        graphQLClient: locator<GraphQLClient>(),
-      ),
+      create: (context) => locator<LoginFormBloc>(),
       child: Builder(
         builder: (context) {
           final loginFormBloc = context.read<LoginFormBloc>();
@@ -25,7 +21,12 @@ class LoginPage extends StatelessWidget {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              title: const Text('Login'),
+              title: const Text(
+                Constants.loginPageTitle,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             body: FormBlocListener<LoginFormBloc, String, String>(
               onSubmitting: (context, state) {
@@ -48,37 +49,91 @@ class LoginPage extends StatelessWidget {
                   ),
                 );
               },
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: AutofillGroup(
-                  child: Column(
-                    children: <Widget>[
-                      TextFieldBlocBuilder(
-                        textFieldBloc: loginFormBloc.email,
-                        keyboardType: TextInputType.emailAddress,
-                        autofillHints: const [
-                          AutofillHints.username,
-                        ],
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          prefixIcon: Icon(Icons.email),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width /
+                          Constants.widthRatio,
+                      child: Text(
+                        Constants.appPromo,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize:
+                              Theme.of(context).textTheme.titleMedium!.fontSize,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TextFieldBlocBuilder(
-                        textFieldBloc: loginFormBloc.password,
-                        suffixButton: SuffixButton.obscureText,
-                        autofillHints: const [AutofillHints.password],
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                          prefixIcon: Icon(Icons.lock),
+                    ),
+                    smallVerticalSpace,
+                    AutofillGroup(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height /
+                            Constants.heightRatio,
+                        width: MediaQuery.of(context).size.width /
+                            Constants.widthRatio,
+                        child: Card(
+                          elevation: Constants.cardElevation,
+                          margin: mediumPadding,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: roundedBorderRadius,
+                          ),
+                          child: Padding(
+                            padding: smallPadding,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                TextFieldBlocBuilder(
+                                  textFieldBloc: loginFormBloc.email,
+                                  keyboardType: TextInputType.emailAddress,
+                                  autofillHints: const [
+                                    AutofillHints.username,
+                                  ],
+                                  decoration: const InputDecoration(
+                                    labelText: Constants.emailLabel,
+                                    prefixIcon: Icon(Icons.email),
+                                  ),
+                                ),
+                                TextFieldBlocBuilder(
+                                  textFieldBloc: loginFormBloc.password,
+                                  suffixButton: SuffixButton.obscureText,
+                                  autofillHints: const [
+                                    AutofillHints.password,
+                                  ],
+                                  decoration: const InputDecoration(
+                                    labelText: Constants.passwordLabel,
+                                    prefixIcon: Icon(Icons.lock),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: loginFormBloc.submit,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .inversePrimary,
+                                    padding: buttonPadding,
+                                  ),
+                                  child: Text(
+                                    Constants.loginButtonLabel,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .fontSize,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: loginFormBloc.submit,
-                        child: const Text('LOGIN'),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
