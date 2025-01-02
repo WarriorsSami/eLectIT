@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:electit_frontend/features/shared/config/constants.dart';
+import 'package:electit_frontend/features/shared/domain/graphql_extensions.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 import 'package:electit_frontend/graphql/queries/login.graphql.dart';
 import 'package:electit_frontend/graphql/schema.graphql.dart';
@@ -37,7 +40,7 @@ class LoginFormBloc extends FormBloc<String, String> {
   }
 
   @override
-  void onSubmitting() async {
+  FutureOr<void> onSubmitting() async {
     final result = await graphQLClient.query$Login(
       Options$Query$Login(
         variables: Variables$Query$Login(
@@ -62,8 +65,7 @@ class LoginFormBloc extends FormBloc<String, String> {
 
       emitSuccess();
     } else {
-      final failureResponse = result.exception!.graphqlErrors.first.message;
-      emitFailure(failureResponse: failureResponse);
+      emitFailure(failureResponse: result.failureResponse);
     }
   }
 }

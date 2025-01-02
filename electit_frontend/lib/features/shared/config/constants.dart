@@ -12,7 +12,10 @@ abstract class Constants {
   static const String electionPageTitle = 'eLectIT - Election details';
   static const String manageElectionPageTitle = 'eLectIT - Manage election';
   static const String loginPageTitle = 'eLectIT - Login';
-  static const String registerPageTitle = 'eLectIT - Register';
+  static const String registerVoterPageTitle =
+      'eLectIT - Register voter account';
+  static const String registerOrganizerPageTitle =
+      'eLectIT - Register organizer account';
   static const String profilePageTitle = 'eLectIT - My profile';
 
   static const String welcomePageSubtitle = '''
@@ -21,9 +24,26 @@ abstract class Constants {
    ''';
 
   static const String missingTokenErrorMessage = 'Access token is missing';
+  static const String usernameLengthErrorMessage =
+      'Username must be between 3 and 50 characters long';
+  static const String passwordErrorMessage =
+      'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.';
+  static const String nationalIdErrorMessage =
+      'National ID must be 13 digits long';
+  static const String passwordsDoNotMatchErrorMessage =
+      'Passwords do not match';
+
+  static const int usernameMinLength = 3;
+  static const int usernameMaxLength = 50;
+  static const String passwordRegex =
+      '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+\$).{8,}\$';
+  static const String nationalIdRegex = '^[0-9]{13}\$';
 
   static const String emailLabel = 'Email';
   static const String passwordLabel = 'Password';
+  static const String usernameLabel = 'Username';
+  static const String nationalIdLabel = 'National ID';
+  static const String confirmPasswordLabel = 'Confirm password';
   static const String registerVoterLabel = 'Register voter account';
   static const String registerOrganizerLabel = 'Register organizer account';
   static const String voterAttributionsLabel =

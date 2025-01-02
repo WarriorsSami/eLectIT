@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/router.gr.dart';
+import 'package:electit_frontend/features/shared/domain/role.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +66,9 @@ class WelcomePage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: roundedBorderRadius,
                       ),
-                      onTap: () {},
+                      onTap: () => context.router.push(
+                        RegisterRoute(role: Role.voter.toShortString()),
+                      ),
                     ),
                   ),
                   smallHorizontalSpace,
@@ -92,7 +95,9 @@ class WelcomePage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: roundedBorderRadius,
                       ),
-                      onTap: () {},
+                      onTap: () => context.router.push(
+                        RegisterRoute(role: Role.organizer.toShortString()),
+                      ),
                     ),
                   ),
                 ],

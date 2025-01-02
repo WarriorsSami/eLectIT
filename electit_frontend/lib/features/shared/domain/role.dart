@@ -9,4 +9,11 @@ enum Role {
       _ => throw Exception('Unknown role: $role'),
     };
   }
+
+  String toShortString() {
+    return switch (this) {
+      Role.voter => 'VOTER',
+      Role.organizer => 'ORGANIZER',
+    };
+  }
 }

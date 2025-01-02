@@ -3,21 +3,22 @@ import 'dart:async';
 import 'package:gql/ast.dart';
 import 'package:graphql/client.dart' as graphql;
 
-class Variables$Mutation$RegisterVoter {
-  factory Variables$Mutation$RegisterVoter(
+class Variables$Mutation$RegisterOrganizer {
+  factory Variables$Mutation$RegisterOrganizer(
           {required Input$OrganizerInput organizer}) =>
-      Variables$Mutation$RegisterVoter._({
+      Variables$Mutation$RegisterOrganizer._({
         r'organizer': organizer,
       });
 
-  Variables$Mutation$RegisterVoter._(this._$data);
+  Variables$Mutation$RegisterOrganizer._(this._$data);
 
-  factory Variables$Mutation$RegisterVoter.fromJson(Map<String, dynamic> data) {
+  factory Variables$Mutation$RegisterOrganizer.fromJson(
+      Map<String, dynamic> data) {
     final result$data = <String, dynamic>{};
     final l$organizer = data['organizer'];
     result$data['organizer'] =
         Input$OrganizerInput.fromJson((l$organizer as Map<String, dynamic>));
-    return Variables$Mutation$RegisterVoter._(result$data);
+    return Variables$Mutation$RegisterOrganizer._(result$data);
   }
 
   Map<String, dynamic> _$data;
@@ -32,8 +33,9 @@ class Variables$Mutation$RegisterVoter {
     return result$data;
   }
 
-  CopyWith$Variables$Mutation$RegisterVoter<Variables$Mutation$RegisterVoter>
-      get copyWith => CopyWith$Variables$Mutation$RegisterVoter(
+  CopyWith$Variables$Mutation$RegisterOrganizer<
+          Variables$Mutation$RegisterOrganizer>
+      get copyWith => CopyWith$Variables$Mutation$RegisterOrganizer(
             this,
             (i) => i,
           );
@@ -43,7 +45,7 @@ class Variables$Mutation$RegisterVoter {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Variables$Mutation$RegisterVoter ||
+    if (other is! Variables$Mutation$RegisterOrganizer ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -62,65 +64,65 @@ class Variables$Mutation$RegisterVoter {
   }
 }
 
-abstract class CopyWith$Variables$Mutation$RegisterVoter<TRes> {
-  factory CopyWith$Variables$Mutation$RegisterVoter(
-    Variables$Mutation$RegisterVoter instance,
-    TRes Function(Variables$Mutation$RegisterVoter) then,
-  ) = _CopyWithImpl$Variables$Mutation$RegisterVoter;
+abstract class CopyWith$Variables$Mutation$RegisterOrganizer<TRes> {
+  factory CopyWith$Variables$Mutation$RegisterOrganizer(
+    Variables$Mutation$RegisterOrganizer instance,
+    TRes Function(Variables$Mutation$RegisterOrganizer) then,
+  ) = _CopyWithImpl$Variables$Mutation$RegisterOrganizer;
 
-  factory CopyWith$Variables$Mutation$RegisterVoter.stub(TRes res) =
-      _CopyWithStubImpl$Variables$Mutation$RegisterVoter;
+  factory CopyWith$Variables$Mutation$RegisterOrganizer.stub(TRes res) =
+      _CopyWithStubImpl$Variables$Mutation$RegisterOrganizer;
 
   TRes call({Input$OrganizerInput? organizer});
 }
 
-class _CopyWithImpl$Variables$Mutation$RegisterVoter<TRes>
-    implements CopyWith$Variables$Mutation$RegisterVoter<TRes> {
-  _CopyWithImpl$Variables$Mutation$RegisterVoter(
+class _CopyWithImpl$Variables$Mutation$RegisterOrganizer<TRes>
+    implements CopyWith$Variables$Mutation$RegisterOrganizer<TRes> {
+  _CopyWithImpl$Variables$Mutation$RegisterOrganizer(
     this._instance,
     this._then,
   );
 
-  final Variables$Mutation$RegisterVoter _instance;
+  final Variables$Mutation$RegisterOrganizer _instance;
 
-  final TRes Function(Variables$Mutation$RegisterVoter) _then;
+  final TRes Function(Variables$Mutation$RegisterOrganizer) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
   TRes call({Object? organizer = _undefined}) =>
-      _then(Variables$Mutation$RegisterVoter._({
+      _then(Variables$Mutation$RegisterOrganizer._({
         ..._instance._$data,
         if (organizer != _undefined && organizer != null)
           'organizer': (organizer as Input$OrganizerInput),
       }));
 }
 
-class _CopyWithStubImpl$Variables$Mutation$RegisterVoter<TRes>
-    implements CopyWith$Variables$Mutation$RegisterVoter<TRes> {
-  _CopyWithStubImpl$Variables$Mutation$RegisterVoter(this._res);
+class _CopyWithStubImpl$Variables$Mutation$RegisterOrganizer<TRes>
+    implements CopyWith$Variables$Mutation$RegisterOrganizer<TRes> {
+  _CopyWithStubImpl$Variables$Mutation$RegisterOrganizer(this._res);
 
   TRes _res;
 
   call({Input$OrganizerInput? organizer}) => _res;
 }
 
-class Mutation$RegisterVoter {
-  Mutation$RegisterVoter({
+class Mutation$RegisterOrganizer {
+  Mutation$RegisterOrganizer({
     required this.register,
     this.$__typename = 'Mutation',
   });
 
-  factory Mutation$RegisterVoter.fromJson(Map<String, dynamic> json) {
+  factory Mutation$RegisterOrganizer.fromJson(Map<String, dynamic> json) {
     final l$register = json['register'];
     final l$$__typename = json['__typename'];
-    return Mutation$RegisterVoter(
-      register: Mutation$RegisterVoter$register.fromJson(
+    return Mutation$RegisterOrganizer(
+      register: Mutation$RegisterOrganizer$register.fromJson(
           (l$register as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Mutation$RegisterVoter$register register;
+  final Mutation$RegisterOrganizer$register register;
 
   final String $__typename;
 
@@ -148,7 +150,8 @@ class Mutation$RegisterVoter {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Mutation$RegisterVoter || runtimeType != other.runtimeType) {
+    if (other is! Mutation$RegisterOrganizer ||
+        runtimeType != other.runtimeType) {
       return false;
     }
     final l$register = register;
@@ -165,40 +168,41 @@ class Mutation$RegisterVoter {
   }
 }
 
-extension UtilityExtension$Mutation$RegisterVoter on Mutation$RegisterVoter {
-  CopyWith$Mutation$RegisterVoter<Mutation$RegisterVoter> get copyWith =>
-      CopyWith$Mutation$RegisterVoter(
-        this,
-        (i) => i,
-      );
+extension UtilityExtension$Mutation$RegisterOrganizer
+    on Mutation$RegisterOrganizer {
+  CopyWith$Mutation$RegisterOrganizer<Mutation$RegisterOrganizer>
+      get copyWith => CopyWith$Mutation$RegisterOrganizer(
+            this,
+            (i) => i,
+          );
 }
 
-abstract class CopyWith$Mutation$RegisterVoter<TRes> {
-  factory CopyWith$Mutation$RegisterVoter(
-    Mutation$RegisterVoter instance,
-    TRes Function(Mutation$RegisterVoter) then,
-  ) = _CopyWithImpl$Mutation$RegisterVoter;
+abstract class CopyWith$Mutation$RegisterOrganizer<TRes> {
+  factory CopyWith$Mutation$RegisterOrganizer(
+    Mutation$RegisterOrganizer instance,
+    TRes Function(Mutation$RegisterOrganizer) then,
+  ) = _CopyWithImpl$Mutation$RegisterOrganizer;
 
-  factory CopyWith$Mutation$RegisterVoter.stub(TRes res) =
-      _CopyWithStubImpl$Mutation$RegisterVoter;
+  factory CopyWith$Mutation$RegisterOrganizer.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$RegisterOrganizer;
 
   TRes call({
-    Mutation$RegisterVoter$register? register,
+    Mutation$RegisterOrganizer$register? register,
     String? $__typename,
   });
-  CopyWith$Mutation$RegisterVoter$register<TRes> get register;
+  CopyWith$Mutation$RegisterOrganizer$register<TRes> get register;
 }
 
-class _CopyWithImpl$Mutation$RegisterVoter<TRes>
-    implements CopyWith$Mutation$RegisterVoter<TRes> {
-  _CopyWithImpl$Mutation$RegisterVoter(
+class _CopyWithImpl$Mutation$RegisterOrganizer<TRes>
+    implements CopyWith$Mutation$RegisterOrganizer<TRes> {
+  _CopyWithImpl$Mutation$RegisterOrganizer(
     this._instance,
     this._then,
   );
 
-  final Mutation$RegisterVoter _instance;
+  final Mutation$RegisterOrganizer _instance;
 
-  final TRes Function(Mutation$RegisterVoter) _then;
+  final TRes Function(Mutation$RegisterOrganizer) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
@@ -206,42 +210,42 @@ class _CopyWithImpl$Mutation$RegisterVoter<TRes>
     Object? register = _undefined,
     Object? $__typename = _undefined,
   }) =>
-      _then(Mutation$RegisterVoter(
+      _then(Mutation$RegisterOrganizer(
         register: register == _undefined || register == null
             ? _instance.register
-            : (register as Mutation$RegisterVoter$register),
+            : (register as Mutation$RegisterOrganizer$register),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
       ));
 
-  CopyWith$Mutation$RegisterVoter$register<TRes> get register {
+  CopyWith$Mutation$RegisterOrganizer$register<TRes> get register {
     final local$register = _instance.register;
-    return CopyWith$Mutation$RegisterVoter$register(
+    return CopyWith$Mutation$RegisterOrganizer$register(
         local$register, (e) => call(register: e));
   }
 }
 
-class _CopyWithStubImpl$Mutation$RegisterVoter<TRes>
-    implements CopyWith$Mutation$RegisterVoter<TRes> {
-  _CopyWithStubImpl$Mutation$RegisterVoter(this._res);
+class _CopyWithStubImpl$Mutation$RegisterOrganizer<TRes>
+    implements CopyWith$Mutation$RegisterOrganizer<TRes> {
+  _CopyWithStubImpl$Mutation$RegisterOrganizer(this._res);
 
   TRes _res;
 
   call({
-    Mutation$RegisterVoter$register? register,
+    Mutation$RegisterOrganizer$register? register,
     String? $__typename,
   }) =>
       _res;
 
-  CopyWith$Mutation$RegisterVoter$register<TRes> get register =>
-      CopyWith$Mutation$RegisterVoter$register.stub(_res);
+  CopyWith$Mutation$RegisterOrganizer$register<TRes> get register =>
+      CopyWith$Mutation$RegisterOrganizer$register.stub(_res);
 }
 
-const documentNodeMutationRegisterVoter = DocumentNode(definitions: [
+const documentNodeMutationRegisterOrganizer = DocumentNode(definitions: [
   OperationDefinitionNode(
     type: OperationType.mutation,
-    name: NameNode(value: 'RegisterVoter'),
+    name: NameNode(value: 'RegisterOrganizer'),
     variableDefinitions: [
       VariableDefinitionNode(
         variable: VariableNode(name: NameNode(value: 'organizer')),
@@ -297,27 +301,28 @@ const documentNodeMutationRegisterVoter = DocumentNode(definitions: [
     ]),
   ),
 ]);
-Mutation$RegisterVoter _parserFn$Mutation$RegisterVoter(
+Mutation$RegisterOrganizer _parserFn$Mutation$RegisterOrganizer(
         Map<String, dynamic> data) =>
-    Mutation$RegisterVoter.fromJson(data);
-typedef OnMutationCompleted$Mutation$RegisterVoter = FutureOr<void> Function(
+    Mutation$RegisterOrganizer.fromJson(data);
+typedef OnMutationCompleted$Mutation$RegisterOrganizer = FutureOr<void>
+    Function(
   Map<String, dynamic>?,
-  Mutation$RegisterVoter?,
+  Mutation$RegisterOrganizer?,
 );
 
-class Options$Mutation$RegisterVoter
-    extends graphql.MutationOptions<Mutation$RegisterVoter> {
-  Options$Mutation$RegisterVoter({
+class Options$Mutation$RegisterOrganizer
+    extends graphql.MutationOptions<Mutation$RegisterOrganizer> {
+  Options$Mutation$RegisterOrganizer({
     String? operationName,
-    required Variables$Mutation$RegisterVoter variables,
+    required Variables$Mutation$RegisterOrganizer variables,
     graphql.FetchPolicy? fetchPolicy,
     graphql.ErrorPolicy? errorPolicy,
     graphql.CacheRereadPolicy? cacheRereadPolicy,
     Object? optimisticResult,
-    Mutation$RegisterVoter? typedOptimisticResult,
+    Mutation$RegisterOrganizer? typedOptimisticResult,
     graphql.Context? context,
-    OnMutationCompleted$Mutation$RegisterVoter? onCompleted,
-    graphql.OnMutationUpdate<Mutation$RegisterVoter>? update,
+    OnMutationCompleted$Mutation$RegisterOrganizer? onCompleted,
+    graphql.OnMutationUpdate<Mutation$RegisterOrganizer>? update,
     graphql.OnError? onError,
   })  : onCompletedWithParsed = onCompleted,
         super(
@@ -334,15 +339,15 @@ class Options$Mutation$RegisterVoter
                     data,
                     data == null
                         ? null
-                        : _parserFn$Mutation$RegisterVoter(data),
+                        : _parserFn$Mutation$RegisterOrganizer(data),
                   ),
           update: update,
           onError: onError,
-          document: documentNodeMutationRegisterVoter,
-          parserFn: _parserFn$Mutation$RegisterVoter,
+          document: documentNodeMutationRegisterOrganizer,
+          parserFn: _parserFn$Mutation$RegisterOrganizer,
         );
 
-  final OnMutationCompleted$Mutation$RegisterVoter? onCompletedWithParsed;
+  final OnMutationCompleted$Mutation$RegisterOrganizer? onCompletedWithParsed;
 
   @override
   List<Object?> get properties => [
@@ -353,16 +358,16 @@ class Options$Mutation$RegisterVoter
       ];
 }
 
-class WatchOptions$Mutation$RegisterVoter
-    extends graphql.WatchQueryOptions<Mutation$RegisterVoter> {
-  WatchOptions$Mutation$RegisterVoter({
+class WatchOptions$Mutation$RegisterOrganizer
+    extends graphql.WatchQueryOptions<Mutation$RegisterOrganizer> {
+  WatchOptions$Mutation$RegisterOrganizer({
     String? operationName,
-    required Variables$Mutation$RegisterVoter variables,
+    required Variables$Mutation$RegisterOrganizer variables,
     graphql.FetchPolicy? fetchPolicy,
     graphql.ErrorPolicy? errorPolicy,
     graphql.CacheRereadPolicy? cacheRereadPolicy,
     Object? optimisticResult,
-    Mutation$RegisterVoter? typedOptimisticResult,
+    Mutation$RegisterOrganizer? typedOptimisticResult,
     graphql.Context? context,
     Duration? pollInterval,
     bool? eagerlyFetchResults,
@@ -376,34 +381,37 @@ class WatchOptions$Mutation$RegisterVoter
           cacheRereadPolicy: cacheRereadPolicy,
           optimisticResult: optimisticResult ?? typedOptimisticResult?.toJson(),
           context: context,
-          document: documentNodeMutationRegisterVoter,
+          document: documentNodeMutationRegisterOrganizer,
           pollInterval: pollInterval,
           eagerlyFetchResults: eagerlyFetchResults,
           carryForwardDataOnException: carryForwardDataOnException,
           fetchResults: fetchResults,
-          parserFn: _parserFn$Mutation$RegisterVoter,
+          parserFn: _parserFn$Mutation$RegisterOrganizer,
         );
 }
 
-extension ClientExtension$Mutation$RegisterVoter on graphql.GraphQLClient {
-  Future<graphql.QueryResult<Mutation$RegisterVoter>> mutate$RegisterVoter(
-          Options$Mutation$RegisterVoter options) async =>
-      await this.mutate(options);
-  graphql.ObservableQuery<Mutation$RegisterVoter> watchMutation$RegisterVoter(
-          WatchOptions$Mutation$RegisterVoter options) =>
-      this.watchMutation(options);
+extension ClientExtension$Mutation$RegisterOrganizer on graphql.GraphQLClient {
+  Future<graphql.QueryResult<Mutation$RegisterOrganizer>>
+      mutate$RegisterOrganizer(
+              Options$Mutation$RegisterOrganizer options) async =>
+          await this.mutate(options);
+  graphql.ObservableQuery<Mutation$RegisterOrganizer>
+      watchMutation$RegisterOrganizer(
+              WatchOptions$Mutation$RegisterOrganizer options) =>
+          this.watchMutation(options);
 }
 
-class Mutation$RegisterVoter$register {
-  Mutation$RegisterVoter$register({
+class Mutation$RegisterOrganizer$register {
+  Mutation$RegisterOrganizer$register({
     required this.token,
     this.$__typename = 'AuthResponse',
   });
 
-  factory Mutation$RegisterVoter$register.fromJson(Map<String, dynamic> json) {
+  factory Mutation$RegisterOrganizer$register.fromJson(
+      Map<String, dynamic> json) {
     final l$token = json['token'];
     final l$$__typename = json['__typename'];
-    return Mutation$RegisterVoter$register(
+    return Mutation$RegisterOrganizer$register(
       token: (l$token as String),
       $__typename: (l$$__typename as String),
     );
@@ -437,7 +445,7 @@ class Mutation$RegisterVoter$register {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Mutation$RegisterVoter$register ||
+    if (other is! Mutation$RegisterOrganizer$register ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -455,23 +463,24 @@ class Mutation$RegisterVoter$register {
   }
 }
 
-extension UtilityExtension$Mutation$RegisterVoter$register
-    on Mutation$RegisterVoter$register {
-  CopyWith$Mutation$RegisterVoter$register<Mutation$RegisterVoter$register>
-      get copyWith => CopyWith$Mutation$RegisterVoter$register(
+extension UtilityExtension$Mutation$RegisterOrganizer$register
+    on Mutation$RegisterOrganizer$register {
+  CopyWith$Mutation$RegisterOrganizer$register<
+          Mutation$RegisterOrganizer$register>
+      get copyWith => CopyWith$Mutation$RegisterOrganizer$register(
             this,
             (i) => i,
           );
 }
 
-abstract class CopyWith$Mutation$RegisterVoter$register<TRes> {
-  factory CopyWith$Mutation$RegisterVoter$register(
-    Mutation$RegisterVoter$register instance,
-    TRes Function(Mutation$RegisterVoter$register) then,
-  ) = _CopyWithImpl$Mutation$RegisterVoter$register;
+abstract class CopyWith$Mutation$RegisterOrganizer$register<TRes> {
+  factory CopyWith$Mutation$RegisterOrganizer$register(
+    Mutation$RegisterOrganizer$register instance,
+    TRes Function(Mutation$RegisterOrganizer$register) then,
+  ) = _CopyWithImpl$Mutation$RegisterOrganizer$register;
 
-  factory CopyWith$Mutation$RegisterVoter$register.stub(TRes res) =
-      _CopyWithStubImpl$Mutation$RegisterVoter$register;
+  factory CopyWith$Mutation$RegisterOrganizer$register.stub(TRes res) =
+      _CopyWithStubImpl$Mutation$RegisterOrganizer$register;
 
   TRes call({
     String? token,
@@ -479,16 +488,16 @@ abstract class CopyWith$Mutation$RegisterVoter$register<TRes> {
   });
 }
 
-class _CopyWithImpl$Mutation$RegisterVoter$register<TRes>
-    implements CopyWith$Mutation$RegisterVoter$register<TRes> {
-  _CopyWithImpl$Mutation$RegisterVoter$register(
+class _CopyWithImpl$Mutation$RegisterOrganizer$register<TRes>
+    implements CopyWith$Mutation$RegisterOrganizer$register<TRes> {
+  _CopyWithImpl$Mutation$RegisterOrganizer$register(
     this._instance,
     this._then,
   );
 
-  final Mutation$RegisterVoter$register _instance;
+  final Mutation$RegisterOrganizer$register _instance;
 
-  final TRes Function(Mutation$RegisterVoter$register) _then;
+  final TRes Function(Mutation$RegisterOrganizer$register) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
@@ -496,7 +505,7 @@ class _CopyWithImpl$Mutation$RegisterVoter$register<TRes>
     Object? token = _undefined,
     Object? $__typename = _undefined,
   }) =>
-      _then(Mutation$RegisterVoter$register(
+      _then(Mutation$RegisterOrganizer$register(
         token: token == _undefined || token == null
             ? _instance.token
             : (token as String),
@@ -506,9 +515,9 @@ class _CopyWithImpl$Mutation$RegisterVoter$register<TRes>
       ));
 }
 
-class _CopyWithStubImpl$Mutation$RegisterVoter$register<TRes>
-    implements CopyWith$Mutation$RegisterVoter$register<TRes> {
-  _CopyWithStubImpl$Mutation$RegisterVoter$register(this._res);
+class _CopyWithStubImpl$Mutation$RegisterOrganizer$register<TRes>
+    implements CopyWith$Mutation$RegisterOrganizer$register<TRes> {
+  _CopyWithStubImpl$Mutation$RegisterOrganizer$register(this._res);
 
   TRes _res;
 

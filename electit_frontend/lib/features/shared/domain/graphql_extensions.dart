@@ -13,3 +13,7 @@ extension GraphqlClientExtensions on GraphQLClient {
     return this;
   }
 }
+
+extension QueryResultExtensions<T> on QueryResult<T> {
+  String get failureResponse => exception!.graphqlErrors.first.message;
+}

@@ -17,6 +17,10 @@ class AppRouter extends RootStackRouter {
           path: '/login',
           page: LoginRoute.page,
         ),
+        AutoRoute(
+          path: '/register',
+          page: RegisterRoute.page,
+        ),
       ];
 
   @override

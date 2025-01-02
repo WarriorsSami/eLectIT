@@ -89,7 +89,7 @@ class LoginPage extends StatelessWidget {
                                   textFieldBloc: loginFormBloc.email,
                                   keyboardType: TextInputType.emailAddress,
                                   autofillHints: const [
-                                    AutofillHints.username,
+                                    AutofillHints.email,
                                   ],
                                   decoration: const InputDecoration(
                                     labelText: Constants.emailLabel,
