@@ -13,6 +13,8 @@ import 'package:electit_frontend/features/shared/services/jwt_service.dart'
     as _i383;
 import 'package:electit_frontend/features/users/login/bloc/login_form_bloc.dart'
     as _i1008;
+import 'package:electit_frontend/features/users/profile/bloc/profile_bloc.dart'
+    as _i808;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:graphql/client.dart' as _i763;
 import 'package:injectable/injectable.dart' as _i526;
@@ -38,6 +40,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i383.JWTService>(
         () => _i383.JWTService(gh<_i460.SharedPreferences>()));
     gh.factory<_i1008.LoginFormBloc>(() => _i1008.LoginFormBloc(
+          jwtService: gh<_i383.JWTService>(),
+          graphQLClient: gh<_i763.GraphQLClient>(),
+        ));
+    gh.factory<_i808.ProfileBloc>(() => _i808.ProfileBloc(
           jwtService: gh<_i383.JWTService>(),
           graphQLClient: gh<_i763.GraphQLClient>(),
         ));

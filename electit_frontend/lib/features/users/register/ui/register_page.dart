@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
-import 'package:electit_frontend/features/shared/domain/role.dart';
+import 'package:electit_frontend/features/shared/config/router.gr.dart';
+import 'package:electit_frontend/features/shared/domain/entities/role.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 import 'package:electit_frontend/features/shared/ui/components/app_dialog.dart';
 import 'package:electit_frontend/features/users/register/bloc/register_form_bloc.dart';
@@ -52,6 +53,8 @@ class RegisterPage extends StatelessWidget {
             },
             onSuccess: (context, state) {
               AppDialog.hide(context);
+
+              context.router.replace(const DashboardRoute());
             },
             onFailure: (context, state) {
               AppDialog.hide(context);

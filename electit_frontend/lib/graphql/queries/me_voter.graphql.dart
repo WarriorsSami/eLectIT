@@ -817,7 +817,7 @@ class Query$MeVoter$me$voter$votes {
     final l$candidate = json['candidate'];
     final l$$__typename = json['__typename'];
     return Query$MeVoter$me$voter$votes(
-      createdAt: (l$createdAt as String),
+      createdAt: (l$createdAt as int),
       election: Query$MeVoter$me$voter$votes$election.fromJson(
           (l$election as Map<String, dynamic>)),
       candidate: Query$MeVoter$me$voter$votes$candidate.fromJson(
@@ -826,7 +826,7 @@ class Query$MeVoter$me$voter$votes {
     );
   }
 
-  final String createdAt;
+  final int createdAt;
 
   final Query$MeVoter$me$voter$votes$election election;
 
@@ -913,7 +913,7 @@ abstract class CopyWith$Query$MeVoter$me$voter$votes<TRes> {
       _CopyWithStubImpl$Query$MeVoter$me$voter$votes;
 
   TRes call({
-    String? createdAt,
+    int? createdAt,
     Query$MeVoter$me$voter$votes$election? election,
     Query$MeVoter$me$voter$votes$candidate? candidate,
     String? $__typename,
@@ -944,7 +944,7 @@ class _CopyWithImpl$Query$MeVoter$me$voter$votes<TRes>
       _then(Query$MeVoter$me$voter$votes(
         createdAt: createdAt == _undefined || createdAt == null
             ? _instance.createdAt
-            : (createdAt as String),
+            : (createdAt as int),
         election: election == _undefined || election == null
             ? _instance.election
             : (election as Query$MeVoter$me$voter$votes$election),
@@ -976,7 +976,7 @@ class _CopyWithStubImpl$Query$MeVoter$me$voter$votes<TRes>
   TRes _res;
 
   call({
-    String? createdAt,
+    int? createdAt,
     Query$MeVoter$me$voter$votes$election? election,
     Query$MeVoter$me$voter$votes$candidate? candidate,
     String? $__typename,

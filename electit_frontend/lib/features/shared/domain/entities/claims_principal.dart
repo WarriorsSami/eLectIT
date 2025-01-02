@@ -1,4 +1,4 @@
-import 'package:electit_frontend/features/shared/domain/role.dart';
+import 'package:electit_frontend/features/shared/domain/entities/role.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ClaimsPrincipal {
@@ -12,7 +12,7 @@ class ClaimsPrincipal {
 
   factory ClaimsPrincipal.fromString(String token) {
     final decodedToken = JwtDecoder.decode(token);
-    final username = decodedToken['username'];
+    final username = decodedToken['sub'];
     final role = Role.fromString(decodedToken['role']);
 
     return ClaimsPrincipal._(
@@ -20,4 +20,7 @@ class ClaimsPrincipal {
       role: role,
     );
   }
+
+  bool get isVoter => role == Role.voter;
+  bool get isOrganizer => role == Role.organizer;
 }

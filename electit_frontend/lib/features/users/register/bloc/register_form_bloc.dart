@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:electit_frontend/features/shared/config/constants.dart';
-import 'package:electit_frontend/features/shared/domain/graphql_extensions.dart';
-import 'package:electit_frontend/features/shared/domain/role.dart';
+import 'package:electit_frontend/features/shared/domain/entities/role.dart';
+import 'package:electit_frontend/features/shared/domain/extensions/graphql_extensions.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 import 'package:electit_frontend/graphql/mutations/register_organizer.graphql.dart';
 import 'package:electit_frontend/graphql/mutations/register_voter.graphql.dart';
@@ -139,7 +139,7 @@ class RegisterFormBloc extends FormBloc<String, String> {
         return;
       }
 
-      jwtService.setToken(token);
+      jwtService.token = token;
 
       emitSuccess();
     } else {
@@ -169,7 +169,7 @@ class RegisterFormBloc extends FormBloc<String, String> {
         return;
       }
 
-      jwtService.setToken(token);
+      jwtService.token = token;
 
       emitSuccess();
     } else {

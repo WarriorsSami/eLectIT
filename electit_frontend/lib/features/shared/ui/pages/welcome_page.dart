@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/router.gr.dart';
-import 'package:electit_frontend/features/shared/domain/role.dart';
+import 'package:electit_frontend/features/shared/domain/entities/role.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +66,7 @@ class WelcomePage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: roundedBorderRadius,
                       ),
-                      onTap: () => context.router.push(
+                      onTap: () => context.router.replace(
                         RegisterRoute(role: Role.voter.toShortString()),
                       ),
                     ),
@@ -95,7 +95,7 @@ class WelcomePage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: roundedBorderRadius,
                       ),
-                      onTap: () => context.router.push(
+                      onTap: () => context.router.replace(
                         RegisterRoute(role: Role.organizer.toShortString()),
                       ),
                     ),
@@ -126,7 +126,7 @@ class WelcomePage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => context.router.push(LoginRoute()),
+                        ..onTap = () => context.router.replace(LoginRoute()),
                     ),
                   ],
                 ),
