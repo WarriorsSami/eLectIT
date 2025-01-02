@@ -33,7 +33,7 @@ public class Organizer extends User {
 	public UserDTO toDTO() {
 		return new UserDTO(
 				null,
-				new OrganizerDTO(getId(), getName(), getEmail(), Role.ORGANIZER, elections.stream().map(e -> e.toDTO(null, 0, null, null)).toList()));
+				new OrganizerDTO(getId(), getName(), getEmail(), Role.ORGANIZER, elections.stream().map(e -> e.toDTO(null, 0, null, null, null)).toList()));
 	}
 
 	public Role role() {

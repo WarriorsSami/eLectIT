@@ -4,6 +4,7 @@ import org.sami.electit.features.candidates.shared.infrastructure.repositories.C
 import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.api.dtos.VoteDTO;
+import org.sami.electit.features.users.shared.infrastructure.repositories.OrganizerRepository;
 import org.sami.electit.shared.domain.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ public class GetStatisticsForElectionUseCase {
 	private ElectionRepository electionRepository;
 	@Autowired
 	private CandidateRepository candidateRepository;
+	@Autowired
+	private OrganizerRepository organizerRepository;
 
 	@Transactional
 	public Mono<ElectionDTO> execute(User user, Election election) {
@@ -47,11 +50,14 @@ public class GetStatisticsForElectionUseCase {
 							.map(candidates -> Tuples.of(candidates.stream()
 									.reduce((c1, c2) -> c1.votesCount() > c2.votesCount() ? c1 : c2)
 									.orElseThrow(), candidates))
-							.map(candidatesTuple -> {
+							.mapNotNull(candidatesTuple -> {
 								var winner = candidatesTuple.getT1();
 								var candidates = candidatesTuple.getT2();
 
-								return election.toDTO(winner, votesCount, candidates, myVote);
+								return organizerRepository.findOrganizerForElection(election.id())
+										.map(Organizer::toDTO)
+										.map(dto -> election.toDTO(winner, votesCount, candidates, myVote, dto.organizer()))
+										.block();
 							})
 					);
 		}
@@ -59,7 +65,9 @@ public class GetStatisticsForElectionUseCase {
 		var candidates = election.candidates().stream()
 				.map(candidate -> candidate.toDTO(0))
 				.toList();
-		return Mono.just(election.toDTO(null, 0, candidates, myVote));
+		return organizerRepository.findOrganizerForElection(election.id())
+				.map(Organizer::toDTO)
+				.map(dto -> election.toDTO(null, 0, candidates, myVote, dto.organizer()));
 	}
 
 	private Boolean isAllowedToViewStatistics(User user, Election election) {

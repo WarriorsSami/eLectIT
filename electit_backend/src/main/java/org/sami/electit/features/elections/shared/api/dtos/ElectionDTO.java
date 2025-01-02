@@ -3,6 +3,7 @@ package org.sami.electit.features.elections.shared.api.dtos;
 import java.util.List;
 
 import org.sami.electit.features.candidates.shared.api.dtos.CandidateDTO;
+import org.sami.electit.features.users.shared.api.dtos.OrganizerDTO;
 import org.sami.electit.features.users.shared.api.dtos.VoteDTO;
 
 public record ElectionDTO(
@@ -14,5 +15,6 @@ public record ElectionDTO(
         List<CandidateDTO> candidates,
 		CandidateDTO winner,
 		Integer votesCount,
-		VoteDTO myVote
+		VoteDTO myVote,
+		OrganizerDTO manager
 ) {}

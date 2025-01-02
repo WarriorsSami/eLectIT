@@ -120,6 +120,7 @@ type Election {
   winner: Candidate
   votesCount: Int!
   myVote: Vote
+  manager: Organizer!
 }
 
 type Candidate {

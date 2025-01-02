@@ -14,7 +14,7 @@ public record Vote(
 	public VoteDTO toDTO(Election election) {
 		return new VoteDTO(
 				createdAt,
-				election.toDTO(null, 0, null, null),
+				election.toDTO(null, 0, null, null, null),
 				candidate.toDTO(0)
 		);
 	}
