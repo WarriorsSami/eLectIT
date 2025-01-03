@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.Optional;
 
@@ -38,6 +39,7 @@ public class LoginUseCase {
 
 		return userRepository.findOneByEmail(credentials.email())
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("Invalid credentials")))
+				.publishOn(Schedulers.boundedElastic())
 				.flatMap(user -> {
 					logger.info("Checking credentials for user with email: {}", credentials.email());
 

@@ -1,12 +1,13 @@
 import 'package:electit_frontend/features/shared/config/constants.dart';
+import 'package:electit_frontend/features/shared/domain/entities/election_preview.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/election_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/primitives_extensions.dart';
-import 'package:electit_frontend/graphql/queries/me_organizer.graphql.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ElectionPreviewWidget extends StatelessWidget {
-  final Query$MeOrganizer$me$organizer$managedElections election;
+  final ElectionPreview election;
 
   const ElectionPreviewWidget({
     required this.election,
@@ -15,8 +16,7 @@ class ElectionPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      isThreeLine: true,
+    return ExpansionTile(
       leading: Icon(
         Icons.poll_outlined,
         size: Constants.iconSize,
@@ -59,9 +59,17 @@ class ElectionPreviewWidget extends StatelessWidget {
       trailing: Column(
         children: [
           Text('From: ${election.startTimestamp.toDateTimeString()}'),
-          Text('To: ${election.endTimestamp.toDateTimeString()}')
+          Text('To: ${election.endTimestamp.toDateTimeString()}'),
         ],
       ),
+      childrenPadding: mediumPadding,
+      children: [
+        if (election.isOngoing)
+          TimerCountdown(
+            format: CountDownTimerFormat.daysHoursMinutesSeconds,
+            endTime: election.endDate,
+          ),
+      ],
     );
   }
 }

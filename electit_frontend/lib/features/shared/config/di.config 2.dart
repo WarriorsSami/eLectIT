@@ -8,8 +8,6 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:electit_frontend/features/elections/all/bloc/elections_bloc.dart'
-    as _i148;
 import 'package:electit_frontend/features/shared/config/di.dart' as _i595;
 import 'package:electit_frontend/features/shared/services/jwt_service.dart'
     as _i383;
@@ -41,15 +39,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i763.GraphQLClient>(() => appDIModule.graphQLClient);
     gh.lazySingleton<_i383.JWTService>(
         () => _i383.JWTService(gh<_i460.SharedPreferences>()));
-    gh.factory<_i808.ProfileBloc>(() => _i808.ProfileBloc(
-          jwtService: gh<_i383.JWTService>(),
-          graphQLClient: gh<_i763.GraphQLClient>(),
-        ));
     gh.factory<_i1008.LoginFormBloc>(() => _i1008.LoginFormBloc(
           jwtService: gh<_i383.JWTService>(),
           graphQLClient: gh<_i763.GraphQLClient>(),
         ));
-    gh.factory<_i148.ElectionsBloc>(() => _i148.ElectionsBloc(
+    gh.factory<_i808.ProfileBloc>(() => _i808.ProfileBloc(
           jwtService: gh<_i383.JWTService>(),
           graphQLClient: gh<_i763.GraphQLClient>(),
         ));

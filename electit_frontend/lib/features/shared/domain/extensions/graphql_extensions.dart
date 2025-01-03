@@ -15,5 +15,7 @@ extension GraphqlClientExtensions on GraphQLClient {
 }
 
 extension QueryResultExtensions<T> on QueryResult<T> {
-  String get failureResponse => exception!.graphqlErrors.first.message;
+  String get failureResponse => exception!.graphqlErrors.isNotEmpty
+      ? exception!.graphqlErrors.first.message
+      : 'An error occurred';
 }

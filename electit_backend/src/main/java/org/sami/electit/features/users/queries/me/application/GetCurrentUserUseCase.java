@@ -1,11 +1,9 @@
 package org.sami.electit.features.users.queries.me.application;
 
 import org.sami.electit.features.elections.shared.application.GetStatisticsForElectionUseCase;
-import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.api.dtos.OrganizerDTO;
 import org.sami.electit.features.users.shared.api.dtos.UserDTO;
 import org.sami.electit.features.users.shared.application.GetVotesForUserUseCase;
-import org.sami.electit.features.users.shared.infrastructure.repositories.OrganizerRepository;
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
 import org.sami.electit.shared.domain.entities.Organizer;
 import org.sami.electit.shared.domain.entities.Voter;
@@ -30,11 +28,7 @@ public class GetCurrentUserUseCase {
 	@Autowired
 	private GetStatisticsForElectionUseCase getStatisticsForElectionUseCase;
 	@Autowired
-	private ElectionRepository electionRepository;
-	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private OrganizerRepository organizerRepository;
 
 	@Transactional
 	public Mono<UserDTO> execute(Authentication claims) throws NoEntryFoundException {

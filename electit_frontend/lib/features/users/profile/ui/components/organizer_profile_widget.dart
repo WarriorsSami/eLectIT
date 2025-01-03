@@ -1,5 +1,6 @@
 import 'package:electit_frontend/features/elections/all/ui/components/election_preview_widget.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
+import 'package:electit_frontend/features/shared/domain/extensions/election_extensions.dart';
 import 'package:electit_frontend/features/shared/ui/components/app_section_title.dart';
 import 'package:electit_frontend/features/users/profile/ui/components/user_info_widget.dart';
 import 'package:electit_frontend/graphql/queries/me_organizer.graphql.dart';
@@ -42,7 +43,9 @@ class OrganizerProfileWidget extends StatelessWidget {
             itemCount: organizer.managedElections?.length,
             itemBuilder: (context, index) {
               return ElectionPreviewWidget(
-                election: organizer.managedElections!.elementAt(index),
+                election: organizer.managedElections!
+                    .elementAt(index)
+                    .toElectionPreview(),
               );
             },
           ),

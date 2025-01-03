@@ -8,7 +8,7 @@ abstract class Constants {
   static const String jwtTokenKey = 'jwtToken';
 
   static const String welcomePageTitle = 'eLectIT - Welcome';
-  static const String dashboardPageTitle = 'eLectIT - Elections dashboard';
+  static const String electionsPageTitle = 'eLectIT - Elections';
   static const String electionPageTitle = 'eLectIT - Election details';
   static const String manageElectionPageTitle = 'eLectIT - Manage election';
   static const String loginPageTitle = 'eLectIT - Login';

@@ -1,0 +1,15 @@
+query Elections {
+    elections {
+        id
+        title
+        description
+        startTimestamp
+        duration
+        votesCount
+        winner {
+            id
+            name
+            votesCount
+        }
+    }
+}
