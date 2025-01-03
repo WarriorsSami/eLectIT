@@ -9,7 +9,7 @@ abstract class Constants {
 
   static const String welcomePageTitle = 'eLectIT - Welcome';
   static const String electionsPageTitle = 'eLectIT - Elections';
-  static const String electionPageTitle = 'eLectIT - Election details';
+  static const String electionDetailsPageTitle = 'eLectIT - Election details';
   static const String manageElectionPageTitle = 'eLectIT - Manage election';
   static const String loginPageTitle = 'eLectIT - Login';
   static const String registerVoterPageTitle =
@@ -68,6 +68,8 @@ abstract class Constants {
   static const double votePercentIndicatorWidth = 140.0;
   static const double votePercentIndicatorHeight = 14.0;
   static const int votePercentIndicatorAnimationDuration = 1000;
+  static const int electionsGridCrossAxisCount = 2;
+  static const double electionsGridChildAspectRatio = 3;
 }
 
 const Widget smallVerticalSpace = SizedBox(height: 32.0);

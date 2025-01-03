@@ -1,0 +1,35 @@
+query ElectionById($id: ID!) {
+    electionById(id: $id) {
+         id
+        title
+        description
+        startTimestamp
+        duration
+        votesCount
+        myVote {
+            election {
+                id
+            }
+        }
+        manager {
+            id
+            name
+        }
+        candidates {
+            id
+            name
+            party
+            manifesto
+            pictureUrl
+            votesCount
+        }
+        winner {
+            id
+            name
+            party
+            manifesto
+            pictureUrl
+            votesCount
+        }
+    }
+}

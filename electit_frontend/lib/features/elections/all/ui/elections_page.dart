@@ -51,8 +51,9 @@ class ElectionsPage extends StatelessWidget {
                       physics: ScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 3,
+                        crossAxisCount: Constants.electionsGridCrossAxisCount,
+                        childAspectRatio:
+                            Constants.electionsGridChildAspectRatio,
                       ),
                       itemCount: state.elections.length,
                       itemBuilder: (context, index) {

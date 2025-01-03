@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
+import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/domain/entities/election_preview.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/election_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/primitives_extensions.dart';
@@ -16,60 +18,66 @@ class ElectionPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      leading: Icon(
-        Icons.poll_outlined,
-        size: Constants.iconSize,
-        color: electionMarkColor,
+    return GestureDetector(
+      onTap: () => context.router.replace(
+        ElectionDetailsRoute(electionId: election.id),
       ),
-      title: Text(
-        election.title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
+      child: ExpansionTile(
+        leading: Icon(
+          Icons.poll_outlined,
+          size: Constants.iconSize,
+          color: electionMarkColor,
         ),
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Winner: ${election.winner?.name ?? 'Not yet determined'}',
+        title: Text(
+          election.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          LinearPercentIndicator(
-            width: Constants.votePercentIndicatorWidth,
-            lineHeight: Constants.votePercentIndicatorHeight,
-            percent: election.winnerVotesPercentage,
-            center: Text(
-              election.winnerVotesPercentage.toPercentageString(),
-              style: TextStyle(
-                fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Winner: ${election.winner?.name ?? 'Not yet determined'}',
+            ),
+            LinearPercentIndicator(
+              width: Constants.votePercentIndicatorWidth,
+              lineHeight: Constants.votePercentIndicatorHeight,
+              percent: election.winnerVotesPercentage,
+              center: Text(
+                election.winnerVotesPercentage.toPercentageString(),
+                style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+                ),
               ),
+              trailing: Icon(
+                Icons.bar_chart,
+                color: voteMarkColor,
+              ),
+              barRadius: barRadius,
+              backgroundColor: barColor,
+              progressColor: voteMarkColor,
+              animation: true,
+              animationDuration:
+                  Constants.votePercentIndicatorAnimationDuration,
             ),
-            trailing: Icon(
-              Icons.bar_chart,
-              color: voteMarkColor,
-            ),
-            barRadius: barRadius,
-            backgroundColor: barColor,
-            progressColor: voteMarkColor,
-            animation: true,
-            animationDuration: Constants.votePercentIndicatorAnimationDuration,
-          ),
-        ],
-      ),
-      trailing: Column(
+          ],
+        ),
+        trailing: Column(
+          children: [
+            Text('From: ${election.startTimestamp.toDateTimeString()}'),
+            Text('To: ${election.endTimestamp.toDateTimeString()}'),
+          ],
+        ),
+        childrenPadding: mediumPadding,
         children: [
-          Text('From: ${election.startTimestamp.toDateTimeString()}'),
-          Text('To: ${election.endTimestamp.toDateTimeString()}'),
+          if (election.isOngoing)
+            TimerCountdown(
+              format: CountDownTimerFormat.daysHoursMinutesSeconds,
+              endTime: election.endDate,
+            ),
         ],
       ),
-      childrenPadding: mediumPadding,
-      children: [
-        if (election.isOngoing)
-          TimerCountdown(
-            format: CountDownTimerFormat.daysHoursMinutesSeconds,
-            endTime: election.endDate,
-          ),
-      ],
     );
   }
 }

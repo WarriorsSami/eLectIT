@@ -1,6 +1,8 @@
 import 'package:electit_frontend/features/shared/domain/entities/election_preview.dart';
+import 'package:electit_frontend/features/shared/domain/entities/election_statistics.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/candidate_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/primitives_extensions.dart';
+import 'package:electit_frontend/graphql/queries/election_by_id.graphql.dart';
 import 'package:electit_frontend/graphql/queries/elections.graphql.dart';
 import 'package:electit_frontend/graphql/queries/me_organizer.graphql.dart';
 
@@ -19,6 +21,27 @@ extension ElectionExtensions on ElectionPreview {
     }
 
     return winner!.votesCount / votesCount;
+  }
+}
+
+extension ElectionDetailsExtensions on Query$ElectionById$electionById {
+  int get endTimestamp => startTimestamp + duration;
+
+  ElectionStatistics toElectionStatistics() {
+    return ElectionStatistics(
+      candidates: candidates != null
+          ? candidates!
+              .map(
+                (candidate) => (
+                  id: candidate.id,
+                  name: candidate.name,
+                  votesCount: candidate.votesCount,
+                ),
+              )
+              .toList()
+          : [],
+      votesCount: votesCount,
+    );
   }
 }
 

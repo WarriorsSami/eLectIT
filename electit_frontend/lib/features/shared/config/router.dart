@@ -56,6 +56,13 @@ class AppRouter extends RootStackRouter {
                 AuthGuard(jwtService: locator<JWTService>()),
               ],
             ),
+            AutoRoute(
+              path: 'elections/:id',
+              page: ElectionDetailsRoute.page,
+              guards: [
+                AuthGuard(jwtService: locator<JWTService>()),
+              ],
+            ),
           ],
         ),
       ];

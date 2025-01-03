@@ -37,8 +37,8 @@ class OrganizerProfileWidget extends StatelessWidget {
           child: GridView.builder(
             physics: ScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3,
+              crossAxisCount: Constants.electionsGridCrossAxisCount,
+              childAspectRatio: Constants.electionsGridChildAspectRatio,
             ),
             itemCount: organizer.managedElections?.length,
             itemBuilder: (context, index) {
