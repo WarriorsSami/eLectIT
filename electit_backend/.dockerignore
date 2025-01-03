@@ -1,0 +1,11 @@
+.gradle/
+.idea/
+.vscode/
+bin/
+build/
+.env
+.dockerignore
+.gitignore
+.gitattributes
+Dockerfile
+compose.yaml

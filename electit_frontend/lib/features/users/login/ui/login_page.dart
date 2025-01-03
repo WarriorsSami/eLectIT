@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                     AutofillGroup(
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height /
-                            Constants.heightRatio,
+                            Constants.largeHeightRatio,
                         width: MediaQuery.of(context).size.width /
                             Constants.widthRatio,
                         child: Card(

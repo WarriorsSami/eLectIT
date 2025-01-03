@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
 import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
-import 'package:electit_frontend/features/shared/ui/components/nav_link.dart';
+import 'package:electit_frontend/features/shared/ui/components/app_nav_link.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -13,36 +14,60 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Flexible(
             flex: 1,
-            child: Column(
+            child: Stack(
               children: [
-                Flexible(
-                  child: NavLink(
-                    icon: Icons.person,
-                    label: 'Me',
-                    destination: const ProfileRoute(),
-                  ),
+                Container(
+                  color: tileColor,
+                  width: double.infinity,
+                  height: double.infinity,
                 ),
-                Flexible(
-                  child: NavLink(
-                    icon: Icons.how_to_vote,
-                    label: 'Elections',
-                    destination: const ElectionsRoute(),
-                  ),
+                Column(
+                  children: [
+                    Flexible(
+                      child: AppNavLink(
+                        icon: Icon(
+                          Icons.person,
+                          color: Colors.green,
+                        ),
+                        label: Constants.profileMenuLabel,
+                        destination: const ProfileRoute(),
+                      ),
+                    ),
+                    Flexible(
+                      child: AppNavLink(
+                        icon: Icon(
+                          Icons.how_to_vote,
+                          color: Colors.deepOrange,
+                        ),
+                        label: Constants.electionsMenuLabel,
+                        destination: const ElectionsRoute(),
+                      ),
+                    ),
+                    Flexible(
+                        child: ListTile(
+                      leading: const Icon(
+                        Icons.logout,
+                        color: Colors.red,
+                      ),
+                      title: const Text(
+                        Constants.logoutMenuLabel,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      tileColor: tileColor,
+                      splashColor: splashColor,
+                      onTap: () {
+                        locator<JWTService>().logout();
+                        context.router.replace(const LoginRoute());
+                      },
+                    )),
+                  ],
                 ),
-                Flexible(
-                    child: ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: const Text('Logout'),
-                  tileColor: Colors.grey[300],
-                  splashColor: Colors.grey[500],
-                  onTap: () {
-                    locator<JWTService>().logout();
-                    context.router.replace(const LoginRoute());
-                  },
-                )),
               ],
             ),
           ),

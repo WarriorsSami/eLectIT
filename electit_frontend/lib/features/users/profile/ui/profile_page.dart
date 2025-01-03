@@ -1,7 +1,9 @@
 import 'package:auto_route/annotations.dart';
+import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
-import 'package:electit_frontend/features/shared/domain/extensions/user_extensions.dart';
 import 'package:electit_frontend/features/users/profile/bloc/profile_bloc.dart';
+import 'package:electit_frontend/features/users/profile/ui/components/organizer_profile_widget.dart';
+import 'package:electit_frontend/features/users/profile/ui/components/voter_profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
@@ -29,7 +31,12 @@ class ProfilePage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Profile'),
+            title: const Text(
+              Constants.profilePageTitle,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           body: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
@@ -38,29 +45,17 @@ class ProfilePage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is ProfileLoadedState) {
-                return switch (state.userProfile) {
-                  Left(value: final voter) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Name: ${voter.name}'),
-                          Text('Email: ${voter.email}'),
-                          Text('National ID: ${voter.nationalId}'),
-                          Text('Role: ${voter.role.value}'),
-                        ],
-                      ),
-                    ),
-                  Right(value: final organizer) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Name: ${organizer.name}'),
-                          Text('Email: ${organizer.email}'),
-                          Text('Role: ${organizer.role.value}'),
-                        ],
-                      ),
-                    ),
-                };
+                return Center(
+                  child: Padding(
+                    padding: mediumPadding,
+                    child: switch (state.userProfile) {
+                      Left(value: final voter) =>
+                        VoterProfileWidget(voter: voter),
+                      Right(value: final organizer) =>
+                        OrganizerProfileWidget(organizer: organizer),
+                    },
+                  ),
+                );
               } else {
                 return const Center(
                   child: Text('Error loading profile'),

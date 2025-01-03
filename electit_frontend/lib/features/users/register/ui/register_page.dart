@@ -87,7 +87,8 @@ class RegisterPage extends StatelessWidget {
                   smallVerticalSpace,
                   AutofillGroup(
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.5,
+                      height: MediaQuery.of(context).size.height /
+                          Constants.extraLargeHeightRatio,
                       width: MediaQuery.of(context).size.width /
                           Constants.widthRatio,
                       child: Card(

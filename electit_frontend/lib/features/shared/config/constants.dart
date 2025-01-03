@@ -53,9 +53,14 @@ abstract class Constants {
   static const String alreadyHaveAccountLabel = 'Already have an account? ';
   static const String loginButtonLabel = 'Login';
   static const String registerButtonLabel = 'Register';
+  static const String profileMenuLabel = 'Me';
+  static const String electionsMenuLabel = 'Elections';
+  static const String logoutMenuLabel = 'Logout';
 
   static const double widthRatio = 1.5;
-  static const double heightRatio = 3;
+  static const double extraLargeHeightRatio = 1.5;
+  static const double largeHeightRatio = 2;
+  static const double mediumHeightRatio = 3;
   static const double smallHeightRatio = 4.5;
   static const double cardElevation = 5.0;
   static const double iconSize = 40.0;
@@ -76,3 +81,7 @@ const EdgeInsets buttonPadding = EdgeInsets.symmetric(
   horizontal: 32.0,
 );
 BorderRadius roundedBorderRadius = BorderRadius.circular(8.0);
+
+Color? tileColor = Colors.grey[300];
+Color? splashColor = Colors.grey[500];
+Color? voteMarkColor = Colors.green;
