@@ -5,6 +5,7 @@ import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/domain/entities/role.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 import 'package:electit_frontend/features/shared/ui/components/app_dialog.dart';
+import 'package:electit_frontend/features/shared/ui/components/app_footer_link.dart';
 import 'package:electit_frontend/features/users/register/bloc/register_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
@@ -175,6 +176,12 @@ class RegisterPage extends StatelessWidget {
                                         .fontSize,
                                   ),
                                 ),
+                              ),
+                              AppFooterLink(
+                                message: Constants.alreadyHaveAccountLabel,
+                                linkText: Constants.loginButtonLabel,
+                                onTap: () =>
+                                    context.router.replace(const LoginRoute()),
                               ),
                             ],
                           ),

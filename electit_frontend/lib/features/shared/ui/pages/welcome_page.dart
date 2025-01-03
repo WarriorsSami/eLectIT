@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/domain/entities/role.dart';
-import 'package:flutter/gestures.dart';
+import 'package:electit_frontend/features/shared/ui/components/app_footer_link.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -106,30 +106,10 @@ class WelcomePage extends StatelessWidget {
             smallVerticalSpace,
             SizedBox(
               width: MediaQuery.of(context).size.width / Constants.widthRatio,
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: Constants.alreadyHaveAccountLabel,
-                      style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.bodyLarge!.fontSize,
-                      ),
-                    ),
-                    TextSpan(
-                      text: Constants.loginButtonLabel,
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize:
-                            Theme.of(context).textTheme.bodyLarge!.fontSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => context.router.replace(LoginRoute()),
-                    ),
-                  ],
-                ),
+              child: AppFooterLink(
+                message: Constants.alreadyHaveAccountLabel,
+                linkText: Constants.loginButtonLabel,
+                onTap: () => context.router.replace(const LoginRoute()),
               ),
             ),
           ],

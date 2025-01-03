@@ -51,6 +51,7 @@ abstract class Constants {
   static const String organizerAttributionsLabel =
       'You can create and manage elections, candidates and monitor the election process and results.';
   static const String alreadyHaveAccountLabel = 'Already have an account? ';
+  static const String newHereLabel = 'New here? ';
   static const String loginButtonLabel = 'Login';
   static const String registerButtonLabel = 'Register';
   static const String profileMenuLabel = 'Me';
@@ -58,12 +59,15 @@ abstract class Constants {
   static const String logoutMenuLabel = 'Logout';
 
   static const double widthRatio = 1.5;
-  static const double extraLargeHeightRatio = 1.5;
+  static const double extraLargeHeightRatio = 1.2;
   static const double largeHeightRatio = 2;
   static const double mediumHeightRatio = 3;
   static const double smallHeightRatio = 4.5;
   static const double cardElevation = 5.0;
   static const double iconSize = 40.0;
+  static const double votePercentIndicatorWidth = 140.0;
+  static const double votePercentIndicatorHeight = 14.0;
+  static const int votePercentIndicatorAnimationDuration = 1000;
 }
 
 const Widget smallVerticalSpace = SizedBox(height: 32.0);
@@ -81,7 +85,10 @@ const EdgeInsets buttonPadding = EdgeInsets.symmetric(
   horizontal: 32.0,
 );
 BorderRadius roundedBorderRadius = BorderRadius.circular(8.0);
+Radius barRadius = Radius.circular(8.0);
 
 Color? tileColor = Colors.grey[300];
+Color? barColor = Colors.grey[400];
 Color? splashColor = Colors.grey[500];
 Color? voteMarkColor = Colors.green;
+Color? electionMarkColor = Colors.deepOrange;

@@ -3,6 +3,7 @@ import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
 import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/ui/components/app_dialog.dart';
+import 'package:electit_frontend/features/shared/ui/components/app_footer_link.dart';
 import 'package:electit_frontend/features/users/login/bloc/login_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
@@ -129,6 +130,12 @@ class LoginPage extends StatelessWidget {
                                           .fontSize,
                                     ),
                                   ),
+                                ),
+                                AppFooterLink(
+                                  message: Constants.newHereLabel,
+                                  linkText: Constants.registerButtonLabel,
+                                  onTap: () => context.router
+                                      .replace(const WelcomeRoute()),
                                 ),
                               ],
                             ),

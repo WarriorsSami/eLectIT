@@ -11,4 +11,14 @@ public record OrganizerDTO(
 		String email,
 		Role role,
 		List<ElectionDTO> managedElections
-) {}
+) {
+	public static OrganizerDTO copy(OrganizerDTO other, List<ElectionDTO> managedElections) {
+		return new OrganizerDTO(
+				other.id(),
+				other.name(),
+				other.email(),
+				other.role(),
+				managedElections
+		);
+	}
+}

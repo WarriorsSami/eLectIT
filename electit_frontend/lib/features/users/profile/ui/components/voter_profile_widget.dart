@@ -28,12 +28,13 @@ class VoterProfileWidget extends StatelessWidget {
         mediumVerticalSpace,
         Flexible(
           child: AppSectionTitle(
-            title: 'Votes for the user with national ID: ${voter.nationalId}',
+            title: 'My votes (registered for ${voter.nationalId} national ID):',
           ),
         ),
-        smallVerticalSpace,
         Flexible(
+          flex: 2,
           child: GridView.builder(
+            physics: ScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 3,

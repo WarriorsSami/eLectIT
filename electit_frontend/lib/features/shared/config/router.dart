@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
 import 'package:electit_frontend/features/shared/config/router.gr.dart';
+import 'package:electit_frontend/features/shared/domain/guards/anonymous_guard.dart';
 import 'package:electit_frontend/features/shared/domain/guards/auth_guard.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 
@@ -15,14 +16,23 @@ class AppRouter extends RootStackRouter {
           path: '/',
           page: WelcomeRoute.page,
           initial: true,
+          guards: [
+            AnonymousGuard(jwtService: locator<JWTService>()),
+          ],
         ),
         AutoRoute(
           path: '/login',
           page: LoginRoute.page,
+          guards: [
+            AnonymousGuard(jwtService: locator<JWTService>()),
+          ],
         ),
         AutoRoute(
           path: '/register',
           page: RegisterRoute.page,
+          guards: [
+            AnonymousGuard(jwtService: locator<JWTService>()),
+          ],
         ),
         AutoRoute(
           path: '/dashboard',
