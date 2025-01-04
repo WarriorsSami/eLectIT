@@ -34,21 +34,28 @@ class OrganizerProfileWidget extends StatelessWidget {
         ),
         Flexible(
           flex: 2,
-          child: GridView.builder(
-            physics: ScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: Constants.electionsGridCrossAxisCount,
-              childAspectRatio: Constants.electionsGridChildAspectRatio,
-            ),
-            itemCount: organizer.managedElections?.length,
-            itemBuilder: (context, index) {
-              return ElectionPreviewWidget(
-                election: organizer.managedElections!
-                    .elementAt(index)
-                    .toElectionPreview(),
-              );
-            },
-          ),
+          child: organizer.managedElections != null &&
+                  organizer.managedElections!.isNotEmpty
+              ? GridView.builder(
+                  physics: ScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: Constants.electionsGridCrossAxisCount,
+                    childAspectRatio: Constants.electionsGridChildAspectRatio,
+                  ),
+                  itemCount: organizer.managedElections?.length,
+                  itemBuilder: (context, index) {
+                    return ElectionPreviewWidget(
+                      election: organizer.managedElections!
+                          .elementAt(index)
+                          .toElectionPreview(),
+                    );
+                  },
+                )
+              : const Center(
+                  child: Text(
+                    'No managed elections yet',
+                  ),
+                ),
         ),
       ],
     );

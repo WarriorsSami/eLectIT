@@ -335,6 +335,28 @@ const documentNodeQueryElectionById = DocumentNode(definitions: [
                 ]),
               ),
               FieldNode(
+                name: NameNode(value: 'candidate'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: '__typename'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ]),
+              ),
+              FieldNode(
                 name: NameNode(value: '__typename'),
                 alias: null,
                 arguments: [],
@@ -1018,21 +1040,27 @@ class _CopyWithStubImpl$Query$ElectionById$electionById<TRes>
 class Query$ElectionById$electionById$myVote {
   Query$ElectionById$electionById$myVote({
     required this.election,
+    required this.candidate,
     this.$__typename = 'Vote',
   });
 
   factory Query$ElectionById$electionById$myVote.fromJson(
       Map<String, dynamic> json) {
     final l$election = json['election'];
+    final l$candidate = json['candidate'];
     final l$$__typename = json['__typename'];
     return Query$ElectionById$electionById$myVote(
       election: Query$ElectionById$electionById$myVote$election.fromJson(
           (l$election as Map<String, dynamic>)),
+      candidate: Query$ElectionById$electionById$myVote$candidate.fromJson(
+          (l$candidate as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
   final Query$ElectionById$electionById$myVote$election election;
+
+  final Query$ElectionById$electionById$myVote$candidate candidate;
 
   final String $__typename;
 
@@ -1040,6 +1068,8 @@ class Query$ElectionById$electionById$myVote {
     final _resultData = <String, dynamic>{};
     final l$election = election;
     _resultData['election'] = l$election.toJson();
+    final l$candidate = candidate;
+    _resultData['candidate'] = l$candidate.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -1048,9 +1078,11 @@ class Query$ElectionById$electionById$myVote {
   @override
   int get hashCode {
     final l$election = election;
+    final l$candidate = candidate;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$election,
+      l$candidate,
       l$$__typename,
     ]);
   }
@@ -1067,6 +1099,11 @@ class Query$ElectionById$electionById$myVote {
     final l$election = election;
     final lOther$election = other.election;
     if (l$election != lOther$election) {
+      return false;
+    }
+    final l$candidate = candidate;
+    final lOther$candidate = other.candidate;
+    if (l$candidate != lOther$candidate) {
       return false;
     }
     final l$$__typename = $__typename;
@@ -1099,9 +1136,11 @@ abstract class CopyWith$Query$ElectionById$electionById$myVote<TRes> {
 
   TRes call({
     Query$ElectionById$electionById$myVote$election? election,
+    Query$ElectionById$electionById$myVote$candidate? candidate,
     String? $__typename,
   });
   CopyWith$Query$ElectionById$electionById$myVote$election<TRes> get election;
+  CopyWith$Query$ElectionById$electionById$myVote$candidate<TRes> get candidate;
 }
 
 class _CopyWithImpl$Query$ElectionById$electionById$myVote<TRes>
@@ -1119,12 +1158,16 @@ class _CopyWithImpl$Query$ElectionById$electionById$myVote<TRes>
 
   TRes call({
     Object? election = _undefined,
+    Object? candidate = _undefined,
     Object? $__typename = _undefined,
   }) =>
       _then(Query$ElectionById$electionById$myVote(
         election: election == _undefined || election == null
             ? _instance.election
             : (election as Query$ElectionById$electionById$myVote$election),
+        candidate: candidate == _undefined || candidate == null
+            ? _instance.candidate
+            : (candidate as Query$ElectionById$electionById$myVote$candidate),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
@@ -1134,6 +1177,13 @@ class _CopyWithImpl$Query$ElectionById$electionById$myVote<TRes>
     final local$election = _instance.election;
     return CopyWith$Query$ElectionById$electionById$myVote$election(
         local$election, (e) => call(election: e));
+  }
+
+  CopyWith$Query$ElectionById$electionById$myVote$candidate<TRes>
+      get candidate {
+    final local$candidate = _instance.candidate;
+    return CopyWith$Query$ElectionById$electionById$myVote$candidate(
+        local$candidate, (e) => call(candidate: e));
   }
 }
 
@@ -1145,12 +1195,17 @@ class _CopyWithStubImpl$Query$ElectionById$electionById$myVote<TRes>
 
   call({
     Query$ElectionById$electionById$myVote$election? election,
+    Query$ElectionById$electionById$myVote$candidate? candidate,
     String? $__typename,
   }) =>
       _res;
 
   CopyWith$Query$ElectionById$electionById$myVote$election<TRes> get election =>
       CopyWith$Query$ElectionById$electionById$myVote$election.stub(_res);
+
+  CopyWith$Query$ElectionById$electionById$myVote$candidate<TRes>
+      get candidate =>
+          CopyWith$Query$ElectionById$electionById$myVote$candidate.stub(_res);
 }
 
 class Query$ElectionById$electionById$myVote$election {
@@ -1269,6 +1324,132 @@ class _CopyWithImpl$Query$ElectionById$electionById$myVote$election<TRes>
 class _CopyWithStubImpl$Query$ElectionById$electionById$myVote$election<TRes>
     implements CopyWith$Query$ElectionById$electionById$myVote$election<TRes> {
   _CopyWithStubImpl$Query$ElectionById$electionById$myVote$election(this._res);
+
+  TRes _res;
+
+  call({
+    String? id,
+    String? $__typename,
+  }) =>
+      _res;
+}
+
+class Query$ElectionById$electionById$myVote$candidate {
+  Query$ElectionById$electionById$myVote$candidate({
+    required this.id,
+    this.$__typename = 'Candidate',
+  });
+
+  factory Query$ElectionById$electionById$myVote$candidate.fromJson(
+      Map<String, dynamic> json) {
+    final l$id = json['id'];
+    final l$$__typename = json['__typename'];
+    return Query$ElectionById$electionById$myVote$candidate(
+      id: (l$id as String),
+      $__typename: (l$$__typename as String),
+    );
+  }
+
+  final String id;
+
+  final String $__typename;
+
+  Map<String, dynamic> toJson() {
+    final _resultData = <String, dynamic>{};
+    final l$id = id;
+    _resultData['id'] = l$id;
+    final l$$__typename = $__typename;
+    _resultData['__typename'] = l$$__typename;
+    return _resultData;
+  }
+
+  @override
+  int get hashCode {
+    final l$id = id;
+    final l$$__typename = $__typename;
+    return Object.hashAll([
+      l$id,
+      l$$__typename,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Query$ElectionById$electionById$myVote$candidate ||
+        runtimeType != other.runtimeType) {
+      return false;
+    }
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$$__typename = $__typename;
+    final lOther$$__typename = other.$__typename;
+    if (l$$__typename != lOther$$__typename) {
+      return false;
+    }
+    return true;
+  }
+}
+
+extension UtilityExtension$Query$ElectionById$electionById$myVote$candidate
+    on Query$ElectionById$electionById$myVote$candidate {
+  CopyWith$Query$ElectionById$electionById$myVote$candidate<
+          Query$ElectionById$electionById$myVote$candidate>
+      get copyWith => CopyWith$Query$ElectionById$electionById$myVote$candidate(
+            this,
+            (i) => i,
+          );
+}
+
+abstract class CopyWith$Query$ElectionById$electionById$myVote$candidate<TRes> {
+  factory CopyWith$Query$ElectionById$electionById$myVote$candidate(
+    Query$ElectionById$electionById$myVote$candidate instance,
+    TRes Function(Query$ElectionById$electionById$myVote$candidate) then,
+  ) = _CopyWithImpl$Query$ElectionById$electionById$myVote$candidate;
+
+  factory CopyWith$Query$ElectionById$electionById$myVote$candidate.stub(
+          TRes res) =
+      _CopyWithStubImpl$Query$ElectionById$electionById$myVote$candidate;
+
+  TRes call({
+    String? id,
+    String? $__typename,
+  });
+}
+
+class _CopyWithImpl$Query$ElectionById$electionById$myVote$candidate<TRes>
+    implements CopyWith$Query$ElectionById$electionById$myVote$candidate<TRes> {
+  _CopyWithImpl$Query$ElectionById$electionById$myVote$candidate(
+    this._instance,
+    this._then,
+  );
+
+  final Query$ElectionById$electionById$myVote$candidate _instance;
+
+  final TRes Function(Query$ElectionById$electionById$myVote$candidate) _then;
+
+  static const _undefined = <dynamic, dynamic>{};
+
+  TRes call({
+    Object? id = _undefined,
+    Object? $__typename = _undefined,
+  }) =>
+      _then(Query$ElectionById$electionById$myVote$candidate(
+        id: id == _undefined || id == null ? _instance.id : (id as String),
+        $__typename: $__typename == _undefined || $__typename == null
+            ? _instance.$__typename
+            : ($__typename as String),
+      ));
+}
+
+class _CopyWithStubImpl$Query$ElectionById$electionById$myVote$candidate<TRes>
+    implements CopyWith$Query$ElectionById$electionById$myVote$candidate<TRes> {
+  _CopyWithStubImpl$Query$ElectionById$electionById$myVote$candidate(this._res);
 
   TRes _res;
 

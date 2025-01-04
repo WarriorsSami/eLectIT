@@ -32,15 +32,12 @@ extension ElectionDetailsExtensions on Query$ElectionById$electionById {
       candidates: candidates != null
           ? candidates!
               .map(
-                (candidate) => (
-                  id: candidate.id,
-                  name: candidate.name,
-                  votesCount: candidate.votesCount,
-                ),
+                (candidate) => candidate.toCandidatePreview(),
               )
               .toList()
           : [],
       votesCount: votesCount,
+      winner: (winner != null) ? winner!.toCandidatePreview() : null,
     );
   }
 }

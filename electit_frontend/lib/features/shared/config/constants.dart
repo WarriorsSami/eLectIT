@@ -70,6 +70,8 @@ abstract class Constants {
   static const int votePercentIndicatorAnimationDuration = 1000;
   static const int electionsGridCrossAxisCount = 2;
   static const double electionsGridChildAspectRatio = 3;
+  static const int candidatesGridCrossAxisCount = 3;
+  static const double candidatesGridChildAspectRatio = 3;
 }
 
 const Widget smallVerticalSpace = SizedBox(height: 32.0);

@@ -10,6 +10,9 @@ query ElectionById($id: ID!) {
             election {
                 id
             }
+            candidate {
+                id
+            }
         }
         manager {
             id

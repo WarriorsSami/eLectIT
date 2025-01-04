@@ -23,6 +23,8 @@ dependencies:
   fl_chart: ^0.69.2
   flutter_timer_countdown: ^1.0.7
   percent_indicator: ^4.2.4
+  toggle_switch: ^2.3.0
+  awesome_dialog: ^3.2.1
 
 dev_dependencies:
   flutter_test:

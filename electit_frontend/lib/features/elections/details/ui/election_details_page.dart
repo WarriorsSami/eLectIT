@@ -1,9 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:electit_frontend/features/elections/details/bloc/election_details_bloc.dart';
+import 'package:electit_frontend/features/elections/details/ui/components/candidate_widget.dart';
 import 'package:electit_frontend/features/elections/details/ui/components/election_info_widget.dart';
 import 'package:electit_frontend/features/elections/details/ui/components/election_statistics_widget.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
+import 'package:electit_frontend/features/shared/domain/extensions/candidate_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/election_extensions.dart';
 import 'package:electit_frontend/features/shared/ui/components/app_section_title.dart';
 import 'package:flutter/material.dart';
@@ -54,36 +56,117 @@ class ElectionDetailsPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is ElectionDetailsLoadedState) {
-                return Center(
-                  child: Padding(
-                    padding: mediumPadding,
-                    child: Column(
-                      children: [
-                        smallVerticalSpace,
-                        Flexible(
-                          child: ElectionInfoWidget(
-                            title: state.election.title,
-                            description: state.election.description,
-                            startTimestamp: state.election.startTimestamp,
-                            endTimestamp: state.election.endTimestamp,
-                          ),
-                        ),
-                        smallVerticalSpace,
-                        Flexible(
-                          child: AppSectionTitle(title: 'Election statistics'),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          child: state.election.votesCount != 0
-                              ? ElectionStatisticsWidget(
-                                  statistics:
-                                      state.election.toElectionStatistics(),
-                                )
-                              : const Center(
-                                  child: Text('No votes yet'),
+                return SingleChildScrollView(
+                  child: Center(
+                    child: Padding(
+                      padding: mediumPadding,
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          children: [
+                            smallVerticalSpace,
+                            Flexible(
+                              flex: 3,
+                              child: ElectionInfoWidget(
+                                title: state.election.title,
+                                description: state.election.description,
+                                startTimestamp: state.election.startTimestamp,
+                                endTimestamp: state.election.endTimestamp,
+                              ),
+                            ),
+                            Flexible(
+                              child:
+                                  AppSectionTitle(title: 'Election statistics'),
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height /
+                                    Constants.largeHeightRatio,
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      flex: 2,
+                                      child: state.election.votesCount != 0
+                                          ? ElectionStatisticsWidget(
+                                              statistics: state.election
+                                                  .toElectionStatistics(),
+                                            )
+                                          : const Center(
+                                              child: Text('No votes yet'),
+                                            ),
+                                    ),
+                                    Flexible(
+                                      child: Column(
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              'Winner:',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: state.election.winner !=
+                                                        null &&
+                                                    state.election.winner!
+                                                            .votesCount !=
+                                                        0
+                                                ? CandidateWidget(
+                                                    candidate: state
+                                                        .election.winner!
+                                                        .toCandidate(),
+                                                    electionVotesCount: state
+                                                        .election.votesCount,
+                                                    disableExpansion: true,
+                                                  )
+                                                : const Text('No winner yet'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                              ),
+                            ),
+                            smallVerticalSpace,
+                            Flexible(
+                              child: AppSectionTitle(title: 'Candidates'),
+                            ),
+                            Flexible(
+                              flex: 2,
+                              child: state.election.candidates != null &&
+                                      state.election.candidates!.isNotEmpty
+                                  ? GridView.builder(
+                                      physics: ScrollPhysics(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: Constants
+                                            .candidatesGridCrossAxisCount,
+                                        childAspectRatio: Constants
+                                            .candidatesGridChildAspectRatio,
+                                      ),
+                                      itemCount:
+                                          state.election.candidates?.length,
+                                      itemBuilder: (context, index) {
+                                        return CandidateWidget(
+                                          candidate: state.election.candidates!
+                                              .elementAt(index)
+                                              .toCandidate(
+                                                  state.election.myVote),
+                                          electionVotesCount:
+                                              state.election.votesCount,
+                                        );
+                                      },
+                                    )
+                                  : const Center(
+                                      child: Text('No candidates yet'),
+                                    ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 );

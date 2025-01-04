@@ -52,14 +52,14 @@ public class GetStatisticsForElectionUseCase {
 							.collectList()
 							.map(candidates -> Tuples.of(candidates.stream()
 									.reduce((c1, c2) -> c1.votesCount() > c2.votesCount() ? c1 : c2)
-									.orElseThrow(), candidates))
+									.map(winner -> winner.votesCount() != 0 ? winner : null), candidates))
 							.flatMap(candidatesTuple -> {
 								var winner = candidatesTuple.getT1();
 								var candidates = candidatesTuple.getT2();
 
 								return organizerRepository.findOrganizerForElection(election.id())
 										.map(Organizer::toDTO)
-										.flatMap(dto -> Mono.just(election.toDTO(winner, votesCount, candidates, myVote, dto.organizer())));
+										.flatMap(dto -> Mono.just(election.toDTO(winner.orElse(null), votesCount, candidates, myVote, dto.organizer())));
 							})
 					);
 		}
