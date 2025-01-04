@@ -10,6 +10,7 @@ import org.sami.electit.shared.domain.entities.Candidate;
 import org.sami.electit.shared.domain.entities.Election;
 import org.sami.electit.shared.domain.entities.Organizer;
 import org.sami.electit.shared.domain.exceptions.DuplicateEntryException;
+import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,26 +38,25 @@ public class CreateElectionUseCase {
 		logger.info("Creating election with title: {}", electionInput.title());
 
 		var username = claims.getName();
-		var user = (Organizer) userRepository.findOneByName(username)
-				.blockOptional()
-				.orElseThrow();
+		return userRepository.findOneByName(username)
+				.switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
+				.cast(Organizer.class)
+				.flatMap(user -> electionRepository.save(Election.fromDTO(electionInput))
+						.flatMap(election -> Flux.fromStream(electionInput.candidates().stream()
+								.map(candidateInput -> {
+									var candidate = Candidate.fromDTO(candidateInput);
 
-		return electionRepository.save(Election.fromDTO(electionInput))
-				.flatMap(election -> Flux.fromStream(electionInput.candidates().stream()
-						.map(candidateInput -> {
-							var candidate = Candidate.fromDTO(candidateInput);
+									if (election.candidates().stream().anyMatch(c -> c.name().equals(candidate.name()))) {
+										return Mono.error(new DuplicateEntryException("Candidate already exists in the election"));
+									}
 
-							if (election.candidates().stream().anyMatch(c -> c.name().equals(candidate.name()))) {
-								return Mono.error(new DuplicateEntryException("Candidate already exists in the election"));
-							}
-
-							return candidateRepository.save(candidate)
-									.doOnNext(savedCandidate -> election.candidates().add(savedCandidate));
-						})).collectList().thenReturn(election))
-				.flatMap(election -> {
-					user.getElections().add(election);
-					return userRepository.save(user).thenReturn(election);
-				})
-				.mapNotNull(e -> getStatisticsForElectionUseCase.execute(user, e).block());
+									return candidateRepository.save(candidate)
+											.doOnNext(savedCandidate -> election.candidates().add(savedCandidate));
+								})).collectList().thenReturn(election))
+						.flatMap(election -> {
+							user.getElections().add(election);
+							return userRepository.save(user).thenReturn(election);
+						})
+						.flatMap(e -> getStatisticsForElectionUseCase.execute(user, e)));
 	}
 }

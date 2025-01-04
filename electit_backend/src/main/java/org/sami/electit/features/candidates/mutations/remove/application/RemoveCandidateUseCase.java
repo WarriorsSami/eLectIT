@@ -5,7 +5,6 @@ import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.application.GetStatisticsForElectionUseCase;
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.infrastructure.repositories.UserRepository;
-import org.sami.electit.shared.domain.entities.Election;
 import org.sami.electit.shared.domain.entities.Organizer;
 import org.sami.electit.shared.domain.exceptions.ForbiddenActionException;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
@@ -34,16 +33,15 @@ public class RemoveCandidateUseCase {
 	public Mono<ElectionDTO> execute(Authentication claims, Long electionId, Long candidateId) {
 		logger.info("Removing candidate with id: {} from election with id: {}", candidateId, electionId);
 
-		var username = claims.getName();
-		var user = (Organizer) userRepository.findOneByName(username)
-				.blockOptional()
-				.orElseThrow();
-
 		// if election does not exist, throw exception
 		// if user is not the organizer of the election, throw exception
 		// if the election is not upcoming, throw exception
 		// if candidate does not exist in the election, throw exception
-		return electionRepository.findById(electionId)
+		var username = claims.getName();
+		return userRepository.findOneByName(username)
+				.switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
+				.cast(Organizer.class)
+				.flatMap(user -> electionRepository.findById(electionId)
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")))
 				.flatMap(election -> {
 					if (!user.getElections().contains(election)) {
@@ -64,7 +62,7 @@ public class RemoveCandidateUseCase {
 					return candidateRepository.delete(candidate)
 							.thenReturn(election)
 							.flatMap(electionRepository::save)
-							.mapNotNull(e -> getStatisticsForElectionUseCase.execute(user, e).block());
-				});
+							.flatMap(e -> getStatisticsForElectionUseCase.execute(user, e));
+				}));
 	}
 }

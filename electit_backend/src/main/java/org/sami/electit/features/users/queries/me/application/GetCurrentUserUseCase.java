@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.Optional;
 
@@ -37,24 +37,22 @@ public class GetCurrentUserUseCase {
 		logger.info("Getting current user with name: {}", name);
 
 		return userRepository.findOneByName(name)
-				.publishOn(Schedulers.boundedElastic())
-				.map(user -> {
+				.flatMap(user -> {
 					logger.info("Current user with name: {} found", name);
 
 					if (user instanceof Voter voter) {
-						var votes = getVotesForUserUseCase.execute(voter).collectList().block();
-						return Optional.of(voter.toDTO(votes));
+						return getVotesForUserUseCase.execute(voter)
+								.collectList()
+								.map(votes -> Optional.of(voter.toDTO(votes)));
 					} else if (user instanceof Organizer organizer) {
 						var dto = organizer.toDTO();
-						var managedElections = organizer.getElections().stream()
-								.map(e -> getStatisticsForElectionUseCase.execute(organizer, e).block())
-								.toList();
-
-						var newDto = UserDTO.fromOrganizer(OrganizerDTO.copy(dto.organizer(), managedElections));
-
-						return Optional.of(newDto);
+						return Flux.fromIterable(organizer.getElections())
+								.flatMap(e -> getStatisticsForElectionUseCase.execute(organizer, e))
+								.collectList()
+								.map(managedElections -> UserDTO.fromOrganizer(OrganizerDTO.copy(dto.organizer(), managedElections)))
+								.map(Optional::of);
 					} else {
-						return Optional.<UserDTO>empty();
+						return Mono.just(Optional.<UserDTO>empty());
 					}
 				})
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))

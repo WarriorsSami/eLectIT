@@ -5,7 +5,10 @@ import org.sami.electit.features.elections.shared.api.dtos.ElectionDTO;
 import org.sami.electit.features.elections.shared.infrastructure.repositories.ElectionRepository;
 import org.sami.electit.features.users.shared.api.dtos.VoteDTO;
 import org.sami.electit.features.users.shared.infrastructure.repositories.OrganizerRepository;
-import org.sami.electit.shared.domain.entities.*;
+import org.sami.electit.shared.domain.entities.Election;
+import org.sami.electit.shared.domain.entities.Organizer;
+import org.sami.electit.shared.domain.entities.User;
+import org.sami.electit.shared.domain.entities.Voter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +53,13 @@ public class GetStatisticsForElectionUseCase {
 							.map(candidates -> Tuples.of(candidates.stream()
 									.reduce((c1, c2) -> c1.votesCount() > c2.votesCount() ? c1 : c2)
 									.orElseThrow(), candidates))
-							.mapNotNull(candidatesTuple -> {
+							.flatMap(candidatesTuple -> {
 								var winner = candidatesTuple.getT1();
 								var candidates = candidatesTuple.getT2();
 
 								return organizerRepository.findOrganizerForElection(election.id())
 										.map(Organizer::toDTO)
-										.map(dto -> election.toDTO(winner, votesCount, candidates, myVote, dto.organizer()))
-										.block();
+										.flatMap(dto -> Mono.just(election.toDTO(winner, votesCount, candidates, myVote, dto.organizer())));
 							})
 					);
 		}

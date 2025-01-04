@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.Optional;
 
@@ -39,7 +38,6 @@ public class LoginUseCase {
 
 		return userRepository.findOneByEmail(credentials.email())
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("Invalid credentials")))
-				.publishOn(Schedulers.boundedElastic())
 				.flatMap(user -> {
 					logger.info("Checking credentials for user with email: {}", credentials.email());
 
@@ -48,23 +46,24 @@ public class LoginUseCase {
 						return Mono.error(new InvalidEntryDataException("Invalid credentials"));
 					}
 
-					Optional<AuthResponse> response = Optional.empty();
+					Mono<Optional<AuthResponse>> response = Mono.just(Optional.empty());
 					if (user instanceof Voter voter) {
 						var token = jwtGenerator.generate(voter.getName(), voter.role());
-						var votes = getVotesForUserUseCase.execute(voter).collectList().block();
-						var userDto = voter.toDTO(votes);
-
-						logger.info("User with email: {} logged in successfully", credentials.email());
-						response = Optional.of(new AuthResponse(token, userDto));
+						return getVotesForUserUseCase.execute(voter)
+								.collectList()
+								.map(voter::toDTO)
+								.map(dto -> new AuthResponse(token, dto));
 					} else if (user instanceof Organizer organizer) {
 						var token = jwtGenerator.generate(organizer.getName(), organizer.role());
 						var userDto = organizer.toDTO();
 
-						logger.info("User with email: {} logged in successfully", credentials.email());
-						response = Optional.of(new AuthResponse(token, userDto));
+						response = Mono.just(Optional.of(new AuthResponse(token, userDto)));
 					}
+					logger.info("User with email: {} logged in successfully", credentials.email());
 
-					return response.map(Mono::just).orElseGet(() -> Mono.error(new InvalidEntryDataException("Invalid credentials")));
+					return response
+							.switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
+							.map(Optional::get);
 				});
 	}
 }

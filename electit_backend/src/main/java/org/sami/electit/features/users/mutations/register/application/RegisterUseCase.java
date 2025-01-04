@@ -73,10 +73,13 @@ public class RegisterUseCase {
 											return voterRepository.save(newUser)
 													.flatMap(savedUser -> {
 														var token = jwtGenerator.generate(savedUser.getName(), savedUser.role());
-														var votes = getVotesForUserUseCase.execute(savedUser).collectList().block();
-														var userDto = savedUser.toDTO(votes);
-														logger.info("User with email: {} registered successfully", voter.email());
-														return Mono.just(new AuthResponse(token, userDto));
+														return getVotesForUserUseCase.execute(savedUser)
+																.collectList()
+																.map(savedUser::toDTO)
+																		.doOnNext(userDto -> {
+																			logger.info("User with email: {} registered successfully", voter.email());
+																		})
+																.map(userDto -> new AuthResponse(token, userDto));
 													});
 										})
 								)

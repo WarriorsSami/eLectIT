@@ -36,39 +36,38 @@ public class AddCandidateUseCase {
 	public Mono<ElectionDTO> execute(Authentication claims, Long electionId, CandidateInput candidate) {
 		logger.info("Adding candidate to election with id: {}", electionId);
 
-		var username = claims.getName();
-		var user = (Organizer) userRepository.findOneByName(username)
-				.blockOptional()
-				.orElseThrow();
-
 		// if election does not exist, throw exception
 		// if user is not the organizer of the election, throw exception
 		// if election is not upcoming, throw exception
 		// if candidate already exists in the election, throw exception
-		return electionRepository.findById(electionId)
-				.switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")))
-				.flatMap(election -> {
-					if (!user.getElections().contains(election)) {
-						return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
-					}
+		var username = claims.getName();
+		return userRepository.findOneByName(username)
+				.switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
+				.cast(Organizer.class)
+				.flatMap(user -> electionRepository.findById(electionId)
+						.switchIfEmpty(Mono.error(new NoEntryFoundException("Election not found")))
+						.flatMap(election -> {
+							if (!user.getElections().contains(election)) {
+								return Mono.error(new ForbiddenActionException("User is not the organizer of the election"));
+							}
 
-					if (!election.isUpcoming()) {
-						return Mono.error(new ForbiddenActionException("Cannot add candidate to an ongoing or past election"));
-					}
+							if (!election.isUpcoming()) {
+								return Mono.error(new ForbiddenActionException("Cannot add candidate to an ongoing or past election"));
+							}
 
-					if (election.candidates().stream().anyMatch(c -> c.name().equals(candidate.name()))) {
-						return Mono.error(new DuplicateEntryException("Candidate already exists in the election"));
-					}
+							if (election.candidates().stream().anyMatch(c -> c.name().equals(candidate.name()))) {
+								return Mono.error(new DuplicateEntryException("Candidate already exists in the election"));
+							}
 
-					var newCandidate = Candidate.fromDTO(candidate);
+							var newCandidate = Candidate.fromDTO(candidate);
 
-					return candidateRepository.save(newCandidate)
-							.flatMap(c -> {
-								election.candidates().add(c);
-								return electionRepository.save(election)
-										.thenReturn(election);
-							});
-				})
-				.mapNotNull(e -> getStatisticsForElectionUseCase.execute(user, e).block());
+							return candidateRepository.save(newCandidate)
+									.flatMap(c -> {
+										election.candidates().add(c);
+										return electionRepository.save(election)
+												.thenReturn(election);
+									});
+						})
+						.flatMap(e -> getStatisticsForElectionUseCase.execute(user, e)));
 	}
 }
