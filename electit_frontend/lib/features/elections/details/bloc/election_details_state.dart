@@ -18,3 +18,5 @@ final class ElectionDetailsErrorState extends ElectionDetailsState {
 
   ElectionDetailsErrorState({required this.message});
 }
+
+final class ElectionDetailsVoteCastedState extends ElectionDetailsState {}

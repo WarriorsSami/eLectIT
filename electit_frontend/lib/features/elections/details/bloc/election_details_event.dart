@@ -8,3 +8,13 @@ final class LoadElectionDetailsEvent extends ElectionDetailsEvent {
 
   LoadElectionDetailsEvent({required this.electionId});
 }
+
+final class CastVoteEvent extends ElectionDetailsEvent {
+  final String electionId;
+  final String candidateId;
+
+  CastVoteEvent({
+    required this.electionId,
+    required this.candidateId,
+  });
+}

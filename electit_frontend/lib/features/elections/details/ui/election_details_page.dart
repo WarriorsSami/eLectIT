@@ -1,10 +1,11 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:electit_frontend/features/elections/details/bloc/election_details_bloc.dart';
 import 'package:electit_frontend/features/elections/details/ui/components/candidate_widget.dart';
 import 'package:electit_frontend/features/elections/details/ui/components/election_info_widget.dart';
 import 'package:electit_frontend/features/elections/details/ui/components/election_statistics_widget.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
+import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/candidate_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/election_extensions.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
@@ -38,6 +39,13 @@ class ElectionDetailsPage extends StatelessWidget {
                   state.message,
                 ),
               ),
+            );
+          } else if (state is ElectionDetailsVoteCastedState) {
+            // context.read<ElectionDetailsBloc>().add(
+            //       LoadElectionDetailsEvent(electionId: electionId),
+            //     );
+            context.router.replace(
+              ProfileRoute(),
             );
           }
         },
@@ -161,13 +169,63 @@ class ElectionDetailsPage extends StatelessWidget {
                                       itemCount:
                                           state.election.candidates?.length,
                                       itemBuilder: (context, index) {
-                                        return CandidateWidget(
-                                          candidate: state.election.candidates!
-                                              .elementAt(index)
-                                              .toCandidate(
-                                                  state.election.myVote),
-                                          electionVotesCount:
-                                              state.election.votesCount,
+                                        return Row(
+                                          children: [
+                                            if (state.election.allowsVoting &&
+                                                locator<JWTService>()
+                                                    .currentUser
+                                                    .isVoter)
+                                              Flexible(
+                                                child: MenuItemButton(
+                                                  onPressed: () => context
+                                                      .read<
+                                                          ElectionDetailsBloc>()
+                                                      .add(
+                                                        CastVoteEvent(
+                                                          electionId:
+                                                              electionId,
+                                                          candidateId: state
+                                                              .election
+                                                              .candidates!
+                                                              .elementAt(index)
+                                                              .id,
+                                                        ),
+                                                      ),
+                                                  style: ButtonStyle(
+                                                    shape:
+                                                        WidgetStateProperty.all(
+                                                      RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            roundedBorderRadius,
+                                                      ),
+                                                    ),
+                                                    backgroundColor:
+                                                        WidgetStateProperty.all(
+                                                      voteMarkColor,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    'Vote',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            Flexible(
+                                              flex: 6,
+                                              child: CandidateWidget(
+                                                candidate: state
+                                                    .election.candidates!
+                                                    .elementAt(index)
+                                                    .toCandidate(
+                                                        state.election.myVote),
+                                                electionVotesCount:
+                                                    state.election.votesCount,
+                                              ),
+                                            ),
+                                          ],
                                         );
                                       },
                                     )

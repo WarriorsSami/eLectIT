@@ -31,22 +31,28 @@ class VoterProfileWidget extends StatelessWidget {
             title: 'My votes (registered for ${voter.nationalId} national ID):',
           ),
         ),
-        Flexible(
-          flex: 2,
-          child: GridView.builder(
-            physics: ScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3,
-            ),
-            itemCount: voter.votes?.length,
-            itemBuilder: (context, index) {
-              return VoteWidget(
-                vote: voter.votes!.elementAt(index),
-              );
-            },
-          ),
-        ),
+        voter.votes == null || voter.votes!.isEmpty
+            ? const Center(
+                child: Text(
+                  'No votes casted yet',
+                ),
+              )
+            : Flexible(
+                flex: 2,
+                child: GridView.builder(
+                  physics: ScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3,
+                  ),
+                  itemCount: voter.votes?.length,
+                  itemBuilder: (context, index) {
+                    return VoteWidget(
+                      vote: voter.votes!.elementAt(index),
+                    );
+                  },
+                ),
+              ),
       ],
     );
   }

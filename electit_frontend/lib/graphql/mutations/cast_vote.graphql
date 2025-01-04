@@ -1,0 +1,5 @@
+mutation CastVote($electionId: ID!, $candidateId: ID!) {
+    vote(electionId: $electionId, candidateId: $candidateId) {
+        createdAt
+    }
+}

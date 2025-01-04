@@ -31,6 +31,8 @@ extension ElectionExtensions on ElectionPreview {
 extension ElectionDetailsExtensions on Query$ElectionById$electionById {
   int get endTimestamp => startTimestamp + duration;
 
+  bool get allowsVoting => toElectionPreview().isOngoing && myVote == null;
+
   ElectionStatistics toElectionStatistics() {
     return ElectionStatistics(
       candidates: candidates != null
