@@ -15,6 +15,10 @@ extension ElectionExtensions on ElectionPreview {
 
   bool get isOngoing => DateTime.now().isBetween(startDate, endDate);
 
+  bool get isUpcoming => DateTime.now().isBefore(startDate);
+
+  bool get isFinished => DateTime.now().isAfter(endDate);
+
   double get winnerVotesPercentage {
     if (winner == null || votesCount == 0) {
       return 0.0;
@@ -38,6 +42,17 @@ extension ElectionDetailsExtensions on Query$ElectionById$electionById {
           : [],
       votesCount: votesCount,
       winner: (winner != null) ? winner!.toCandidatePreview() : null,
+    );
+  }
+
+  ElectionPreview toElectionPreview() {
+    return ElectionPreview(
+      id: id,
+      title: title,
+      startTimestamp: startTimestamp,
+      duration: duration,
+      winner: winner?.toCandidatePreview(),
+      votesCount: votesCount,
     );
   }
 }

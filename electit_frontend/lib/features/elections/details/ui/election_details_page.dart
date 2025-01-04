@@ -7,6 +7,7 @@ import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/candidate_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/election_extensions.dart';
+import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 import 'package:electit_frontend/features/shared/ui/components/app_section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,10 +64,11 @@ class ElectionDetailsPage extends StatelessWidget {
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             smallVerticalSpace,
                             Flexible(
-                              flex: 3,
+                              flex: 2,
                               child: ElectionInfoWidget(
                                 title: state.election.title,
                                 description: state.election.description,
@@ -74,63 +76,72 @@ class ElectionDetailsPage extends StatelessWidget {
                                 endTimestamp: state.election.endTimestamp,
                               ),
                             ),
-                            Flexible(
-                              child:
-                                  AppSectionTitle(title: 'Election statistics'),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: SizedBox(
-                                height: MediaQuery.of(context).size.height /
-                                    Constants.largeHeightRatio,
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      flex: 2,
-                                      child: state.election.votesCount != 0
-                                          ? ElectionStatisticsWidget(
-                                              statistics: state.election
-                                                  .toElectionStatistics(),
-                                            )
-                                          : const Center(
-                                              child: Text('No votes yet'),
-                                            ),
-                                    ),
-                                    Flexible(
-                                      child: Column(
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              'Winner:',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
+                            if (locator<JWTService>().currentUser.isOrganizer ||
+                                !state.election
+                                    .toElectionPreview()
+                                    .isOngoing) ...[
+                              Flexible(
+                                child: AppSectionTitle(
+                                    title: 'Election statistics'),
+                              ),
+                              Flexible(
+                                flex: 3,
+                                child: SizedBox(
+                                  height: MediaQuery.of(context).size.height /
+                                      Constants.largeHeightRatio,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Flexible(
+                                        flex: 2,
+                                        child: state.election.votesCount != 0
+                                            ? ElectionStatisticsWidget(
+                                                statistics: state.election
+                                                    .toElectionStatistics(),
+                                              )
+                                            : const Center(
+                                                child: Text('No votes yet'),
+                                              ),
+                                      ),
+                                      Flexible(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                'Winner:',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Flexible(
-                                            child: state.election.winner !=
-                                                        null &&
-                                                    state.election.winner!
-                                                            .votesCount !=
-                                                        0
-                                                ? CandidateWidget(
-                                                    candidate: state
-                                                        .election.winner!
-                                                        .toCandidate(),
-                                                    electionVotesCount: state
-                                                        .election.votesCount,
-                                                    disableExpansion: true,
-                                                  )
-                                                : const Text('No winner yet'),
-                                          ),
-                                        ],
+                                            Flexible(
+                                              child: state.election.winner !=
+                                                          null &&
+                                                      state.election.winner!
+                                                              .votesCount !=
+                                                          0
+                                                  ? CandidateWidget(
+                                                      candidate: state
+                                                          .election.winner!
+                                                          .toCandidate(),
+                                                      electionVotesCount: state
+                                                          .election.votesCount,
+                                                      disableExpansion: true,
+                                                    )
+                                                  : const Text('No winner yet'),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            smallVerticalSpace,
+                              smallVerticalSpace,
+                            ],
                             Flexible(
                               child: AppSectionTitle(title: 'Candidates'),
                             ),

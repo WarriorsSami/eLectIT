@@ -75,6 +75,39 @@ class ElectionPreviewWidget extends StatelessWidget {
             TimerCountdown(
               format: CountDownTimerFormat.daysHoursMinutesSeconds,
               endTime: election.endDate,
+              colonsTextStyle: TextStyle(
+                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurpleAccent,
+              ),
+              timeTextStyle: TextStyle(
+                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurpleAccent,
+              ),
+              descriptionTextStyle: TextStyle(
+                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          if (election.isUpcoming)
+            Text(
+              'Upcoming',
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+                fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
+              ),
+            ),
+          if (election.isFinished)
+            Text(
+              'Finished',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+                fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
+              ),
             ),
         ],
       ),

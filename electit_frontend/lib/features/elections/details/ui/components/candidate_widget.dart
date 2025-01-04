@@ -26,92 +26,132 @@ class CandidateWidget extends StatelessWidget {
           animType: AnimType.scale,
           dialogType: DialogType.info,
           body: Center(
-            child: candidate.pictureUrl != null
-                ? Image.network(
-                    candidate.pictureUrl!,
-                  )
-                : const Text(
-                    'No photo available',
+            child: ExpansionTile(
+              title: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Candidate: ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: candidate.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize:
+                            Theme.of(context).textTheme.bodyLarge!.fontSize,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' (${candidate.party} party)',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              subtitle: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: candidate.manifesto,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                  text: 'Manifesto: ',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
                   ),
+                ),
+                maxLines: 4,
+              ),
+              children: [
+                candidate.pictureUrl != null
+                    ? Image.network(
+                        candidate.pictureUrl!,
+                      )
+                    : const Text(
+                        'No photo available',
+                      ),
+              ],
+            ),
           ),
           btnOkOnPress: () {},
         ).show();
       },
-      child: ExpansionTile(
-        enabled: !disableExpansion,
-        leading: candidate.hasMyVote
-            ? Icon(
-                Icons.check_circle,
-                size: Constants.iconSize,
-                color: voteMarkColor,
-              )
-            : Icon(
-                Icons.person,
-                size: Constants.iconSize,
-                color: electionMarkColor,
-              ),
-        title: Text(
-          candidate.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: candidate.votesCount != 0
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Votes count: ${candidate.votesCount} / $electionVotesCount',
-                  ),
-                  LinearPercentIndicator(
-                    width: Constants.votePercentIndicatorWidth,
-                    lineHeight: Constants.votePercentIndicatorHeight,
-                    percent: candidate.votesPercentage(electionVotesCount),
-                    center: Text(
-                      candidate
-                          .votesPercentage(electionVotesCount)
-                          .toPercentageString(),
-                      style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.bodySmall!.fontSize,
-                      ),
-                    ),
-                    trailing: Expanded(
-                      child: Icon(
-                        Icons.bar_chart,
-                        color: voteMarkColor,
-                      ),
-                    ),
-                    barRadius: barRadius,
-                    backgroundColor: barColor,
-                    progressColor: voteMarkColor,
-                    animation: true,
-                    animationDuration:
-                        Constants.votePercentIndicatorAnimationDuration,
-                  ),
-                ],
-              )
-            : const Text(
-                'No votes yet',
-              ),
-        trailing: Text(
-          '${candidate.party} party',
-          style: TextStyle(
-            fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        children: [
-          RichText(
-            text: TextSpan(
-              text: candidate.manifesto,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-              ),
+      child: SingleChildScrollView(
+        child: ListTile(
+          enabled: !disableExpansion,
+          leading: candidate.hasMyVote
+              ? Icon(
+                  Icons.check_circle,
+                  size: Constants.iconSize,
+                  color: voteMarkColor,
+                )
+              : Icon(
+                  Icons.person,
+                  size: Constants.iconSize,
+                  color: electionMarkColor,
+                ),
+          title: Text(
+            candidate.name,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
             ),
-            maxLines: 4,
           ),
-        ],
+          subtitle: candidate.votesCount != 0
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Votes count: ${candidate.votesCount} / $electionVotesCount',
+                    ),
+                    LinearPercentIndicator(
+                      width: Constants.votePercentIndicatorWidth,
+                      lineHeight: Constants.votePercentIndicatorHeight,
+                      percent: candidate.votesPercentage(electionVotesCount),
+                      center: Text(
+                        candidate
+                            .votesPercentage(electionVotesCount)
+                            .toPercentageString(),
+                        style: TextStyle(
+                          fontSize:
+                              Theme.of(context).textTheme.bodySmall!.fontSize,
+                        ),
+                      ),
+                      trailing: Expanded(
+                        child: Icon(
+                          Icons.bar_chart,
+                          color: voteMarkColor,
+                        ),
+                      ),
+                      barRadius: barRadius,
+                      backgroundColor: barColor,
+                      progressColor: voteMarkColor,
+                      animation: true,
+                      animationDuration:
+                          Constants.votePercentIndicatorAnimationDuration,
+                    ),
+                  ],
+                )
+              : const SizedBox.shrink(),
+          trailing: SizedBox(
+            width: Constants.votePercentIndicatorWidth / 2,
+            child: Text(
+              '${candidate.party} party',
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+                fontWeight: FontWeight.bold,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
       ),
     );
   }
