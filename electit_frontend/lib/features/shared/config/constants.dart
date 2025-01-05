@@ -10,7 +10,7 @@ abstract class Constants {
   static const String welcomePageTitle = 'eLectIT - Welcome';
   static const String electionsPageTitle = 'eLectIT - Elections';
   static const String electionDetailsPageTitle = 'eLectIT - Election details';
-  static const String manageElectionPageTitle = 'eLectIT - Manage election';
+  static const String createElectionPageTitle = 'eLectIT - Create new election';
   static const String loginPageTitle = 'eLectIT - Login';
   static const String registerVoterPageTitle =
       'eLectIT - Register voter account';
@@ -56,6 +56,7 @@ abstract class Constants {
   static const String registerButtonLabel = 'Register';
   static const String profileMenuLabel = 'Me';
   static const String electionsMenuLabel = 'Elections';
+  static const String createElectionMenuLabel = 'Management';
   static const String logoutMenuLabel = 'Logout';
 
   static const double widthRatio = 1.5;
@@ -94,5 +95,6 @@ Radius barRadius = Radius.circular(8.0);
 Color? tileColor = Colors.grey[300];
 Color? barColor = Colors.grey[400];
 Color? splashColor = Colors.grey[500];
+Color? tileSelectedColor = Colors.grey[600];
 Color? voteMarkColor = Colors.green;
 Color? electionMarkColor = Colors.deepOrange;

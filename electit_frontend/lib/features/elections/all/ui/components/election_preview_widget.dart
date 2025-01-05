@@ -19,7 +19,7 @@ class ElectionPreviewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.router.replace(
+      onTap: () => context.router.navigate(
         ElectionDetailsRoute(electionId: election.id),
       ),
       child: ExpansionTile(

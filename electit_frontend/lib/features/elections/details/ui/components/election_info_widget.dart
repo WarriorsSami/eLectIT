@@ -95,7 +95,7 @@ class ElectionInfoWidget extends StatelessWidget {
                             descriptionTextStyle: TextStyle(
                               fontSize: Theme.of(context)
                                   .textTheme
-                                  .titleMedium!
+                                  .bodySmall!
                                   .fontSize,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,

@@ -1,7 +1,9 @@
+import 'package:electit_frontend/features/shared/config/di.dart';
 import 'package:electit_frontend/features/shared/domain/entities/election_preview.dart';
 import 'package:electit_frontend/features/shared/domain/entities/election_statistics.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/candidate_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/primitives_extensions.dart';
+import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 import 'package:electit_frontend/graphql/queries/election_by_id.graphql.dart';
 import 'package:electit_frontend/graphql/queries/elections.graphql.dart';
 import 'package:electit_frontend/graphql/queries/me_organizer.graphql.dart';
@@ -32,6 +34,12 @@ extension ElectionDetailsExtensions on Query$ElectionById$electionById {
   int get endTimestamp => startTimestamp + duration;
 
   bool get allowsVoting => toElectionPreview().isOngoing && myVote == null;
+
+  bool get showStatistics =>
+      toElectionPreview().isFinished ||
+      (toElectionPreview().isOngoing &&
+          locator<JWTService>().currentUser.isOrganizer &&
+          locator<JWTService>().currentUser.username == manager.name);
 
   ElectionStatistics toElectionStatistics() {
     return ElectionStatistics(

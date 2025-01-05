@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
               onSuccess: (context, state) {
                 AppDialog.hide(context);
 
-                context.router.replace(const DashboardRoute());
+                context.router.navigate(const DashboardRoute());
               },
               onFailure: (context, state) {
                 AppDialog.hide(context);

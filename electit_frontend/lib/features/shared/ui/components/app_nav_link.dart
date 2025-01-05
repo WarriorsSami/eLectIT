@@ -27,7 +27,7 @@ class AppNavLink extends StatelessWidget {
       tileColor: tileColor,
       splashColor: splashColor,
       onTap: () {
-        context.router.replace(destination);
+        context.router.navigate(destination);
       },
     );
   }

@@ -55,7 +55,7 @@ class RegisterPage extends StatelessWidget {
             onSuccess: (context, state) {
               AppDialog.hide(context);
 
-              context.router.replace(const DashboardRoute());
+              context.router.navigate(const DashboardRoute());
             },
             onFailure: (context, state) {
               AppDialog.hide(context);
@@ -181,7 +181,7 @@ class RegisterPage extends StatelessWidget {
                                 message: Constants.alreadyHaveAccountLabel,
                                 linkText: Constants.loginButtonLabel,
                                 onTap: () =>
-                                    context.router.replace(const LoginRoute()),
+                                    context.router.navigate(const LoginRoute()),
                               ),
                             ],
                           ),

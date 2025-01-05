@@ -48,24 +48,35 @@ class DashboardPage extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                        child: ListTile(
-                      leading: const Icon(
-                        Icons.logout,
-                        color: Colors.red,
-                      ),
-                      title: const Text(
-                        Constants.logoutMenuLabel,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                      child: AppNavLink(
+                        icon: Icon(
+                          Icons.dashboard_customize_rounded,
+                          color: Colors.blue,
                         ),
+                        label: Constants.createElectionMenuLabel,
+                        destination: const CreateElectionRoute(),
                       ),
-                      tileColor: tileColor,
-                      splashColor: splashColor,
-                      onTap: () {
-                        locator<JWTService>().logout();
-                        context.router.replace(const LoginRoute());
-                      },
-                    )),
+                    ),
+                    Flexible(
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.logout,
+                          color: Colors.red,
+                        ),
+                        title: const Text(
+                          Constants.logoutMenuLabel,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        tileColor: tileColor,
+                        splashColor: splashColor,
+                        onTap: () {
+                          locator<JWTService>().logout();
+                          context.router.navigate(const LoginRoute());
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ],

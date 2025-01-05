@@ -8,27 +8,48 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:auto_route/auto_route.dart' as _i9;
 import 'package:electit_frontend/features/elections/all/ui/elections_page.dart'
-    as _i3;
-import 'package:electit_frontend/features/elections/details/ui/election_details_page.dart'
-    as _i2;
-import 'package:electit_frontend/features/shared/ui/pages/dashboard_page.dart'
-    as _i1;
-import 'package:electit_frontend/features/shared/ui/pages/welcome_page.dart'
-    as _i7;
-import 'package:electit_frontend/features/users/login/ui/login_page.dart'
     as _i4;
-import 'package:electit_frontend/features/users/profile/ui/profile_page.dart'
+import 'package:electit_frontend/features/elections/create/ui/create_election_page.dart'
+    as _i1;
+import 'package:electit_frontend/features/elections/details/ui/election_details_page.dart'
+    as _i3;
+import 'package:electit_frontend/features/shared/ui/pages/dashboard_page.dart'
+    as _i2;
+import 'package:electit_frontend/features/shared/ui/pages/welcome_page.dart'
+    as _i8;
+import 'package:electit_frontend/features/users/login/ui/login_page.dart'
     as _i5;
-import 'package:electit_frontend/features/users/register/ui/register_page.dart'
+import 'package:electit_frontend/features/users/profile/ui/profile_page.dart'
     as _i6;
-import 'package:flutter/material.dart' as _i9;
+import 'package:electit_frontend/features/users/register/ui/register_page.dart'
+    as _i7;
+import 'package:flutter/material.dart' as _i10;
 
 /// generated route for
-/// [_i1.DashboardPage]
-class DashboardRoute extends _i8.PageRouteInfo<void> {
-  const DashboardRoute({List<_i8.PageRouteInfo>? children})
+/// [_i1.CreateElectionPage]
+class CreateElectionRoute extends _i9.PageRouteInfo<void> {
+  const CreateElectionRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          CreateElectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateElectionRoute';
+
+  static _i9.PageInfo page = _i9.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.CreateElectionPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i2.DashboardPage]
+class DashboardRoute extends _i9.PageRouteInfo<void> {
+  const DashboardRoute({List<_i9.PageRouteInfo>? children})
       : super(
           DashboardRoute.name,
           initialChildren: children,
@@ -36,21 +57,21 @@ class DashboardRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'DashboardRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i1.DashboardPage();
+      return const _i2.DashboardPage();
     },
   );
 }
 
 /// generated route for
-/// [_i2.ElectionDetailsPage]
-class ElectionDetailsRoute extends _i8.PageRouteInfo<ElectionDetailsRouteArgs> {
+/// [_i3.ElectionDetailsPage]
+class ElectionDetailsRoute extends _i9.PageRouteInfo<ElectionDetailsRouteArgs> {
   ElectionDetailsRoute({
     required String electionId,
-    _i9.Key? key,
-    List<_i8.PageRouteInfo>? children,
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           ElectionDetailsRoute.name,
           args: ElectionDetailsRouteArgs(
@@ -63,14 +84,14 @@ class ElectionDetailsRoute extends _i8.PageRouteInfo<ElectionDetailsRouteArgs> {
 
   static const String name = 'ElectionDetailsRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<ElectionDetailsRouteArgs>(
           orElse: () =>
               ElectionDetailsRouteArgs(electionId: pathParams.getString('id')));
-      return _i2.ElectionDetailsPage(
+      return _i3.ElectionDetailsPage(
         electionId: args.electionId,
         key: args.key,
       );
@@ -86,7 +107,7 @@ class ElectionDetailsRouteArgs {
 
   final String electionId;
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -95,9 +116,9 @@ class ElectionDetailsRouteArgs {
 }
 
 /// generated route for
-/// [_i3.ElectionsPage]
-class ElectionsRoute extends _i8.PageRouteInfo<void> {
-  const ElectionsRoute({List<_i8.PageRouteInfo>? children})
+/// [_i4.ElectionsPage]
+class ElectionsRoute extends _i9.PageRouteInfo<void> {
+  const ElectionsRoute({List<_i9.PageRouteInfo>? children})
       : super(
           ElectionsRoute.name,
           initialChildren: children,
@@ -105,18 +126,18 @@ class ElectionsRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'ElectionsRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i3.ElectionsPage();
+      return const _i4.ElectionsPage();
     },
   );
 }
 
 /// generated route for
-/// [_i4.LoginPage]
-class LoginRoute extends _i8.PageRouteInfo<void> {
-  const LoginRoute({List<_i8.PageRouteInfo>? children})
+/// [_i5.LoginPage]
+class LoginRoute extends _i9.PageRouteInfo<void> {
+  const LoginRoute({List<_i9.PageRouteInfo>? children})
       : super(
           LoginRoute.name,
           initialChildren: children,
@@ -124,18 +145,18 @@ class LoginRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'LoginRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i4.LoginPage();
+      return const _i5.LoginPage();
     },
   );
 }
 
 /// generated route for
-/// [_i5.ProfilePage]
-class ProfileRoute extends _i8.PageRouteInfo<void> {
-  const ProfileRoute({List<_i8.PageRouteInfo>? children})
+/// [_i6.ProfilePage]
+class ProfileRoute extends _i9.PageRouteInfo<void> {
+  const ProfileRoute({List<_i9.PageRouteInfo>? children})
       : super(
           ProfileRoute.name,
           initialChildren: children,
@@ -143,21 +164,21 @@ class ProfileRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'ProfileRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i5.ProfilePage();
+      return const _i6.ProfilePage();
     },
   );
 }
 
 /// generated route for
-/// [_i6.RegisterPage]
-class RegisterRoute extends _i8.PageRouteInfo<RegisterRouteArgs> {
+/// [_i7.RegisterPage]
+class RegisterRoute extends _i9.PageRouteInfo<RegisterRouteArgs> {
   RegisterRoute({
     String? role,
-    _i9.Key? key,
-    List<_i8.PageRouteInfo>? children,
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           RegisterRoute.name,
           args: RegisterRouteArgs(
@@ -170,13 +191,13 @@ class RegisterRoute extends _i8.PageRouteInfo<RegisterRouteArgs> {
 
   static const String name = 'RegisterRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
       final args = data.argsAs<RegisterRouteArgs>(
           orElse: () => RegisterRouteArgs(role: queryParams.optString('role')));
-      return _i6.RegisterPage(
+      return _i7.RegisterPage(
         role: args.role,
         key: args.key,
       );
@@ -192,7 +213,7 @@ class RegisterRouteArgs {
 
   final String? role;
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -201,9 +222,9 @@ class RegisterRouteArgs {
 }
 
 /// generated route for
-/// [_i7.WelcomePage]
-class WelcomeRoute extends _i8.PageRouteInfo<void> {
-  const WelcomeRoute({List<_i8.PageRouteInfo>? children})
+/// [_i8.WelcomePage]
+class WelcomeRoute extends _i9.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
           WelcomeRoute.name,
           initialChildren: children,
@@ -211,10 +232,10 @@ class WelcomeRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'WelcomeRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i7.WelcomePage();
+      return const _i8.WelcomePage();
     },
   );
 }

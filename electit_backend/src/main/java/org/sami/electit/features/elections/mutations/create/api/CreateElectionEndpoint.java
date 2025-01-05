@@ -34,6 +34,11 @@ public class CreateElectionEndpoint {
             return Mono.error(new InvalidEntryDataException("Invalid election input: " + electionViolations.iterator().next().getMessage()));
         }
 
+        if (election.candidates() == null || election.candidates().isEmpty()) {
+            logger.warn("No candidates provided for election");
+            return Mono.error(new InvalidEntryDataException("No candidates provided for election"));
+        }
+        
         for (var candidate: election.candidates()) {
             var candidateViolations = validator.validate(candidate);
             if (!candidateViolations.isEmpty()) {

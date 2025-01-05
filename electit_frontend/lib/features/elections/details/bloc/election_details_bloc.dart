@@ -44,6 +44,7 @@ class ElectionDetailsBloc
             variables: Variables$Query$ElectionById(
               id: electionId,
             ),
+            fetchPolicy: FetchPolicy.networkOnly,
           ),
         );
 

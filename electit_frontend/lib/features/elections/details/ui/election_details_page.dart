@@ -5,7 +5,6 @@ import 'package:electit_frontend/features/elections/details/ui/components/electi
 import 'package:electit_frontend/features/elections/details/ui/components/election_statistics_widget.dart';
 import 'package:electit_frontend/features/shared/config/constants.dart';
 import 'package:electit_frontend/features/shared/config/di.dart';
-import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/candidate_extensions.dart';
 import 'package:electit_frontend/features/shared/domain/extensions/election_extensions.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
@@ -41,12 +40,9 @@ class ElectionDetailsPage extends StatelessWidget {
               ),
             );
           } else if (state is ElectionDetailsVoteCastedState) {
-            // context.read<ElectionDetailsBloc>().add(
-            //       LoadElectionDetailsEvent(electionId: electionId),
-            //     );
-            context.router.replace(
-              ProfileRoute(),
-            );
+            context.read<ElectionDetailsBloc>().add(
+                  LoadElectionDetailsEvent(electionId: electionId),
+                );
           }
         },
         child: Scaffold(
@@ -74,7 +70,12 @@ class ElectionDetailsPage extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            smallVerticalSpace,
+                            Flexible(
+                              child: AppSectionTitle(
+                                title:
+                                    'Managed by organizer ${state.election.manager.name}',
+                              ),
+                            ),
                             Flexible(
                               flex: 2,
                               child: ElectionInfoWidget(
@@ -84,13 +85,11 @@ class ElectionDetailsPage extends StatelessWidget {
                                 endTimestamp: state.election.endTimestamp,
                               ),
                             ),
-                            if (locator<JWTService>().currentUser.isOrganizer ||
-                                !state.election
-                                    .toElectionPreview()
-                                    .isOngoing) ...[
+                            if (state.election.showStatistics) ...[
                               Flexible(
                                 child: AppSectionTitle(
-                                    title: 'Election statistics'),
+                                  title: 'Election statistics',
+                                ),
                               ),
                               Flexible(
                                 flex: 3,

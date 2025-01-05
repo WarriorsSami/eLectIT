@@ -66,7 +66,7 @@ class WelcomePage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: roundedBorderRadius,
                       ),
-                      onTap: () => context.router.replace(
+                      onTap: () => context.router.navigate(
                         RegisterRoute(role: Role.voter.toShortString()),
                       ),
                     ),
@@ -95,7 +95,7 @@ class WelcomePage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: roundedBorderRadius,
                       ),
-                      onTap: () => context.router.replace(
+                      onTap: () => context.router.navigate(
                         RegisterRoute(role: Role.organizer.toShortString()),
                       ),
                     ),
@@ -109,7 +109,7 @@ class WelcomePage extends StatelessWidget {
               child: AppFooterLink(
                 message: Constants.alreadyHaveAccountLabel,
                 linkText: Constants.loginButtonLabel,
-                onTap: () => context.router.replace(const LoginRoute()),
+                onTap: () => context.router.navigate(const LoginRoute()),
               ),
             ),
           ],

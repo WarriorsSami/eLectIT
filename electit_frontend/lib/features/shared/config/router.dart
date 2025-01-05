@@ -14,6 +14,8 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           path: '/',
+          keepHistory: false,
+          maintainState: false,
           page: WelcomeRoute.page,
           initial: true,
           guards: [
@@ -22,6 +24,8 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           path: '/login',
+          keepHistory: false,
+          maintainState: false,
           page: LoginRoute.page,
           guards: [
             AnonymousGuard(jwtService: locator<JWTService>()),
@@ -29,6 +33,8 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           path: '/register',
+          keepHistory: false,
+          maintainState: false,
           page: RegisterRoute.page,
           guards: [
             AnonymousGuard(jwtService: locator<JWTService>()),
@@ -37,6 +43,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           path: '/dashboard',
           page: DashboardRoute.page,
+          keepHistory: false,
+          maintainState: false,
           guards: [
             AuthGuard(jwtService: locator<JWTService>()),
           ],
@@ -44,6 +52,8 @@ class AppRouter extends RootStackRouter {
             AutoRoute(
               path: 'me',
               page: ProfileRoute.page,
+              keepHistory: false,
+              maintainState: false,
               guards: [
                 AuthGuard(jwtService: locator<JWTService>()),
               ],
@@ -52,6 +62,8 @@ class AppRouter extends RootStackRouter {
             AutoRoute(
               path: 'elections',
               page: ElectionsRoute.page,
+              keepHistory: false,
+              maintainState: false,
               guards: [
                 AuthGuard(jwtService: locator<JWTService>()),
               ],
@@ -59,6 +71,17 @@ class AppRouter extends RootStackRouter {
             AutoRoute(
               path: 'elections/:id',
               page: ElectionDetailsRoute.page,
+              keepHistory: false,
+              maintainState: false,
+              guards: [
+                AuthGuard(jwtService: locator<JWTService>()),
+              ],
+            ),
+            AutoRoute(
+              path: 'management',
+              page: CreateElectionRoute.page,
+              keepHistory: false,
+              maintainState: false,
               guards: [
                 AuthGuard(jwtService: locator<JWTService>()),
               ],

@@ -17,7 +17,7 @@ class VoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.router.replace(
+        context.router.navigate(
           ElectionDetailsRoute(electionId: vote.election.id),
         );
       },
