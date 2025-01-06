@@ -42,7 +42,6 @@ class CandidateCard extends StatelessWidget {
                         icon: const Icon(
                           Icons.delete,
                           color: Colors.red,
-                          size: Constants.iconSize,
                         ),
                         onPressed: onRemoveCandidate,
                       ),
