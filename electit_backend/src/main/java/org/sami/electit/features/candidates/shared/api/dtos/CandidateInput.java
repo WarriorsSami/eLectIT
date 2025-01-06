@@ -1,7 +1,10 @@
 package org.sami.electit.features.candidates.shared.api.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import static org.sami.electit.shared.domain.contracts.Constants.PICTURE_URL_REGEX;
 
 public record CandidateInput(
 		@NotEmpty(message = "Name is required")
@@ -13,5 +16,9 @@ public record CandidateInput(
 		@NotEmpty(message = "Manifesto is required")
 		@Size(min = 10, max = 500, message = "Manifesto must be between 10 and 500 characters")
         String manifesto,
+		@Pattern(
+				regexp = PICTURE_URL_REGEX,
+				message = "Picture URL must be a valid URL ending with jpg, gif or png"
+		)
         String pictureUrl
 ) {}

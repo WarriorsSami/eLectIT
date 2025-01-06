@@ -7,10 +7,12 @@ schema {
 
 type Query {
     login(credentials: LoginInput!): AuthResponse!
-    me: User!
+    me: User
 
     electionById(id: ID!): Election
     elections: [Election!]
+    #  ongoingElections: [Election!]
+    #  pastElections: [Election!]
 }
 
 type Mutation {
@@ -62,16 +64,16 @@ input OrganizerInput {
 input ElectionInput {
     title: String!
     description: String!
-    startTimestamp: Int!
-    duration: Int!
+    startTimestamp: Long!
+    duration: Long!
     candidates: [CandidateInput!]
 }
 
 input UpdateElectionInput {
     title: String
     description: String
-    startTimestamp: Int
-    duration: Int
+    startTimestamp: Long
+    duration: Long
 }
 
 input CandidateInput {
@@ -114,9 +116,9 @@ type Election {
     id: ID!
     title: String!
     description: String!
-    startTimestamp: Int!
-    duration: Int!
-    candidates: [Candidate!]
+    startTimestamp: Long!
+    duration: Long!
+    candidates: [Candidate!]!
     winner: Candidate
     votesCount: Int!
     myVote: Vote

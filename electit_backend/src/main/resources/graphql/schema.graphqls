@@ -62,16 +62,16 @@ input OrganizerInput {
 input ElectionInput {
   title: String!
   description: String!
-  startTimestamp: Int!
-  duration: Int!
-  candidates: [CandidateInput!]
+  startTimestamp: Long!
+  duration: Long!
+  candidates: [CandidateInput!]!
 }
 
 input UpdateElectionInput {
   title: String
   description: String
-  startTimestamp: Int
-  duration: Int
+  startTimestamp: Long
+  duration: Long
 }
 
 input CandidateInput {
@@ -114,8 +114,8 @@ type Election {
   id: ID!
   title: String!
   description: String!
-  startTimestamp: Int!
-  duration: Int!
+  startTimestamp: Long!
+  duration: Long!
   candidates: [Candidate!]
   winner: Candidate
   votesCount: Int!

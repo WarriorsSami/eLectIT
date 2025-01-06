@@ -1,0 +1,24 @@
+mutation CreateElection($title: String!, $description: String!, $startTimestamp: Long!, $duration: Long!, $candidates: [CandidateInput!]!) {
+    createElection(
+        election: {
+            title: $title
+            description: $description
+            startTimestamp: $startTimestamp
+            duration: $duration
+            candidates: $candidates
+        }
+    ) {
+        id
+        title
+        description
+        startTimestamp
+        duration
+        candidates {
+            id
+            name
+            party
+            manifesto
+            pictureUrl
+        }
+    }
+}

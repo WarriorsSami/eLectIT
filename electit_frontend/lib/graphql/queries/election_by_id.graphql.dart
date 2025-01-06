@@ -668,7 +668,7 @@ class Query$ElectionById$electionById {
     required this.votesCount,
     this.myVote,
     required this.manager,
-    this.candidates,
+    required this.candidates,
     this.winner,
     this.$__typename = 'Election',
   });
@@ -698,8 +698,8 @@ class Query$ElectionById$electionById {
               (l$myVote as Map<String, dynamic>)),
       manager: Query$ElectionById$electionById$manager.fromJson(
           (l$manager as Map<String, dynamic>)),
-      candidates: (l$candidates as List<dynamic>?)
-          ?.map((e) => Query$ElectionById$electionById$candidates.fromJson(
+      candidates: (l$candidates as List<dynamic>)
+          .map((e) => Query$ElectionById$electionById$candidates.fromJson(
               (e as Map<String, dynamic>)))
           .toList(),
       winner: l$winner == null
@@ -726,7 +726,7 @@ class Query$ElectionById$electionById {
 
   final Query$ElectionById$electionById$manager manager;
 
-  final List<Query$ElectionById$electionById$candidates>? candidates;
+  final List<Query$ElectionById$electionById$candidates> candidates;
 
   final Query$ElectionById$electionById$winner? winner;
 
@@ -751,7 +751,7 @@ class Query$ElectionById$electionById {
     final l$manager = manager;
     _resultData['manager'] = l$manager.toJson();
     final l$candidates = candidates;
-    _resultData['candidates'] = l$candidates?.map((e) => e.toJson()).toList();
+    _resultData['candidates'] = l$candidates.map((e) => e.toJson()).toList();
     final l$winner = winner;
     _resultData['winner'] = l$winner?.toJson();
     final l$$__typename = $__typename;
@@ -781,7 +781,7 @@ class Query$ElectionById$electionById {
       l$votesCount,
       l$myVote,
       l$manager,
-      l$candidates == null ? null : Object.hashAll(l$candidates.map((v) => v)),
+      Object.hashAll(l$candidates.map((v) => v)),
       l$winner,
       l$$__typename,
     ]);
@@ -838,19 +838,15 @@ class Query$ElectionById$electionById {
     }
     final l$candidates = candidates;
     final lOther$candidates = other.candidates;
-    if (l$candidates != null && lOther$candidates != null) {
-      if (l$candidates.length != lOther$candidates.length) {
+    if (l$candidates.length != lOther$candidates.length) {
+      return false;
+    }
+    for (int i = 0; i < l$candidates.length; i++) {
+      final l$candidates$entry = l$candidates[i];
+      final lOther$candidates$entry = lOther$candidates[i];
+      if (l$candidates$entry != lOther$candidates$entry) {
         return false;
       }
-      for (int i = 0; i < l$candidates.length; i++) {
-        final l$candidates$entry = l$candidates[i];
-        final lOther$candidates$entry = lOther$candidates[i];
-        if (l$candidates$entry != lOther$candidates$entry) {
-          return false;
-        }
-      }
-    } else if (l$candidates != lOther$candidates) {
-      return false;
     }
     final l$winner = winner;
     final lOther$winner = other.winner;
@@ -900,10 +896,10 @@ abstract class CopyWith$Query$ElectionById$electionById<TRes> {
   CopyWith$Query$ElectionById$electionById$myVote<TRes> get myVote;
   CopyWith$Query$ElectionById$electionById$manager<TRes> get manager;
   TRes candidates(
-      Iterable<Query$ElectionById$electionById$candidates>? Function(
+      Iterable<Query$ElectionById$electionById$candidates> Function(
               Iterable<
                   CopyWith$Query$ElectionById$electionById$candidates<
-                      Query$ElectionById$electionById$candidates>>?)
+                      Query$ElectionById$electionById$candidates>>)
           _fn);
   CopyWith$Query$ElectionById$electionById$winner<TRes> get winner;
 }
@@ -957,9 +953,9 @@ class _CopyWithImpl$Query$ElectionById$electionById<TRes>
         manager: manager == _undefined || manager == null
             ? _instance.manager
             : (manager as Query$ElectionById$electionById$manager),
-        candidates: candidates == _undefined
+        candidates: candidates == _undefined || candidates == null
             ? _instance.candidates
-            : (candidates as List<Query$ElectionById$electionById$candidates>?),
+            : (candidates as List<Query$ElectionById$electionById$candidates>),
         winner: winner == _undefined
             ? _instance.winner
             : (winner as Query$ElectionById$electionById$winner?),
@@ -983,17 +979,17 @@ class _CopyWithImpl$Query$ElectionById$electionById<TRes>
   }
 
   TRes candidates(
-          Iterable<Query$ElectionById$electionById$candidates>? Function(
+          Iterable<Query$ElectionById$electionById$candidates> Function(
                   Iterable<
                       CopyWith$Query$ElectionById$electionById$candidates<
-                          Query$ElectionById$electionById$candidates>>?)
+                          Query$ElectionById$electionById$candidates>>)
               _fn) =>
       call(
           candidates: _fn(_instance.candidates
-              ?.map((e) => CopyWith$Query$ElectionById$electionById$candidates(
+              .map((e) => CopyWith$Query$ElectionById$electionById$candidates(
                     e,
                     (i) => i,
-                  )))?.toList());
+                  ))).toList());
 
   CopyWith$Query$ElectionById$electionById$winner<TRes> get winner {
     final local$winner = _instance.winner;

@@ -5,7 +5,7 @@ import 'package:graphql/client.dart' as graphql;
 
 class Query$MeOrganizer {
   Query$MeOrganizer({
-    required this.me,
+    this.me,
     this.$__typename = 'Query',
   });
 
@@ -13,19 +13,21 @@ class Query$MeOrganizer {
     final l$me = json['me'];
     final l$$__typename = json['__typename'];
     return Query$MeOrganizer(
-      me: Query$MeOrganizer$me.fromJson((l$me as Map<String, dynamic>)),
+      me: l$me == null
+          ? null
+          : Query$MeOrganizer$me.fromJson((l$me as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$MeOrganizer$me me;
+  final Query$MeOrganizer$me? me;
 
   final String $__typename;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
     final l$me = me;
-    _resultData['me'] = l$me.toJson();
+    _resultData['me'] = l$me?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -105,9 +107,7 @@ class _CopyWithImpl$Query$MeOrganizer<TRes>
     Object? $__typename = _undefined,
   }) =>
       _then(Query$MeOrganizer(
-        me: me == _undefined || me == null
-            ? _instance.me
-            : (me as Query$MeOrganizer$me),
+        me: me == _undefined ? _instance.me : (me as Query$MeOrganizer$me?),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
@@ -115,7 +115,9 @@ class _CopyWithImpl$Query$MeOrganizer<TRes>
 
   CopyWith$Query$MeOrganizer$me<TRes> get me {
     final local$me = _instance.me;
-    return CopyWith$Query$MeOrganizer$me(local$me, (e) => call(me: e));
+    return local$me == null
+        ? CopyWith$Query$MeOrganizer$me.stub(_then(_instance))
+        : CopyWith$Query$MeOrganizer$me(local$me, (e) => call(me: e));
   }
 }
 

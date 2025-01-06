@@ -57,7 +57,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
 
     final parsedData = result.parsedData;
-    final userProfile = parsedData?.me.voter;
+    final userProfile = parsedData?.me?.voter;
 
     if (userProfile == null) {
       emit(ProfileErrorState(message: 'User profile not found'));
@@ -82,7 +82,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
 
     final parsedData = result.parsedData;
-    final userProfile = parsedData?.me.organizer;
+    final userProfile = parsedData?.me?.organizer;
 
     if (userProfile == null) {
       emit(ProfileErrorState(message: 'User profile not found'));

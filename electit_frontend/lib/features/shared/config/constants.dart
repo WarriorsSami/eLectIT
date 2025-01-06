@@ -32,12 +32,42 @@ abstract class Constants {
       'National ID must be 13 digits long';
   static const String passwordsDoNotMatchErrorMessage =
       'Passwords do not match';
+  static const String electionTitleLengthErrorMessage =
+      'Election title must be between 3 and 50 characters long';
+  static const String electionDescriptionLengthErrorMessage =
+      'Election description must be between 10 and 500 characters long';
+  static const String electionStartDateTimeErrorMessage =
+      'Start date and time must be in the future';
+  static const String electionEndDateTimeErrorMessage =
+      'End date and time must be after the start date and time';
+  static const String candidateNameLengthErrorMessage =
+      'Candidate name must be between 3 and 50 characters long';
+  static const String candidatePartyLengthErrorMessage =
+      'Candidate party must be between 3 and 30 characters long';
+  static const String candidateManifestoLengthErrorMessage =
+      'Candidate manifesto must be between 10 and 500 characters long';
+  static const String candidatePictureUrlErrorMessage =
+      'Candidate picture URL must be a valid image URL (jpg, gif, png)';
+  static const String candidateListIncompleteErrorMessage =
+      'Please add at least two candidates to the election';
 
   static const int usernameMinLength = 3;
   static const int usernameMaxLength = 50;
   static const String passwordRegex =
       '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+\$).{8,}\$';
   static const String nationalIdRegex = '^[0-9]{13}\$';
+  static const int electionTitleMinLength = 3;
+  static const int electionTitleMaxLength = 50;
+  static const int electionDescriptionMinLength = 10;
+  static const int electionDescriptionMaxLength = 500;
+  static const int candidateNameMinLength = 3;
+  static const int candidateNameMaxLength = 50;
+  static const int candidatePartyMinLength = 3;
+  static const int candidatePartyMaxLength = 30;
+  static const int candidateManifestoMinLength = 10;
+  static const int candidateManifestoMaxLength = 500;
+  static const String candidatePictureUrlRegex =
+      '^(http(s?):)(.*)\\.(?:jpg|gif|png)\$';
 
   static const String emailLabel = 'Email';
   static const String passwordLabel = 'Password';
@@ -58,6 +88,17 @@ abstract class Constants {
   static const String electionsMenuLabel = 'Elections';
   static const String createElectionMenuLabel = 'Management';
   static const String logoutMenuLabel = 'Logout';
+  static const String electionStepTitle = 'Election details';
+  static const String candidatesStepTitle = 'Candidates';
+  static const String electionTitleLabel = 'Title';
+  static const String electionDescriptionLabel = 'Description';
+  static const String electionStartDateTimeLabel = 'Start date and time';
+  static const String electionEndDateTimeLabel = 'End date and time';
+  static const String addCandidateButtonLabel = 'Add candidate';
+  static const String candidateNameLabel = 'Name';
+  static const String candidatePartyLabel = 'Party';
+  static const String candidateManifestoLabel = 'Manifesto';
+  static const String candidateImageUrlLabel = 'Picture URL';
 
   static const double widthRatio = 1.5;
   static const double extraLargeHeightRatio = 1.2;

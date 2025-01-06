@@ -47,16 +47,17 @@ class DashboardPage extends StatelessWidget {
                         destination: const ElectionsRoute(),
                       ),
                     ),
-                    Flexible(
-                      child: AppNavLink(
-                        icon: Icon(
-                          Icons.dashboard_customize_rounded,
-                          color: Colors.blue,
+                    if (locator<JWTService>().currentUser.isOrganizer)
+                      Flexible(
+                        child: AppNavLink(
+                          icon: Icon(
+                            Icons.dashboard_customize_rounded,
+                            color: Colors.blue,
+                          ),
+                          label: Constants.createElectionMenuLabel,
+                          destination: const CreateElectionRoute(),
                         ),
-                        label: Constants.createElectionMenuLabel,
-                        destination: const CreateElectionRoute(),
                       ),
-                    ),
                     Flexible(
                       child: ListTile(
                         leading: const Icon(

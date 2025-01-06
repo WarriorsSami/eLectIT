@@ -3,6 +3,7 @@ import 'package:electit_frontend/features/shared/config/di.dart';
 import 'package:electit_frontend/features/shared/config/router.gr.dart';
 import 'package:electit_frontend/features/shared/domain/guards/anonymous_guard.dart';
 import 'package:electit_frontend/features/shared/domain/guards/auth_guard.dart';
+import 'package:electit_frontend/features/shared/domain/guards/organizer_guard.dart';
 import 'package:electit_frontend/features/shared/services/jwt_service.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
@@ -84,6 +85,7 @@ class AppRouter extends RootStackRouter {
               maintainState: false,
               guards: [
                 AuthGuard(jwtService: locator<JWTService>()),
+                OrganizerGuard(jwtService: locator<JWTService>()),
               ],
             ),
           ],

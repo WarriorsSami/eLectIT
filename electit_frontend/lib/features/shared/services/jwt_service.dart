@@ -10,7 +10,8 @@ class JWTService {
   JWTService(this._sharedPreferences);
 
   bool get userIsAuthenticated =>
-      _sharedPreferences.containsKey(Constants.jwtTokenKey);
+      _sharedPreferences.containsKey(Constants.jwtTokenKey) &&
+      !currentUser.isExpired;
 
   ClaimsPrincipal get currentUser => ClaimsPrincipal.fromString(
       _sharedPreferences.getString(Constants.jwtTokenKey)!);

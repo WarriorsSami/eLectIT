@@ -5,7 +5,7 @@ import 'package:graphql/client.dart' as graphql;
 
 class Query$MeVoter {
   Query$MeVoter({
-    required this.me,
+    this.me,
     this.$__typename = 'Query',
   });
 
@@ -13,19 +13,21 @@ class Query$MeVoter {
     final l$me = json['me'];
     final l$$__typename = json['__typename'];
     return Query$MeVoter(
-      me: Query$MeVoter$me.fromJson((l$me as Map<String, dynamic>)),
+      me: l$me == null
+          ? null
+          : Query$MeVoter$me.fromJson((l$me as Map<String, dynamic>)),
       $__typename: (l$$__typename as String),
     );
   }
 
-  final Query$MeVoter$me me;
+  final Query$MeVoter$me? me;
 
   final String $__typename;
 
   Map<String, dynamic> toJson() {
     final _resultData = <String, dynamic>{};
     final l$me = me;
-    _resultData['me'] = l$me.toJson();
+    _resultData['me'] = l$me?.toJson();
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -104,9 +106,7 @@ class _CopyWithImpl$Query$MeVoter<TRes>
     Object? $__typename = _undefined,
   }) =>
       _then(Query$MeVoter(
-        me: me == _undefined || me == null
-            ? _instance.me
-            : (me as Query$MeVoter$me),
+        me: me == _undefined ? _instance.me : (me as Query$MeVoter$me?),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
@@ -114,7 +114,9 @@ class _CopyWithImpl$Query$MeVoter<TRes>
 
   CopyWith$Query$MeVoter$me<TRes> get me {
     final local$me = _instance.me;
-    return CopyWith$Query$MeVoter$me(local$me, (e) => call(me: e));
+    return local$me == null
+        ? CopyWith$Query$MeVoter$me.stub(_then(_instance))
+        : CopyWith$Query$MeVoter$me(local$me, (e) => call(me: e));
   }
 }
 
