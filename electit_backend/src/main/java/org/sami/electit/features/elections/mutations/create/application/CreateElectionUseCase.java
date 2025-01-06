@@ -9,7 +9,6 @@ import org.sami.electit.features.users.shared.infrastructure.repositories.UserRe
 import org.sami.electit.shared.domain.entities.Candidate;
 import org.sami.electit.shared.domain.entities.Election;
 import org.sami.electit.shared.domain.entities.Organizer;
-import org.sami.electit.shared.domain.exceptions.DuplicateEntryException;
 import org.sami.electit.shared.domain.exceptions.NoEntryFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,22 +40,25 @@ public class CreateElectionUseCase {
 		return userRepository.findOneByName(username)
 				.switchIfEmpty(Mono.error(new NoEntryFoundException("User not found")))
 				.cast(Organizer.class)
-				.flatMap(user -> electionRepository.save(Election.fromDTO(electionInput))
-						.flatMap(election -> Flux.fromStream(electionInput.candidates().stream()
-								.map(candidateInput -> {
-									var candidate = Candidate.fromDTO(candidateInput);
+				.flatMap(user -> {
+					var election = Election.fromDTO(electionInput);
 
-									if (election.candidates().stream().anyMatch(c -> c.name().equals(candidate.name()))) {
-										return Mono.error(new DuplicateEntryException("Candidate already exists in the election"));
-									}
-
-									return candidateRepository.save(candidate)
-											.doOnNext(savedCandidate -> election.candidates().add(savedCandidate));
-								})).collectList().thenReturn(election))
-						.flatMap(election -> {
-							user.getElections().add(election);
-							return userRepository.save(user).thenReturn(election);
-						})
-						.flatMap(e -> getStatisticsForElectionUseCase.execute(user, e)));
+					return Flux.fromIterable(electionInput.candidates())
+							.flatMap(candidateInput -> {
+								var candidate = Candidate.fromDTO(candidateInput);
+								return candidateRepository.save(candidate);
+							})
+							.collectList()
+							.map(candidates -> {
+								election.candidates().addAll(candidates);
+								return election;
+							})
+							.flatMap(electionRepository::save)
+							.flatMap(newElection -> {
+								user.getElections().add(newElection);
+								return userRepository.save(user).thenReturn(newElection);
+							})
+							.flatMap(e -> getStatisticsForElectionUseCase.execute(user, e));
+				});
 	}
 }
